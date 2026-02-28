@@ -9,6 +9,7 @@ import {
 } from "@/server/db/queries";
 import { SUBJECTS } from "@/constants";
 import { SubjectCards } from "./SubjectCards";
+import { OFFICIAL_0653_TOPICS_2025_2027, SYLLABUS_SUBTOPICS_0653 } from "@/lib/syllabus/combined-science-2025";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -66,7 +67,7 @@ const DashboardPage = async ({ searchParams }: DashboardProps) => {
   const rawUnits = activeCourse ? await getUnits() : [];
 
   // Deduplicate: if two units share the same order, keep the descriptive one ("Unit X: Name" over "Unit X")
-  const units = rawUnits.reduce((acc: any[], unit: any) => {
+  let units = rawUnits.reduce((acc: any[], unit: any) => {
     const existing = acc.find((u: any) => u.order === unit.order);
     if (!existing) {
       acc.push(unit);
@@ -75,6 +76,25 @@ const DashboardPage = async ({ searchParams }: DashboardProps) => {
     }
     return acc;
   }, []);
+
+  // Fallback: if DB has no units, build synthetic curriculum from the official 0653 syllabus
+  if (units.length === 0) {
+    const makeLessons = (topics: readonly string[], startId: number) =>
+      topics.map((title, i) => ({
+        id: startId + i,
+        title,
+        description: "",
+        order: i + 1,
+        completed: false,
+        subTopics: SYLLABUS_SUBTOPICS_0653[title] ?? [],
+      }));
+
+    units = [
+      { id: -1, title: "Biology",   order: 1, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.biology,   -1000) },
+      { id: -2, title: "Chemistry", order: 2, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.chemistry, -2000) },
+      { id: -3, title: "Physics",   order: 3, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.physics,   -3000) },
+    ];
+  }
 
   return (
     <div className="flex flex-col gap-8 p-6 max-w-6xl mx-auto">

@@ -40,6 +40,43 @@ export const OFFICIAL_0653_TOPICS_2025_2027 = {
   ],
 } as const;
 
+// Subtopics per lesson — shared by queries.ts (DB enrichment) and dashboard (fallback display)
+export const SYLLABUS_SUBTOPICS_0653: Record<string, string[]> = {
+  "B1. Characteristics of living organisms": ["MRS GREN Definitions", "Metabolism Basics", "Excretion vs Egestion"],
+  "B2. Cells": ["Cell Structure", "Specialised Cells", "Microscopy Skills", "Cell Organisation"],
+  "B3. Movement into and out of cells": ["Diffusion", "Osmosis", "Active Transport", "Surface Area to Volume"],
+  "B4. Biological molecules": ["Carbohydrates", "Proteins", "Fats", "Food Tests"],
+  "B5. Enzymes": ["Lock and Key Theory", "Temperature Effects", "pH Effects", "Enzyme Rate"],
+  "B6. Plant nutrition": ["Photosynthesis Equation", "Leaf Adaptations", "Limiting Factors", "Mineral Ions"],
+  "B7. Human nutrition": ["Balanced Diet", "Digestive System", "Absorption", "Digestive Enzymes"],
+  "B8. Transport in plants": ["Xylem Structure", "Phloem Translocation", "Transpiration Stream", "Root Hair Absorption"],
+  "B9. Transport in animals": ["Heart Structure", "Blood Vessels", "Blood Components", "Coronary Heart Disease"],
+  "B10. Diseases and immunity": ["Pathogens", "Transmission", "Body Defences", "Vaccination"],
+  "B11. Gas exchange in humans": ["Alveoli Adaptations", "Ventilation Mechanics", "Inhaled vs Exhaled Air", "Smoking Effects"],
+  "B12. Respiration": ["Aerobic Equation", "Anaerobic Respiration", "Energy Release", "Respiration vs Breathing"],
+  "B13. Drugs": ["Medicinal Drugs", "Antibiotics", "Drug Misuse", "Drug Dependence"],
+  "B14. Reproduction": ["Sexual and Asexual", "Human Reproduction", "Plant Reproduction", "Life Cycles"],
+  "B15. Organisms and their environment": ["Food Chains and Webs", "Energy Transfer", "Population Dynamics", "Nutrient Cycles"],
+  "B16. Human influences on ecosystems": ["Deforestation", "Pollution", "Conservation", "Sustainability"],
+  "C1. States of matter": ["Particle Model", "Diffusion", "Melting and Boiling", "Gas Pressure"],
+  "C2. Atoms, elements and compounds": ["Atomic Structure", "Ions", "Ionic Bonding", "Covalent Bonding"],
+  "C3. Stoichiometry": ["Relative Formula Mass", "Mole Concept", "Equations", "Percentage Yield"],
+  "C4. Electrochemistry": ["Electrolysis", "Electrolytes", "Products at Electrodes", "Industrial Electrolysis"],
+  "C5. Chemical energetics": ["Exothermic and Endothermic", "Energy Profiles", "Activation Energy", "Bond Energies"],
+  "C6. Chemical reactions": ["Rate of Reaction", "Reversible Reactions", "Redox", "Catalysts"],
+  "C7. Acids, bases and salts": ["pH and Indicators", "Neutralisation", "Salt Preparation", "Titration Basics"],
+  "C8. The Periodic Table": ["Periodic Trends", "Group I", "Group VII", "Noble Gases"],
+  "C9. Metals": ["Reactivity Series", "Extraction", "Displacement", "Corrosion"],
+  "C10. Chemistry of the environment": ["Air Composition", "Water Treatment", "Pollution", "Greenhouse Gases"],
+  "C11. Organic chemistry": ["Hydrocarbons", "Cracking", "Alcohols", "Polymers"],
+  "C12. Experimental techniques and chemical analysis": ["Chromatography", "Filtration", "Distillation", "Qualitative Analysis"],
+  "P1. Motion, forces and energy": ["Speed/Velocity/Acceleration", "Distance-Time Graphs", "Newton's Second Law (F=ma)", "Kinetic & Potential Energy"],
+  "P2. Thermal physics": ["Conduction in Metals", "Convection Currents", "Radiation (Infrared)", "Specific Heat Capacity"],
+  "P3. Waves": ["Transverse vs Longitudinal", "Reflection & Refraction", "Electromagnetic Spectrum", "Sound Wave Properties"],
+  "P4. Electricity": ["Current and Voltage", "Ohm's Law", "Series and Parallel", "Electrical Safety"],
+  "P5. Space physics": ["Solar System", "Planetary Motion", "Stars and Galaxies", "Expansion of the Universe"],
+};
+
 export const OFFICIAL_0653_TOPIC_SET = new Set<string>([
   ...OFFICIAL_0653_TOPICS_2025_2027.biology,
   ...OFFICIAL_0653_TOPICS_2025_2027.chemistry,
