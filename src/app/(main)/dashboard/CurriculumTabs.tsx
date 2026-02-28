@@ -4,15 +4,58 @@ import { useState } from "react";
 import { Button } from "@/components/ui";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { OFFICIAL_0653_TOPICS_2025_2027, SYLLABUS_SUBTOPICS_0653 } from "@/lib/syllabus/combined-science-2025";
 
 interface Props {
   units: any[];
   topicAnalysis: Record<string, { priority: string, frequency: number }>;
 }
 
+const makeLessons = (topics: readonly string[], startId: number) =>
+  topics.map((title, i) => ({
+    id: startId + i,
+    title,
+    description: "",
+    order: i + 1,
+    completed: false,
+    subTopics: SYLLABUS_SUBTOPICS_0653[title] ?? [],
+  }));
+
+const SYNTHETIC_UNITS = [
+  { id: -1, title: "Biology",   order: 1, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.biology,   -1000) },
+  { id: -2, title: "Chemistry", order: 2, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.chemistry, -2000) },
+  { id: -3, title: "Physics",   order: 3, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.physics,   -3000) },
+];
+
+const SUBJECT_KEYS = ["Biology", "Chemistry", "Physics"] as const;
+
+function resolveUnits(units: any[]): typeof SYNTHETIC_UNITS {
+  // Check if any unit title exactly matches one of the subject keys
+  const hasSubjectTab = units.some(u =>
+    SUBJECT_KEYS.some(k => u.title === k)
+  );
+  if (hasSubjectTab) return units as any;
+
+  // Try to map DB unit titles like "Unit 1: Biology" → subject name
+  const mapped = SUBJECT_KEYS.map(subject => {
+    const dbUnit = units.find(u =>
+      u.title.toLowerCase().includes(subject.toLowerCase())
+    );
+    if (dbUnit) {
+      return { ...dbUnit, title: subject };
+    }
+    // Fall back to synthetic
+    return SYNTHETIC_UNITS.find(s => s.title === subject)!;
+  });
+
+  // If none of the units matched any subject, use full synthetic
+  const anyMatched = mapped.some((u, i) => u !== SYNTHETIC_UNITS[i]);
+  return anyMatched ? mapped : SYNTHETIC_UNITS;
+}
+
 export const CurriculumTabs = ({ units, topicAnalysis }: Props) => {
-  // Dynamic tabs based on units in DB
-  const tabList = units.map(u => u.title);
+  const effectiveUnits = resolveUnits(units);
+  const tabList = effectiveUnits.map(u => u.title);
   const [activeTab, setActiveTab] = useState(tabList[0] || "Biology");
   const [selectedSubTopic, setSelectedSubTopic] = useState<string | null>(null);
 
@@ -21,7 +64,7 @@ export const CurriculumTabs = ({ units, topicAnalysis }: Props) => {
     setActiveTab(tabList[0]);
   }
 
-  const currentUnit = units.find(u => u.title === activeTab);
+  const currentUnit = effectiveUnits.find(u => u.title === activeTab);
 
   return (
     <div className="flex flex-col gap-6">
