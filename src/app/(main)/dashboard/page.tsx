@@ -1,0 +1,159 @@
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { currentUser } from "@clerk/nextjs/server";
+import { Button } from "@/components/ui";
+import { 
+  getUserProgress, 
+  getUnits,
+  getCourses
+} from "@/server/db/queries";
+import { SUBJECTS } from "@/constants";
+import { SubjectCards } from "./SubjectCards";
+
+import * as fs from "fs";
+import * as path from "path";
+
+import { CurriculumTabs } from "./CurriculumTabs";
+
+interface DashboardProps {
+  searchParams: {
+    subject?: string;
+  };
+}
+
+const DashboardPage = async ({ searchParams }: DashboardProps) => {
+  const user = await currentUser();
+  
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  // Load Topic Analysis for Priority Badges
+  let topicAnalysis: Record<string, { priority: string, frequency: number }> = {};
+  try {
+    const analysisPath = path.join(process.cwd(), "topic_analysis.json");
+    if (fs.existsSync(analysisPath)) {
+        topicAnalysis = JSON.parse(fs.readFileSync(analysisPath, "utf-8"));
+    }
+  } catch (e) {
+    console.error("Failed to load topic analysis", e);
+  }
+
+  const allCourses = await getCourses();
+  
+  // Map course codes to database IDs for the SubjectCards component
+  const courseMapping: Record<string, number> = {};
+  allCourses.forEach(c => {
+    const codeMatch = c.title.match(/\d+/);
+    if (codeMatch) courseMapping[codeMatch[0]] = c.id;
+  });
+
+  const userProgress = await getUserProgress();
+  
+  // Determine selected subject code from userProgress or searchParams
+  let selectedSubjectCode = "0653";
+  if (userProgress?.activeCourseId) {
+    const currentCourse = allCourses.find(c => c.id === userProgress.activeCourseId);
+    const codeMatch = currentCourse?.title.match(/\d+/);
+    if (codeMatch) selectedSubjectCode = codeMatch[0];
+  }
+  
+  // Override with searchParams if present
+  if (searchParams.subject) selectedSubjectCode = searchParams.subject;
+
+  // Find the database course matching the selected subject code
+  const activeCourse = allCourses.find(c => c.title.includes(selectedSubjectCode));
+  const rawUnits = activeCourse ? await getUnits() : [];
+
+  // Deduplicate: if two units share the same order, keep the descriptive one ("Unit X: Name" over "Unit X")
+  const units = rawUnits.reduce((acc: any[], unit: any) => {
+    const existing = acc.find((u: any) => u.order === unit.order);
+    if (!existing) {
+      acc.push(unit);
+    } else if (unit.title.includes(":") && !existing.title.includes(":")) {
+      acc[acc.indexOf(existing)] = unit;
+    }
+    return acc;
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-8 p-6 max-w-6xl mx-auto">
+      {/* 1. Header with User Context */}
+      <div className="flex justify-between items-end border-b pb-6">
+        <div>
+          <h1 className="text-4xl font-black text-gray-900">
+            Welcome, {user.firstName || "Student"}! 🧬
+          </h1>
+          <p className="text-gray-500 font-medium mt-1">
+            Track your progress and master O-Level MCQs.
+          </p>
+        </div>
+      </div>
+
+      {/* 2. Subject Selector */}
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+            <h2 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                Select Subject
+            </h2>
+        </div>
+        
+        <SubjectCards 
+          subjects={SUBJECTS["O-Level"]} 
+          selectedSubjectCode={selectedSubjectCode}
+          courseMapping={courseMapping}
+        />
+      </div>
+
+      {/* 3. Subject Header (Current Focus - REAL DATA) */}
+      <div className="bg-blue-600 rounded-3xl p-8 text-white shadow-lg relative overflow-hidden">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+                <div>
+                    <h2 className="text-sm font-black text-blue-200 uppercase tracking-[0.3em] mb-1">Current Focus</h2>
+                    <h1 className="text-3xl font-black">{activeCourse?.title || "Combined Science (0653)"}</h1>
+                    <p className="text-blue-100 font-medium">O-Level Exam Preparation</p>
+                </div>
+            </div>
+        </div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* 4. Curriculum Hierarchy (Biology/Chem/Physics Tabs) */}
+        <div className="lg:col-span-12 flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between mb-2">
+                    <div>
+                        <h3 className="text-2xl font-black text-gray-900 tracking-tight">Curriculum Roadmap</h3>
+                        <p className="text-gray-500 font-medium">Select a subject area to view important A* topics.</p>
+                    </div>
+                </div>
+
+                <CurriculumTabs 
+                    units={units} 
+                    topicAnalysis={topicAnalysis} 
+                />
+            </div>
+
+            {/* 5. Smart Practice Access */}
+            <div className="bg-gray-900 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group mt-4">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl -mr-20 -mt-20 transition-all group-hover:bg-blue-600/30"></div>
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <h3 className="text-2xl font-black mb-1 tracking-tight text-blue-400">Smart Practice</h3>
+                        <p className="text-gray-400 font-medium">Practice specific chapters and learn from every mistake with instant hints.</p>
+                    </div>
+                    <Button variant="secondary" size="lg" className="font-black rounded-2xl px-10 h-14 bg-blue-600 hover:bg-blue-700 border-none text-white shadow-lg shadow-blue-900/20" asChild>
+                        <Link href="/learn/smart-practice">Enter Smart Practice →</Link>
+                    </Button>
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default DashboardPage;

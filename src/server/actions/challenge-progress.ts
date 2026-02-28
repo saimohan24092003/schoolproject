@@ -1,28 +1,25 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
 import { auth } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import db from "@/server/db/drizzle";
-import { DEFAULT_HEARTS_MAX, POINTS_PER_CHALLENGE } from "@/constants";
-import { getUserProgress, getUserSubscription } from "@/server/db/queries";
+import { getCourseProgress, getUserProgress } from "@/server/db/queries";
+import { challengeProgress, challenges, userProgress, attemptLogs } from "@/server/db/schema";
+import { sql } from "drizzle-orm";
 
-import {
-  challenges,
-  userProgress,
-  challengeProgress,
-} from "@/server/db/schema";
+const DEMO_USER_ID = "user_39sSWTon713wTYGHgxU2RRrIzYY";
 
 export const upsertChallengeProgress = async (challengeId: number) => {
-  const { userId } = auth();
+  const { userId: authUserId } = auth();
+  const userId = authUserId || DEMO_USER_ID;
 
   if (!userId) {
     throw new Error("Unauthorized");
   }
 
   const currentUserProgress = await getUserProgress();
-  const userSubscription = await getUserSubscription();
 
   if (!currentUserProgress) {
     throw new Error("User progress not found");
@@ -41,64 +38,111 @@ export const upsertChallengeProgress = async (challengeId: number) => {
   const existingChallengeProgress = await db.query.challengeProgress.findFirst({
     where: and(
       eq(challengeProgress.userId, userId),
-      eq(challengeProgress.challengeId, challengeId)
+      eq(challengeProgress.challengeId, challengeId),
     ),
   });
 
   const isPractice = !!existingChallengeProgress;
 
-  if (
-    currentUserProgress.hearts === 0 &&
-    !isPractice &&
-    !userSubscription?.isActive
-  ) {
-    return { error: "hearts" };
-  }
-
   if (isPractice) {
     await db
       .update(challengeProgress)
       .set({
-        // just to make sure
         completed: true,
       })
-      .where(eq(challengeProgress.id, existingChallengeProgress.id));
+      .where(
+        and(
+          eq(challengeProgress.userId, userId),
+          eq(challengeProgress.challengeId, challengeId),
+        ),
+      );
 
     await db
       .update(userProgress)
       .set({
-        // default maximum number of hearts = DEFAULT_HEARTS_MAX
-        hearts: Math.min(currentUserProgress.hearts + 1, DEFAULT_HEARTS_MAX),
-
-        // default number of points = DEFAULT_POINTS_START
-        points: currentUserProgress.points + POINTS_PER_CHALLENGE,
+        points: sql`${userProgress.points} + 10`,
       })
       .where(eq(userProgress.userId, userId));
 
     revalidatePath("/learn");
     revalidatePath("/lesson");
-    revalidatePath("/quests");
-    revalidatePath("/leaderboard");
+    revalidatePath("/exams");
+    revalidatePath("/dashboard");
     revalidatePath(`/lesson/${lessonId}`);
     return;
   }
 
   await db.insert(challengeProgress).values({
-    userId,
     challengeId,
+    userId,
     completed: true,
   });
 
   await db
     .update(userProgress)
     .set({
-      points: currentUserProgress.points + POINTS_PER_CHALLENGE,
+      points: sql`${userProgress.points} + 10`,
     })
     .where(eq(userProgress.userId, userId));
 
   revalidatePath("/learn");
   revalidatePath("/lesson");
-  revalidatePath("/quests");
-  revalidatePath("/leaderboard");
+  revalidatePath("/exams");
+  revalidatePath("/dashboard");
+  revalidatePath(`/lesson/${lessonId}`);
+};
+
+export const reduceHearts = async (challengeId: number) => {
+  const { userId: authUserId } = auth();
+  const userId = authUserId || DEMO_USER_ID;
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const currentUserProgress = await getUserProgress();
+  const challenge = await db.query.challenges.findFirst({
+    where: eq(challenges.id, challengeId),
+  });
+
+  if (!challenge) {
+    throw new Error("Challenge not found");
+  }
+
+  const lessonId = challenge.lessonId;
+
+  const existingChallengeProgress = await db.query.challengeProgress.findFirst({
+    where: and(
+      eq(challengeProgress.userId, userId),
+      eq(challengeProgress.challengeId, challengeId),
+    ),
+  });
+
+  const isPractice = !!existingChallengeProgress;
+
+  if (isPractice) {
+    return { error: "practice" };
+  }
+
+  if (!currentUserProgress) {
+    throw new Error("User progress not found");
+  }
+
+  if (currentUserProgress.hearts === 0) {
+    return { error: "hearts" };
+  }
+
+  await db
+    .update(userProgress)
+    .set({
+      hearts: Math.max(currentUserProgress.hearts - 1, 0),
+    })
+    .where(eq(userProgress.userId, userId));
+
+  revalidatePath("/shop");
+  revalidatePath("/learn");
+  revalidatePath("/lesson");
+  revalidatePath("/exams");
+  revalidatePath("/dashboard");
   revalidatePath(`/lesson/${lessonId}`);
 };

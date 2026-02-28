@@ -1,0 +1,2013 @@
+{
+  "scope": "O-Level Combined Science (0653) exam_papers",
+  "generatedAt": "2026-02-28T08:40:39.421Z",
+  "totalPapers": 27,
+  "totalQuestions": 833,
+  "resourceReferencedQuestions": 245,
+  "resolvedExplicit": 0,
+  "resolvedFallback": 0,
+  "unresolved": 245,
+  "unresolvedRate": 100,
+  "unresolvedSamples": [
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 2,
+      "question": "The diagram shows an image of a plant cell that has been magnified.\nThe magnification is × 200.\nWhat is the length of the actual cell?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 4,
+      "question": "An unknown liquid is divided into three test-tubes and tested as shown in the table.\nWhich conclusion about the unknown liquid is correct?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 7,
+      "question": "The diagram shows a section through the heart.\nThe ventricles contract and blood is forced into the arteries.\nWhat is the state of valves 1 and 2 when this happens?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 8,
+      "question": "The diagram shows apparatus at the start of a breathing experiment.\nA person breathes in and out through the mouthpiece for a short time.\nWhich row shows the results?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 11,
+      "question": "The diagram shows the female reproductive system.\nWhere does implantation of the embryo normally occur?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 13,
+      "question": "The diagram shows the carbon cycle.\nWhich arrow represents combustion?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 14,
+      "question": "Which diagram shows how a mixture of dyes in a food colouring are separated?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 18,
+      "question": "The diagram shows how the temperature change is measured when magnesium powder reacts\nwith dilute hydrochloric acid.\nThermometer reading before adding magnesium powder = 20.6 °C\nTh"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 23,
+      "question": "Part of the Periodic Table is shown.\nThe letters are not the symbols of the elements.\nWhich element is a non-metal?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 26,
+      "question": "Which pie chart shows the proportions of gases in clean air?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 32,
+      "question": "The diagram shows two thin steel tubes X and Y. The tubes have identical dimensions at room\ntemperature.\nTube X needs to be made to fit inside tube Y.\nHow can this be done?"
+    },
+    {
+      "paperId": 44,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 35,
+      "question": "The diagram represents the surface of a transparent liquid. Two rays of light are travelling within\nthe liquid. They both reach the surface. The path of each ray is shown.\nWhat is "
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 2,
+      "question": "The diagram shows an image of a plant cell that has been magnified.\nThe magnification is × 200.\nWhat is the length of the actual cell?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 4,
+      "question": "An unknown liquid is divided into three test-tubes and tested as shown in the table.\nWhich conclusion about the unknown liquid is correct?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 7,
+      "question": "The diagram shows a section through the heart.\nThe ventricles contract and blood is forced into the arteries.\nWhat is the state of valves 1 and 2 when this happens?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 8,
+      "question": "The diagram shows apparatus at the start of a breathing experiment.\nA person breathes in and out through the mouthpiece for a short time.\nWhich row shows the results?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 11,
+      "question": "The diagram shows the female reproductive system.\nWhere does implantation of the embryo normally occur?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 13,
+      "question": "The diagram shows the carbon cycle.\nWhich arrow represents combustion?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 14,
+      "question": "Which diagram shows how a mixture of dyes in a food colouring are separated?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 18,
+      "question": "The diagram shows how the temperature change is measured when magnesium powder reacts\nwith dilute hydrochloric acid.\nThermometer reading before adding magnesium powder = 20.6 °C\nTh"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 23,
+      "question": "Part of the Periodic Table is shown.\nThe letters are not the symbols of the elements.\nWhich element is a non-metal?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 26,
+      "question": "Which pie chart shows the proportions of gases in clean air?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 32,
+      "question": "The diagram shows two thin steel tubes X and Y. The tubes have identical dimensions at room\ntemperature.\nTube X needs to be made to fit inside tube Y.\nHow can this be done?"
+    },
+    {
+      "paperId": 45,
+      "subject": "Combined Science (0653)",
+      "year": 2017,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 35,
+      "question": "The diagram represents the surface of a transparent liquid. Two rays of light are travelling within\nthe liquid. They both reach the surface. The path of each ray is shown.\nWhat is "
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 2,
+      "question": "The diagram shows a blood capillary and a red blood cell, next to three respiring muscle cells.\nWhich arrows show the net movement of carbon dioxide?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 4,
+      "question": "Tests were performed on four samples of food. The results are shown in the table.\nWhich food contains protein only?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through a leaf.\nWhere does carbon dioxide enter the leaf and where does water leave?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 6,
+      "question": "The diagram shows the alimentary canal.\nWhich label shows where bile is stored?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 7,
+      "question": "The graph shows the rate of water loss from a plant during daylight hours.\nWhat could cause the change in the rate of water loss between point X and point Y?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 8,
+      "question": "The diagram shows the human heart and the main blood vessels associated with it.\nWhich blood vessel is the pulmonary artery?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 11,
+      "question": "The diagram shows a section through a flower.\nWhere are the male and female gametes (sex cells) made?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 12,
+      "question": "The diagram shows part of the carbon cycle.\nWhich arrow represents a process that releases oxygen into the atmosphere?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 16,
+      "question": "Which diagram represents a mixture of two elements?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 24,
+      "question": "The noble gases make up Group VIII of the Periodic Table.\nWhich statement is correct?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 28,
+      "question": "The diagrams show distance-time and speed-time graphs.\nWhich graph represents a body at rest?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 30,
+      "question": "A student plots an extension-load graph for a spring.\nHe measures the length of the spring with no load attached.\nNext he hangs a load from the spring and measures the new length o"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 32,
+      "question": "In an experiment, four students each lift a different empty metal box from the floor on to a stool or a table. Two students lift a box made of aluminium, and two students lift a bo"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 35,
+      "question": "The diagram represents a wave.\nWhat is the wavelength of the wave?"
+    },
+    {
+      "paperId": 46,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 36,
+      "question": "Which diagram shows how a ray of light passes from air into a glass block, and shows the angle of incidence labelled i?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 2,
+      "question": "The diagram shows a blood capillary and a red blood cell, next to three respiring muscle cells.\nWhich arrows show the net movement of carbon dioxide?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 4,
+      "question": "Tests were performed on four samples of food. The results are shown in the table.\nWhich food contains protein only?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through a leaf.\nWhere does carbon dioxide enter the leaf and where does water leave?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 6,
+      "question": "The diagram shows the alimentary canal.\nWhich label shows where bile is stored?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 7,
+      "question": "The graph shows the rate of water loss from a plant during daylight hours.\nWhat could cause the change in the rate of water loss between point X and point Y?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 8,
+      "question": "The diagram shows the human heart and the main blood vessels associated with it.\nWhich blood vessel is the pulmonary artery?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 11,
+      "question": "The diagram shows a section through a flower.\nWhere are the male and female gametes (sex cells) made?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 12,
+      "question": "The diagram shows part of the carbon cycle.\nWhich arrow represents a process that releases oxygen into the atmosphere?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 16,
+      "question": "Which diagram represents a mixture of two elements?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 24,
+      "question": "The noble gases make up Group VIII of the Periodic Table.\nWhich statement is correct?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 28,
+      "question": "The diagrams show distance-time and speed-time graphs.\nWhich graph represents a body at rest?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 30,
+      "question": "A student plots an extension-load graph for a spring.\nHe measures the length of the spring with no load attached.\nNext he hangs a load from the spring and measures the new length o"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 32,
+      "question": "In an experiment, four students each lift a different empty metal box from the floor on to a stool or\na table. Two students lift a box made of aluminium, and two students lift a bo"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 35,
+      "question": "The diagram represents a wave.\nWhat is the wavelength of the wave?"
+    },
+    {
+      "paperId": 47,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 36,
+      "question": "Which diagram shows how a ray of light passes from air into a glass block, and shows the angle\nof incidence labelled i?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through a human tooth. Which part is made of the hardest material?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 6,
+      "question": "The diagram shows a section through a leaf. Where does water enter the leaf?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 7,
+      "question": "The diagram shows a section through the human heart. What happens to the valves as blood is being pumped to the lungs?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 12,
+      "question": "The diagram shows a food chain. maize → mouse → owl. Which terms describe the organisms in this food chain?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 19,
+      "question": "The diagram shows apparatus for electrolysis. Only one label is correct. Which label on the diagram is correct?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 23,
+      "question": "Part of the Periodic Table is shown. Which element forms an anion and which element forms a cation?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 29,
+      "question": "The diagram shows a solid rectangular block with the dimensions shown. The block is made from a material of density 4.0g/cm³. What is the mass of the block?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 34,
+      "question": "The diagram shows a ray of light as it enters a glass block. Which labelled angle is the angle of refraction?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 35,
+      "question": "The diagram represents two parallel rays of light striking a converging lens. The rays pass through the lens. Through which labelled point do both rays pass?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 38,
+      "question": "A negative ion X is close to a positive ion and another negative ion. Electrical forces act on ion X because of the charges in the other two ions. Which diagram shows the direction"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 39,
+      "question": "A lamp can be dimmed or switched off. Its circuit is protected by a fuse. Which diagram shows this circuit?"
+    },
+    {
+      "paperId": 48,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 40,
+      "question": "The diagram shows a circuit containing three identical resistors and three ammeters X, Y and Z. The reading on ammeter X is 6.0 A. What are the readings on ammeters Y and Z?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 4,
+      "question": "The diagram shows the human alimentary canal. The labels state the functions of four of its parts.\nWhich label is correct?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 5,
+      "question": "The diagram shows apparatus set up to investigate photosynthesis.\nIn which test-tubes will the carbon dioxide concentration in the water decrease?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 6,
+      "question": "The table shows components of blood and their functions.\nWhich row is correct?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 10,
+      "question": "The diagram shows the male reproductive system.\nWhich row names the labelled structure and states its function?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 12,
+      "question": "The diagram shows part of the carbon cycle.\nWhat are X and Y?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 14,
+      "question": "The diagram represents a mixture of carbon dioxide, CO2, and carbon monoxide, CO.\nWhich statement is correct?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 23,
+      "question": "Which bar chart shows the relative melting points of bromine, iron and potassium?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 24,
+      "question": "The positions of four elements are shown in the outline of the Periodic Table.\nWhich element has a high melting point and forms coloured compounds?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 28,
+      "question": "A car is travelling along a straight road. The diagram is a speed-time graph for part of its journey.\nWhat is happening to the car between X and Y and what is happening between Y a"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 33,
+      "question": "The diagram represents a wave.\nWhich labelled distance gives the amplitude of the wave?"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 34,
+      "question": "The diagram shows light travelling in substance P. The light strikes substance Q at an angle of\nincidence x. The light is totally internally reflected.\nOne of the substances is air"
+    },
+    {
+      "paperId": 49,
+      "subject": "Combined Science (0653)",
+      "year": 2018,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 38,
+      "question": "The circuit shown includes a 4.0 Ω resistor.\nWhich pair of meter readings in the table is possible?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 2,
+      "question": "The diagram shows a palisade cell. [Image description: A diagram of a plant cell with labels 1-6 pointing to different parts]. Which parts are found in plant cells and NOT in anima"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 3,
+      "question": "Which substances may diffuse into and out of plant cells? [Table shows Into: chlorophyll, oxygen, starch, water; Out: oxygen, water, chlorophyll, starch]"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through part of a leaf. The leaf is photosynthesising in bright light. What enters the leaf at X? [Diagram shows a cross section of a leaf with arrow X "
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 6,
+      "question": "Diagram 1 shows a water plant exposed to sunlight. What change would take place if a black box is placed over the plant, as in diagram 2, and left for eight hours?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 8,
+      "question": "The diagram shows a heart in section and some of its blood vessels. What are the parts Q and R? [Diagram labels Q as the right atrium/vessel and R as the septum]"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 11,
+      "question": "The diagram shows a side view of the female reproductive system in a human. Where do fertilisation and implantation occur?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 12,
+      "question": "The diagram shows the thickness of the uterus lining of a woman over a 4-week period. What happens at P and Q? [P is peak thickness, Q is start of fall]"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 15,
+      "question": "Fluorine and chlorine are in Group VII of the Periodic Table. Which number increases by eight from fluorine to chlorine?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 16,
+      "question": "The structure of an organic compound is shown. [Diagram: Propanoic acid / C3H6O2]. What is the formula of the compound?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 21,
+      "question": "The table shows the results of tests on an aqueous solution of X. [Test: blue litmus -> turns red; Test: silver nitrate -> white precipitate]. What is X?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 24,
+      "question": "What is this new alloy used to make? [Table shows Density: Aluminium 2.7, New Alloy 2.8, Stainless Steel 7.9]"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 25,
+      "question": "The diagram shows an element being added to cold water to form a gas and an alkaline solution. What is the element?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 32,
+      "question": "Which substance is a liquid at a room temperature of 20C? [Table shows MP/BP for A, B, C, D]"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 35,
+      "question": "Which diagram shows a ray of light passing through a glass block in air?"
+    },
+    {
+      "paperId": 30,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 40,
+      "question": "The diagram shows a circuit with four identical bulbs P, Q, R and S. Which statement about the brightness of the bulbs is correct?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 2,
+      "question": "The diagram shows a palisade cell. [Image description: A diagram of a plant cell with labels 1-6 pointing to different parts]. Which parts are found in plant cells and NOT in anima"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 3,
+      "question": "Which substances may diffuse into and out of plant cells? [Table shows Into: chlorophyll, oxygen, starch, water; Out: oxygen, water, chlorophyll, starch]"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through part of a leaf. The leaf is photosynthesising in bright light. What enters the leaf at X? [Diagram shows a cross section of a leaf with arrow X "
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 6,
+      "question": "Diagram 1 shows a water plant exposed to sunlight. What change would take place if a black box is placed over the plant, as in diagram 2, and left for eight hours?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 8,
+      "question": "The diagram shows a heart in section and some of its blood vessels. What are the parts Q and R? [Diagram labels Q as the right atrium/vessel and R as the septum]"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 11,
+      "question": "The diagram shows a side view of the female reproductive system in a human. Where do fertilisation and implantation occur?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 12,
+      "question": "The diagram shows the thickness of the uterus lining of a woman over a 4-week period. What happens at P and Q? [P is peak thickness, Q is start of fall]"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 15,
+      "question": "Fluorine and chlorine are in Group VII of the Periodic Table. Which number increases by eight from fluorine to chlorine?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 16,
+      "question": "The structure of an organic compound is shown. [Diagram: Propanoic acid / C3H6O2]. What is the formula of the compound?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 21,
+      "question": "The table shows the results of tests on an aqueous solution of X. [Test: blue litmus -> turns red; Test: silver nitrate -> white precipitate]. What is X?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 24,
+      "question": "What is this new alloy used to make? [Table shows Density: Aluminium 2.7, New Alloy 2.8, Stainless Steel 7.9]"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 25,
+      "question": "The diagram shows an element being added to cold water to form a gas and an alkaline solution. What is the element?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 32,
+      "question": "Which substance is a liquid at a room temperature of 20C? [Table shows MP/BP for A, B, C, D]"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 35,
+      "question": "Which diagram shows a ray of light passing through a glass block in air?"
+    },
+    {
+      "paperId": 31,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 40,
+      "question": "The diagram shows a circuit with four identical bulbs P, Q, R and S. Which statement about the brightness of the bulbs is correct?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 2,
+      "question": "The diagram shows a palisade cell. [Image description: A diagram of a plant cell with labels 1-6 pointing to different parts]. Which parts are found in plant cells and NOT in anima"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 3,
+      "question": "Which substances may diffuse into and out of plant cells? [Table shows Into: chlorophyll, oxygen, starch, water; Out: oxygen, water, chlorophyll, starch]"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through part of a leaf. The leaf is photosynthesising in bright light. What enters the leaf at X? [Diagram shows a cross section of a leaf with arrow X "
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 6,
+      "question": "Diagram 1 shows a water plant exposed to sunlight. What change would take place if a black box is placed over the plant, as in diagram 2, and left for eight hours?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 8,
+      "question": "The diagram shows a heart in section and some of its blood vessels. What are the parts Q and R? [Diagram labels Q as the right atrium/vessel and R as the septum]"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 11,
+      "question": "The diagram shows a side view of the female reproductive system in a human. Where do fertilisation and implantation occur?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 12,
+      "question": "The diagram shows the thickness of the uterus lining of a woman over a 4-week period. What happens at P and Q? [P is peak thickness, Q is start of fall]"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 15,
+      "question": "Fluorine and chlorine are in Group VII of the Periodic Table. Which number increases by eight from fluorine to chlorine?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 16,
+      "question": "The structure of an organic compound is shown. [Diagram: Propanoic acid / C3H6O2]. What is the formula of the compound?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 21,
+      "question": "The table shows the results of tests on an aqueous solution of X. [Test: blue litmus -> turns red; Test: silver nitrate -> white precipitate]. What is X?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 24,
+      "question": "What is this new alloy used to make? [Table shows Density: Aluminium 2.7, New Alloy 2.8, Stainless Steel 7.9]"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 25,
+      "question": "The diagram shows an element being added to cold water to form a gas and an alkaline solution. What is the element?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 32,
+      "question": "Which substance is a liquid at a room temperature of 20C? [Table shows MP/BP for A, B, C, D]"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 35,
+      "question": "Which diagram shows a ray of light passing through a glass block in air?"
+    },
+    {
+      "paperId": 32,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 40,
+      "question": "The diagram shows a circuit with four identical bulbs P, Q, R and S. Which statement about the brightness of the bulbs is correct?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 2,
+      "question": "The diagram shows a palisade cell.\nWhich parts are found in plant cells and not in animal cells?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through part of a leaf.\nThe leaf is photosynthesising in bright light.\nWhat enters the leaf at X?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 6,
+      "question": "Diagram 1 shows a water plant exposed to sunlight.\nWhat change would take place if a black box is placed over the plant, as in diagram 2, and left for eight hours?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 8,
+      "question": "The diagram shows a heart in section and some of its blood vessels.\nWhat are the parts Q and R?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 10,
+      "question": "A healthy person does not eat for several hours but then has a meal rich in carbohydrate.\nWhich graph shows how the person's blood sugar level changes after the meal?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 11,
+      "question": "The diagram shows a side view of the female reproductive system in a human.\nWhere do fertilisation and implantation occur?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 12,
+      "question": "The diagram shows the thickness of the uterus lining of a woman over a 4-week period.\nWhat happens at P and Q?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 15,
+      "question": "Fluorine and chlorine are in Group VII of the Periodic Table.\nWhich number increases by eight from fluorine to chlorine?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 19,
+      "question": "The diagram shows equal masses of magnesium added to equal volumes of acid of the same concentration.\nWhat is the order of the speed of reaction?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 21,
+      "question": "The table shows the results of tests on an aqueous solution of X.\nblue litmus paper: turns red\naqueous silver nitrate: white precipitate formed\nWhat is X?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 25,
+      "question": "The diagram shows an element being added to cold water to form a gas and an alkaline solution.\nWhat is the element?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 32,
+      "question": "The table shows the melting points and boiling points of four substances.\nWhich substance is a liquid at a room temperature of 20 °C?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 35,
+      "question": "Which diagram shows a ray of light passing through a glass block in air?"
+    },
+    {
+      "paperId": 34,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 40,
+      "question": "The diagram shows a circuit with four identical bulbs P, Q, R and S.\nWhich statement about the brightness of the bulbs is correct?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 1,
+      "question": "The graph shows the effect of temperature on the rate of an enzyme-controlled reaction.\nrate of reaction\ntemperature\nWhere on the graph has all the enzyme been denatured?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 4,
+      "question": "A sample of food is tested with Benedict's solution, biuret solution and iodine solution. The results are shown in the table.\nWhich substances are present in the food sample tested"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 6,
+      "question": "Which graph shows how atmospheric humidity affects the rate of transpiration of a green plant?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 8,
+      "question": "The diagram shows some structures in the human thorax (chest).\nInto which part does carbon dioxide pass immediately after leaving the blood?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 16,
+      "question": "Element Y has a proton number of 18 and a nucleon number of 40.\nWhich statements about element Y are correct?\n\n1 It has 40 neutrons in its nucleus.\n2 It has 22 electrons.\n3 It is u"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 19,
+      "question": "The diagram shows a platinum wire being used to catalyse the reaction between hydrogen and oxygen.\nAn explosive squeak is heard.\nWhich statement is correct?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 23,
+      "question": "The positions of four elements are shown in the outline of the Periodic Table.\nWhich element has a high melting point and forms coloured compounds?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 24,
+      "question": "Chlorine, bromine and iodine are elements in Group VII of the Periodic Table.\nWhich trend is observed going down Group VII?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 28,
+      "question": "A car is moving downhill along a road at a constant speed.\nWhich graph is the speed/time graph for the car?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 32,
+      "question": "Which energy change takes place when a block of wood slows down as it slides across a rough horizontal table?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 36,
+      "question": "The diagram shows the path of a ray of light passing through a principal focus of a lens.\nWhich labelled line shows the direction of the ray after it leaves the lens?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 38,
+      "question": "A negative ion X is close to a positive ion and another negative ion. Electrical forces act on ion X because of the charges in the other two ions.\nWhich diagram shows the direction"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 39,
+      "question": "The circuit diagram includes two resistors connected in parallel.\nWhich statement is correct?"
+    },
+    {
+      "paperId": 35,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 40,
+      "question": "Two identical lamps P and Q are connected in a circuit as shown in the diagram.\nThe circuit is now switched on.\nWhich statement is correct?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 3,
+      "question": "The graph shows the effect of temperature on the rate of an enzyme-controlled reaction. Where on the graph has all the enzyme been denatured?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 6,
+      "question": "The diagram shows a section through the heart. To ensure that blood will flow to the lungs, which valve must be closed?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 8,
+      "question": "The diagram shows some structures in the human thorax (chest). Into which part does carbon dioxide pass immediately after leaving the blood?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 9,
+      "question": "The diagram shows the shoots of a tray of seedlings in a box. Light enters the box as shown. Which diagram shows the phototropic response of the shoots after 48 hours?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 13,
+      "question": "The diagram shows part of the carbon cycle. Where does respiration occur?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 14,
+      "question": "X and Y represent atoms of two different elements. Which diagram represents molecules?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 16,
+      "question": "Element Y has a proton number of 18 and a nucleon number of 40. Which statements about element Y are correct?\n1 It has 40 neutrons in its nucleus.\n2 It has 22 electrons.\n3 It is un"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 23,
+      "question": "The positions of four elements are shown in the outline of the Periodic Table. Which element has a high melting point and forms coloured compounds?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 24,
+      "question": "Which statement about elements in Period 3 of the Periodic Table is correct?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 36,
+      "question": "The diagram represents the electromagnetic spectrum. Sections P and Q are not named. Which type of wave does P represent, and which type of wave does Q represent?"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 38,
+      "question": "A negative ion X is close to a positive ion and another negative ion. Electrical forces act on ion X because of the charges in the other two ions. Which diagram shows the direction"
+    },
+    {
+      "paperId": 36,
+      "subject": "Combined Science (0653)",
+      "year": 2015,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 40,
+      "question": "Two identical lamps P and Q are connected in a circuit as shown in the diagram. The circuit is now switched on. Which statement is correct?"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 2,
+      "question": "The diagram shows a plant cell.\nWhich two parts are found in plant cells but not in animal cells?"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 3,
+      "question": "The graph shows the effect of pH on the activity of four different enzymes.\nWhich enzyme is most active in the stomach?"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 11,
+      "question": "The diagram shows the changes that occur to the uterus lining during the menstrual cycle.\nWhich stage of the cycle is represented by X?"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 14,
+      "question": "Which diagram represents molecules of hydrogen gas?"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 32,
+      "question": "Diagram 1 shows a force F lifting a weight through a height h.\nDiagram 2 shows the same force F lifting the same weight through a height 2h.\nIn both cases, air resistance and frict"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 34,
+      "question": "The diagram represents a wave, with two measurements given.\nWhich row gives the amplitude of the wave and the wavelength of the wave?"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 35,
+      "question": "The diagram shows a ray of light hitting the edge of a glass block. Three rays, the angle of incidence i and the angle of refraction r are labelled.\nAngle i is decreased slightly.\n"
+    },
+    {
+      "paperId": 37,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "march",
+      "paperNumber": 1,
+      "variant": "12",
+      "questionNumber": 40,
+      "question": "The diagram shows a battery connected to three 6.0 Ω resistors.\nTwo points X and Y are marked on the circuit.\nWhat is the combined resistance of the three resistors, and how does t"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 2,
+      "question": "The diagram shows an animal cell. The maximum diameter of the diagram is 25 mm. The maximum diameter of the actual cell was 0.02 mm. What is the magnification of the drawing?"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 6,
+      "question": "The diagram shows a section through the human heart. Which structures are joined by the tendons?"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 7,
+      "question": "The diagram shows a green plant. Most of the plant is enclosed in a black plastic bag. Only one part is exposed to the light and can photosynthesise. How is the sugar, produced by "
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 10,
+      "question": "Four people have the same resting pulse rate and the same blood glucose concentration. The table shows their pulse rates and blood glucose concentrations later on the same day. Whi"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 13,
+      "question": "The diagram represents a food chain found in the sea. How many consumer levels are there?"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 16,
+      "question": "The positions of elements P, Q, R, S and T in the Periodic Table are shown. The letters are not the symbols for the elements. Which element forms an ionic compound with element P?"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 17,
+      "question": "The diagram shows the apparatus used for the electrolysis of lead(II) bromide using inert electrodes X and Y. Lead is formed at electrode Y. Which statement about the electrolysis "
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 22,
+      "question": "A soft metal reacts vigorously with cold water. What is the position of this metal in the Periodic Table?"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 28,
+      "question": "A train takes passengers from a railway station to an airport. The train accelerates as it leaves the railway station, then travels at a steady speed, and finally stops at the airp"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 32,
+      "question": "Benzene and glycerine are two substances. The table gives the melting point and the boiling point of benzene and of glycerine. At which temperature are both benzene and glycerine l"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 33,
+      "question": "The diagram shows a heater in a room. What happens to the air as it is heated by the heater?"
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 34,
+      "question": "A student vibrates the end of a horizontal rope and sends a wave along the rope. The wave is shown in the diagram. What is the amplitude of the wave, and what is the wavelength of "
+    },
+    {
+      "paperId": 38,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 35,
+      "question": "A ray of light passes from air into a rectangular glass block and back into the air again. Which diagram shows the path of the light, the angle of incidence labelled i and the angl"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 2,
+      "question": "The diagram shows an animal cell. The maximum diameter of the diagram is 25 mm.\n\nThe maximum diameter of the actual cell was 0.02 mm.\nWhat is the magnification of the drawing?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 4,
+      "question": "The diagram shows the effect of increasing temperature on an enzyme-controlled reaction, during which the enzyme is not at its optimum (best) pH.\n\nWhich shows the effect of tempera"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 5,
+      "question": "The diagram shows a section through part of a leaf as seen under a light microscope. What are the labelled parts?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 6,
+      "question": "The diagram shows a section through the human heart. Which structures are joined by the tendons?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 13,
+      "question": "The diagram represents a food chain found in the sea. How many consumer levels are there?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 16,
+      "question": "The positions of elements P, Q, R, S and T in the Periodic Table are shown.\nThe letters are not the symbols for the elements.\nWhich element forms an ionic compound with element P?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 17,
+      "question": "The diagram shows the apparatus used for the electrolysis of lead(II) bromide using inert electrodes X and Y.\nLead is formed at electrode Y.\nWhich statement about the electrolysis "
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 22,
+      "question": "A soft metal reacts vigorously with cold water.\nWhat is the position of this metal in the Periodic Table?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 32,
+      "question": "Benzene and glycerine are two substances.\nThe table gives the melting point and the boiling point of benzene and of glycerine.\nAt which temperature are both benzene and glycerine l"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 34,
+      "question": "A student vibrates the end of a horizontal rope and sends a wave along the rope. The wave is shown in the diagram. What is the amplitude of the wave, and what is the wavelength of "
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 35,
+      "question": "The diagram shows rays of light passing through a converging lens. Which labelled arrow represents the focal length of the lens?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 36,
+      "question": "The diagram shows part of the electromagnetic spectrum.\nWhich row shows the missing types of radiation at P and at Q?"
+    },
+    {
+      "paperId": 39,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "june",
+      "paperNumber": 1,
+      "variant": "13",
+      "questionNumber": 40,
+      "question": "The diagram shows two resistors in a circuit with three ammeters P, Q and R. Ammeter P reads 6.0 A. Which row gives the reading on ammeter Q and the reading on ammeter R?"
+    },
+    {
+      "paperId": 40,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 5,
+      "question": "The table shows the results of tests carried out on a food.\nWhich nutrients does the food contain?"
+    },
+    {
+      "paperId": 40,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 6,
+      "question": "The diagram shows a plant in a container of water. The layer of oil stops the water in the container evaporating.\nThe initial mass of the container and contents is 296 g.\nAfter two"
+    },
+    {
+      "paperId": 40,
+      "subject": "Combined Science (0653)",
+      "year": 2016,
+      "season": "november",
+      "paperNumber": 1,
+      "variant": "11",
+      "questionNumber": 8,
+      "question": "The diagram shows a section through part of a lung.\nWhat is structure X?"
+    }
+  ]
+}

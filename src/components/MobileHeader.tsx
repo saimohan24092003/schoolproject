@@ -1,43 +1,14 @@
-import { Button } from "@/components/ui";
-import { MobileSidebar, RepoStar } from "@/components";
-import { ClerkLoaded, ClerkLoading, SignedIn, UserButton } from "@clerk/nextjs";
+import { MobileSidebar } from "@/components";
+import AccountControls from "@/components/AccountControls";
 
 const MobileHeader = () => (
-  <nav className="fixed top-0 z-50 flex h-[60px] w-full items-center justify-between border-b bg-green-500 px-6 md:hidden">
+  <nav className="fixed top-0 z-50 flex h-[60px] w-full items-center justify-between border-b bg-blue-600 px-6 md:hidden">
     <MobileSidebar />
 
-    <div className="flex gap-4">
-      <RepoStar />
-
-      <ClerkLoading>
-        <SignedIn>
-          <Button
-            disabled
-            size="rounded"
-            className="h-[36px] w-[36px] animate-pulse bg-gray-200 ring ring-border"
-          />
-        </SignedIn>
-      </ClerkLoading>
-
-      <ClerkLoaded>
-        <SignedIn>
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                userButtonPopoverCard: {
-                  pointerEvents: "initial",
-                  width: "300px",
-                },
-                userButtonAvatarBox: {
-                  height: "36px",
-                  width: "36px",
-                },
-              },
-            }}
-          />
-        </SignedIn>
-      </ClerkLoaded>
+    <div className="flex items-center">
+      <div className="[&_.cl-userButtonAvatarBox]:h-9 [&_.cl-userButtonAvatarBox]:w-9 [&_.cl-userButtonAvatarBox]:border-2 [&_.cl-userButtonAvatarBox]:border-white/40">
+        <AccountControls showLabel={false} />
+      </div>
     </div>
   </nav>
 );

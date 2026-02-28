@@ -1,0 +1,51 @@
+{
+  "generatedAtUtc": "2026-02-28T05:23:46.919006+00:00",
+  "syllabusSource": "data/0653_syllabus_2025_2027.json",
+  "officialTopicCount": 33,
+  "coveredOfficialTopicCount": 33,
+  "coveragePercent": 100.0,
+  "missingTopics": [],
+  "outOfSyllabusTopicsFound": [],
+  "highPriorityTopicsByFrequency": [
+    {
+      "topic": "P1. Motion, forces and energy",
+      "score": 253
+    },
+    {
+      "topic": "P4. Electricity",
+      "score": 182
+    },
+    {
+      "topic": "P3. Waves",
+      "score": 151
+    },
+    {
+      "topic": "B14. Reproduction",
+      "score": 121
+    },
+    {
+      "topic": "C2. Atoms, elements and compounds",
+      "score": 113
+    },
+    {
+      "topic": "P2. Thermal physics",
+      "score": 107
+    },
+    {
+      "topic": "C11. Organic chemistry",
+      "score": 104
+    },
+    {
+      "topic": "C6. Chemical reactions",
+      "score": 102
+    },
+    {
+      "topic": "B15. Organisms and their environment",
+      "score": 92
+    },
+    {
+      "topic": "B7. Human nutrition",
+      "score": 88
+    }
+  ]
+}

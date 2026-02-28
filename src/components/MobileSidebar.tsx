@@ -3,7 +3,6 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 import { buttonVariants } from "@/components/ui/Button";
-import { getUserSubscription } from "@/server/db/queries";
 
 import {
   Sheet,
@@ -13,16 +12,9 @@ import {
 } from "@/components/ui/Sheet";
 
 import { Menu } from "lucide-react";
-import { Promo } from "@/components";
 import { sidebarItems } from "@/constants";
 
-const MobileSidebar = async () => {
-  const userSubscriptionData = getUserSubscription();
-
-  const [userSubscription] = await Promise.all([userSubscriptionData]);
-
-  const isPro = !!userSubscription?.isActive;
-
+const MobileSidebar = () => {
   return (
     <Sheet>
       <SheetTrigger>
@@ -36,10 +28,10 @@ const MobileSidebar = async () => {
         <SheetClose asChild>
           <Link href="/learn">
             <div className="flex items-center gap-x-3 px-4 py-8">
-              <Image src="/mascot.svg" height={40} width={40} alt="Mascot" />
+              <Image src="/linga-logo.svg" height={40} width={40} alt="Linga logo" />
 
               <h1 className="text-3xl font-extrabold tracking-wide text-green-600">
-                Lingo
+                ExamPrep
               </h1>
             </div>
           </Link>
@@ -70,13 +62,6 @@ const MobileSidebar = async () => {
             </SheetClose>
           ))}
         </div>
-
-        <Promo
-          isMobile
-          className={cn("mb-4", {
-            hidden: isPro,
-          })}
-        />
       </SheetContent>
     </Sheet>
   );

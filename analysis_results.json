@@ -1,0 +1,88 @@
+{
+  "analysis": [
+    {
+      "id": 1,
+      "status": "Included",
+      "matched_topic": "B4. Enzymes",
+      "reason": "Analyzes the effect of temperature and the point of denaturation on enzyme activity."
+    },
+    {
+      "id": 2,
+      "status": "Included",
+      "matched_topic": "B5. Plant nutrition",
+      "reason": "Relates to plant nutrition (photosynthesis) and how it occurs alongside respiration."
+    },
+    {
+      "id": 3,
+      "status": "Included",
+      "matched_topic": "B2. Cells",
+      "reason": "Deals with the identification of plant cell structures (chloroplasts) compared to animal cells."
+    },
+    {
+      "id": 4,
+      "status": "Included",
+      "matched_topic": "B3. Biological molecules",
+      "reason": "Covers chemical tests (Benedict's, biuret, iodine) used to identify biological molecules in food."
+    },
+    {
+      "id": 5,
+      "status": "Included",
+      "matched_topic": "B6. Animal nutrition",
+      "reason": "Tests knowledge of the products of chemical digestion (fats to glycerol and fatty acids)."
+    },
+    {
+      "id": 6,
+      "status": "Included",
+      "matched_topic": "B7. Transport",
+      "reason": "Examines the factors affecting the rate of transpiration in plants."
+    },
+    {
+      "id": 7,
+      "status": "Included",
+      "matched_topic": "B7. Transport",
+      "reason": "Identifies components of blood and their functions in transport (plasma carrying glucose)."
+    },
+    {
+      "id": 8,
+      "status": "Included",
+      "matched_topic": "B8. Gas exchange and respiration",
+      "reason": "Focuses on the structures of the human thorax and the site of gas exchange."
+    },
+    {
+      "id": 9,
+      "status": "Included",
+      "matched_topic": "B9. Coordination and response",
+      "reason": "Covers plant tropisms (geotropism and phototropism) as a form of coordination."
+    },
+    {
+      "id": 10,
+      "status": "Included",
+      "matched_topic": "B9. Coordination and response",
+      "reason": "Relates to the effects and site of breakdown of the hormone adrenaline."
+    }
+  ],
+  "missing_topics": [
+    "B1. Characteristics of living organisms",
+    "B10. Reproduction",
+    "B11. Inheritance",
+    "B12. Ecology",
+    "C1. Particulate nature of matter",
+    "C2. Experimental techniques",
+    "C3. Atoms, elements and compounds",
+    "C4. Stoichiometry",
+    "C5. Electricity and chemistry",
+    "C6. Energy changes in reactions",
+    "C7. Chemical reactions",
+    "C8. Acids, bases and salts",
+    "C9. The Periodic Table",
+    "C10. Metals",
+    "C11. Air and water",
+    "C12. Organic chemistry",
+    "P1. Motion, forces and energy",
+    "P2. Thermal physics",
+    "P3. Waves",
+    "P4. Electricity and magnetism",
+    "P5. Atomic physics",
+    "P6. Space physics"
+  ]
+}

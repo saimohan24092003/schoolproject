@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import {
   getLesson,
   getUserProgress,
-  getUserSubscription,
+  getUserSubscription
 } from "@/server/db/queries";
 
 import Quiz from "./quiz";
@@ -32,9 +32,9 @@ const LessonPage = async () => {
     <Quiz
       initialLessonId={lesson.id}
       initialLessonChallenges={lesson.challenges}
-      initialHearts={userProgress.hearts}
       initialPercentage={initialPercentage}
       userSubscription={userSubscription}
+      lesson={lesson}
     />
   );
 };

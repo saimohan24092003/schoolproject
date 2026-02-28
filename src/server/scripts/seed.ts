@@ -6,7 +6,7 @@ import { neon } from "@neondatabase/serverless";
 
 // helps the seeding script read from `.env`
 // important for connecting to the database
-dotenv.config();
+dotenv.config({ path: '.env.local' });
 
 const connector = neon(process.env.DATABASE_URL as string);
 

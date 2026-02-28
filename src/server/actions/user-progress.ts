@@ -1,30 +1,24 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { DEFAULT_HEARTS_MAX, POINTS_TO_REFILL } from "@/constants";
+import { and, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import db from "@/server/db/drizzle";
-import { and, eq } from "drizzle-orm";
+import { getCourseById, getUserProgress } from "@/server/db/queries";
+import { challengeProgress, challenges, userProgress } from "@/server/db/schema";
+import { POINTS_TO_REFILL } from "@/constants";
 
-import {
-  getCourseById,
-  getUserProgress,
-  getUserSubscription,
-} from "@/server/db/queries";
-
-import {
-  challengeProgress,
-  challenges,
-  userProgress,
-} from "@/server/db/schema";
+const DEMO_USER_ID = "user_39sSWTon713wTYGHgxU2RRrIzYY";
 
 export const upsertUserProgress = async (courseId: number) => {
-  const { userId } = auth();
+  const { userId: authUserId } = auth();
+  const userId = authUserId || DEMO_USER_ID;
   const user = await currentUser();
 
-  if (!userId || !user) {
+  // For demo mode, we allow missing user from currentUser()
+  if (!userId) {
     throw new Error("Unauthorized");
   }
 
@@ -41,14 +35,11 @@ export const upsertUserProgress = async (courseId: number) => {
   const existingUserProgress = await getUserProgress();
 
   if (existingUserProgress) {
-    await db
-      .update(userProgress)
-      .set({
-        activeCourseId: courseId,
-        userName: user.firstName || "Anon",
-        userImageSrc: user.imageUrl || "/mascot.svg",
-      })
-      .where(eq(userProgress.userId, userId));
+    await db.update(userProgress).set({
+      activeCourseId: courseId,
+      userName: user?.firstName || "User",
+      userImageSrc: user?.imageUrl || "/mascot.svg",
+    }).where(eq(userProgress.userId, userId));
 
     revalidatePath("/courses");
     revalidatePath("/learn");
@@ -58,8 +49,10 @@ export const upsertUserProgress = async (courseId: number) => {
   await db.insert(userProgress).values({
     userId,
     activeCourseId: courseId,
-    userName: user.firstName || "Anon",
-    userImageSrc: user.imageUrl || "/mascot.svg",
+    userName: user?.firstName || "User",
+    userImageSrc: user?.imageUrl || "/mascot.svg",
+    hearts: 5,
+    points: 0,
   });
 
   revalidatePath("/courses");
@@ -68,14 +61,14 @@ export const upsertUserProgress = async (courseId: number) => {
 };
 
 export const reduceHearts = async (challengeId: number) => {
-  const { userId } = auth();
+  const { userId: authUserId } = auth();
+  const userId = authUserId || DEMO_USER_ID;
 
   if (!userId) {
     throw new Error("Unauthorized");
   }
 
   const currentUserProgress = await getUserProgress();
-  const userSubscription = await getUserSubscription();
 
   if (!currentUserProgress) {
     throw new Error("User progress not found");
@@ -104,10 +97,6 @@ export const reduceHearts = async (challengeId: number) => {
     return { error: "practice" };
   }
 
-  if (userSubscription?.isActive) {
-    return { error: "subscription" };
-  }
-
   if (currentUserProgress.hearts === 0) {
     return { error: "hearts" };
   }
@@ -126,6 +115,31 @@ export const reduceHearts = async (challengeId: number) => {
   revalidatePath(`/lesson/${lessonId}`);
 };
 
+export const updateActiveSubject = async (courseId: number) => {
+  const { userId: authUserId } = auth();
+  const userId = authUserId || DEMO_USER_ID;
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const existingUserProgress = await getUserProgress();
+
+  if (existingUserProgress) {
+    await db.update(userProgress).set({
+      activeCourseId: courseId,
+    }).where(eq(userProgress.userId, userId));
+
+    revalidatePath("/dashboard");
+    revalidatePath("/exams");
+    revalidatePath("/learn");
+    revalidatePath("/learn/smart-practice");
+  } else {
+    // If user progress doesn't exist, we skip for now as dashboard usually handles it
+    // but we can insert a default one if needed.
+  }
+};
+
 export const refillHearts = async () => {
   const currentUserProgress = await getUserProgress();
 
@@ -133,7 +147,7 @@ export const refillHearts = async () => {
     throw new Error("User progress not found");
   }
 
-  if (currentUserProgress.hearts === DEFAULT_HEARTS_MAX) {
+  if (currentUserProgress.hearts === 5) {
     throw new Error("Hearts are already full");
   }
 
@@ -144,7 +158,7 @@ export const refillHearts = async () => {
   await db
     .update(userProgress)
     .set({
-      hearts: DEFAULT_HEARTS_MAX,
+      hearts: 5,
       points: currentUserProgress.points - POINTS_TO_REFILL,
     })
     .where(eq(userProgress.userId, currentUserProgress.userId));

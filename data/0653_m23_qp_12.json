@@ -1,0 +1,398 @@
+[
+  {
+    "id": 1,
+    "subject": "Bio",
+    "question": "Which characteristics help to define a living organism?",
+    "options": [
+      "A diffusion, movement, respiration",
+      "B excretion, nutrition, sensitivity",
+      "C excretion, reproduction, transpiration",
+      "D growth, inspiration, nutrition"
+    ]
+  },
+  {
+    "id": 2,
+    "subject": "Bio",
+    "question": "Two pieces of potato are cut to have exactly the same mass and shape. One piece of potato is placed in water and the other piece is placed in concentrated salt solution. They are both left for one hour. What happens to the mass of each piece of potato?",
+    "options": [
+      "A decreases (in water), decreases (in salt)",
+      "B decreases (in water), increases (in salt)",
+      "C increases (in water), decreases (in salt)",
+      "D increases (in water), increases (in salt)"
+    ]
+  },
+  {
+    "id": 3,
+    "subject": "Bio",
+    "question": "The results of tests carried out on four food samples are shown (Key: tick = positive, cross = negative). Sample 1: Benedict's (tick), Iodine (tick), Biuret (cross). Sample 2: Benedict's (tick), Iodine (cross), Biuret (tick). Sample 3: Benedict's (cross), Iodine (tick), Biuret (cross). Sample 4: Benedict's (cross), Iodine (cross), Biuret (tick). Which two samples contain protein?",
+    "options": [
+      "A 1 and 2",
+      "B 1 and 3",
+      "C 2 and 4",
+      "D 3 and 4"
+    ]
+  },
+  {
+    "id": 4,
+    "subject": "Bio",
+    "question": "Which type of molecule is an enzyme?",
+    "options": [
+      "A carbohydrate",
+      "B fat",
+      "C protein",
+      "D vitamin"
+    ]
+  },
+  {
+    "id": 5,
+    "subject": "Bio",
+    "question": "What is the word equation for photosynthesis?",
+    "options": [
+      "A carbon dioxide + water -> glucose + oxygen",
+      "B glucose + oxygen -> carbon dioxide + water",
+      "C oxygen + carbon dioxide -> glucose + water",
+      "D water + oxygen -> glucose + carbon dioxide"
+    ]
+  },
+  {
+    "id": 6,
+    "subject": "Bio",
+    "question": "Which two nutrients are needed for healthy bone and tooth development?",
+    "options": [
+      "A calcium and iron",
+      "B fibre and vitamin C",
+      "C fibre and vitamin D",
+      "D vitamin D and calcium"
+    ]
+  },
+  {
+    "id": 7,
+    "subject": "Bio",
+    "question": "Which statement about all arteries is correct?",
+    "options": [
+      "A They always contain oxygenated blood.",
+      "B They have many valves on their inner walls.",
+      "C They have a wide lumen.",
+      "D They transport blood away from the heart."
+    ]
+  },
+  {
+    "id": 8,
+    "subject": "Bio",
+    "question": "Which row shows the most likely composition for human inspired and expired air? (Order: CO2%, O2%, Water Vapour%)",
+    "options": [
+      "A Inspired: 4, 21, 1; Expired: 0.04, 16, 1",
+      "B Inspired: 0.04, 21, 1; Expired: 4, 16, 6",
+      "C Inspired: 0.04, 16, 6; Expired: 4, 21, 1",
+      "D Inspired: 4, 16, 6; Expired: 0.04, 21, 6"
+    ]
+  },
+  {
+    "id": 9,
+    "subject": "Bio",
+    "question": "Which descriptions of food molecules before and after chemical digestion are correct?",
+    "options": [
+      "A large and insoluble -> small and soluble",
+      "B large and soluble -> small and insoluble",
+      "C small and insoluble -> large and soluble",
+      "D small and soluble -> large and insoluble"
+    ]
+  },
+  {
+    "id": 10,
+    "subject": "Bio",
+    "question": "In which situations does the secretion of adrenaline increase? 1: athlete waiting for a race; 2: zebra seeing a lion; 3: child about to fall asleep.",
+    "options": [
+      "A 1, 2 and 3",
+      "B 1 and 2 only",
+      "C 1 only",
+      "D 2 and 3 only"
+    ]
+  },
+  {
+    "id": 11,
+    "subject": "Bio",
+    "question": "The diagram shows a section through a flower with parts P, Q, and R. Which row identifies the labelled parts?",
+    "options": [
+      "A P: anther, Q: ovary, R: stigma",
+      "B P: anther, Q: stigma, R: ovary",
+      "C P: stamen, Q: carpel, R: sepal",
+      "D P: stamen, Q: sepal, R: carpel"
+    ]
+  },
+  {
+    "id": 12,
+    "subject": "Bio",
+    "question": "The diagram shows a food chain: oak tree -> caterpillar -> robin -> hawk. Which term is correct for the hawk in this food chain?",
+    "options": [
+      "A primary consumer",
+      "B producer",
+      "C secondary consumer",
+      "D tertiary consumer"
+    ]
+  },
+  {
+    "id": 13,
+    "subject": "Bio",
+    "question": "Which processes involved in the carbon cycle release carbon dioxide into the atmosphere? 1: combustion; 2: decomposition; 3: fossilisation; 4: photosynthesis.",
+    "options": [
+      "A 1, 2 and 3",
+      "B 1 and 2 only",
+      "C 2, 3 and 4",
+      "D 3 and 4 only"
+    ]
+  },
+  {
+    "id": 14,
+    "subject": "Chem",
+    "question": "The structures of water, ethanol, and methane are shown. How many atoms are in each molecule respectively?",
+    "options": [
+      "A 2, 3, 2",
+      "B 2, 4, 5",
+      "C 3, 3, 2",
+      "D 3, 9, 5"
+    ]
+  },
+  {
+    "id": 15,
+    "subject": "Chem",
+    "question": "Which symbol equation is balanced?",
+    "options": [
+      "A H2 + Cl2 -> HCl",
+      "B Mg + 2HCl -> MgCl2 + H2",
+      "C CH4 + O2 -> CO2 + 2H2O",
+      "D Mg + O2 -> 2MgO"
+    ]
+  },
+  {
+    "id": 16,
+    "subject": "Chem",
+    "question": "Which row shows the results for the most endothermic reaction?",
+    "options": [
+      "A initial 19\u00b0C, final 29\u00b0C",
+      "B initial 20\u00b0C, final 16\u00b0C",
+      "C initial 22\u00b0C, final 17\u00b0C",
+      "D initial 22\u00b0C, final 26\u00b0C"
+    ]
+  },
+  {
+    "id": 18,
+    "subject": "Chem",
+    "question": "Which statement describes a redox reaction?",
+    "options": [
+      "A An acid reacts with a base.",
+      "B Only oxidation takes place.",
+      "C Oxygen is transferred from one substance to another.",
+      "D Two substances are both reduced."
+    ]
+  },
+  {
+    "id": 19,
+    "subject": "Chem",
+    "question": "Which solid reacts with sulfuric acid to produce a gas?",
+    "options": [
+      "A copper",
+      "B copper carbonate",
+      "C copper oxide",
+      "D copper sulfate"
+    ]
+  },
+  {
+    "id": 20,
+    "subject": "Chem",
+    "question": "Water is added to a coloured, powdered mixture. After shaking, a blue solution and a white solid are seen. What does the powder contain?",
+    "options": [
+      "A sodium chloride and copper(II) oxide",
+      "B sodium chloride and copper(II) sulfate",
+      "C barium sulfate and copper(II) oxide",
+      "D barium sulfate and copper(II) sulfate"
+    ]
+  },
+  {
+    "id": 21,
+    "subject": "Chem",
+    "question": "Which trend is shown by the elements across a complete period of the Periodic Table, from left to right?",
+    "options": [
+      "A metals -> non-metals",
+      "B metals -> non-metals -> metals",
+      "C non-metals -> metals",
+      "D non-metals -> metals -> non-metals"
+    ]
+  },
+  {
+    "id": 22,
+    "subject": "Chem",
+    "question": "Which row describes a noble gas?",
+    "options": [
+      "A diatomic, high reactivity",
+      "B diatomic, low reactivity",
+      "C monatomic, high reactivity",
+      "D monatomic, low reactivity"
+    ]
+  },
+  {
+    "id": 23,
+    "subject": "Chem",
+    "question": "Which statement about the extraction of metals is correct?",
+    "options": [
+      "A Aluminium is extracted from aluminium oxide by heating with carbon.",
+      "B Aluminium is less reactive than copper so it is extracted by electrolysis.",
+      "C Carbon can be used to remove oxygen from copper(II) oxide.",
+      "D Copper is extracted from the ore bauxite."
+    ]
+  },
+  {
+    "id": 24,
+    "subject": "Chem",
+    "question": "Which colour change is seen when water is added to anhydrous cobalt(II) chloride?",
+    "options": [
+      "A white to blue",
+      "B pink to blue",
+      "C blue to white",
+      "D blue to pink"
+    ]
+  },
+  {
+    "id": 25,
+    "subject": "Chem",
+    "question": "Which statements about air pollutants are correct? 1: SO2 can damage buildings; 2: Nitrogen oxides are harmful; 3: CO is poisonous; 4: CO can damage buildings.",
+    "options": [
+      "A 1, 2 and 3",
+      "B 1 and 2 only",
+      "C 2, 3 and 4",
+      "D 3 and 4 only"
+    ]
+  },
+  {
+    "id": 26,
+    "subject": "Chem",
+    "question": "Ethane is a hydrocarbon. What are the products of the complete combustion of ethane?",
+    "options": [
+      "A carbon dioxide and hydrogen",
+      "B carbon dioxide and water",
+      "C carbon monoxide and hydrogen",
+      "D carbon monoxide and water"
+    ]
+  },
+  {
+    "id": 27,
+    "subject": "Chem",
+    "question": "What is produced by cracking?",
+    "options": [
+      "A alkenes",
+      "B fractions",
+      "C naphtha",
+      "D polymers"
+    ]
+  },
+  {
+    "id": 29,
+    "subject": "Phys",
+    "question": "A feather is falling through the air. Air resistance acts on the feather. In which unit is air resistance measured?",
+    "options": [
+      "A \u03a9",
+      "B kg",
+      "C m/s",
+      "D N"
+    ]
+  },
+  {
+    "id": 30,
+    "subject": "Phys",
+    "question": "A solid object has a mass of 350g and a volume of 500cm3. On which liquids (Diesel 0.86 g/cm3, Ethanol 0.79 g/cm3, Petrol 0.68 g/cm3) does the solid object float?",
+    "options": [
+      "A diesel and ethanol only",
+      "B diesel and petrol only",
+      "C ethanol and petrol only",
+      "D diesel, ethanol and petrol"
+    ]
+  },
+  {
+    "id": 31,
+    "subject": "Phys",
+    "question": "Which object has a resultant force acting on it?",
+    "options": [
+      "A a book at rest on a table",
+      "B a car travelling up a hill in a straight line at constant speed",
+      "C a football moving upwards freely after being kicked",
+      "D a parachutist descending vertically at constant speed"
+    ]
+  },
+  {
+    "id": 32,
+    "subject": "Phys",
+    "question": "An object is falling in a vacuum through points P, Q, and R. Which statement describes the total quantity of energy of the object as it falls?",
+    "options": [
+      "A It is greatest at point P.",
+      "B It is greatest at point Q.",
+      "C It is greatest at point R.",
+      "D It is the same at points P, Q and R."
+    ]
+  },
+  {
+    "id": 33,
+    "subject": "Phys",
+    "question": "Which statement explains why wind energy is called a renewable source of energy?",
+    "options": [
+      "A It is continuously replaced from natural sources.",
+      "B It does not cause pollution.",
+      "C It is only available at certain times.",
+      "D It provides a large quantity of energy."
+    ]
+  },
+  {
+    "id": 34,
+    "subject": "Phys",
+    "question": "A girl pours hot water into a thick glass beaker. There is a noticeable delay before she feels the thermal energy. Why?",
+    "options": [
+      "A Glass is a bad thermal conductor.",
+      "B Glass is a good thermal conductor.",
+      "C Water is a bad thermal conductor.",
+      "D Water is a good thermal conductor."
+    ]
+  },
+  {
+    "id": 35,
+    "subject": "Phys",
+    "question": "In which states of matter can convection occur?",
+    "options": [
+      "A no (solid), no (liquid), yes (gas)",
+      "B no (solid), yes (liquid), yes (gas)",
+      "C yes (solid), no (liquid), no (gas)",
+      "D yes (solid), yes (liquid), no (gas)"
+    ]
+  },
+  {
+    "id": 37,
+    "subject": "Phys",
+    "question": "The diagram shows the lowest frequency of sound heard by animals (Whales: 7Hz, Elephants: 15Hz, Cows: 25Hz). Which labelled position shows the lowest frequency that can be heard by humans with healthy ears?",
+    "options": [
+      "A Whales (7 Hz)",
+      "B Elephants (15 Hz)",
+      "C Cows (25 Hz)",
+      "D (Position at 20 Hz, not listed in values)"
+    ]
+  },
+  {
+    "id": 38,
+    "subject": "Phys",
+    "question": "A positively charged rod is moved close to a suspended charged sphere. The sphere is deflected away from the rod. What is the charge on the sphere and why?",
+    "options": [
+      "A negative; like charges repel",
+      "B negative; unlike charges repel",
+      "C positive; like charges repel",
+      "D positive; unlike charges repel"
+    ]
+  },
+  {
+    "id": 40,
+    "subject": "Phys",
+    "question": "A computer current increases to 3.1A then decreases to 1.0A. The cable can carry 10.0A. Which fuse rating is used?",
+    "options": [
+      "A 1A",
+      "B 3A",
+      "C 5A",
+      "D 13A"
+    ]
+  }
+]

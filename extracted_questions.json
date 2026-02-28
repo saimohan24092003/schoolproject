@@ -1,0 +1,522 @@
+[
+  {
+    "id": 1,
+    "subject": "Biology",
+    "topic": "Enzymes",
+    "question": "The graph shows the effect of temperature on the rate of an enzyme-controlled reaction. Where on the graph has all the enzyme been denatured?",
+    "options": [
+      "A: 1",
+      "B: 2 and 3",
+      "C: 3 and 4",
+      "D: 5"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 2,
+    "subject": "Biology",
+    "topic": "Plant Physiology",
+    "question": "Which statement describes nutrition and respiration in plants?",
+    "options": [
+      "A: Plants respire only when they are not undergoing nutrition.",
+      "B: Plants respire using a process called photosynthesis.",
+      "C: Plants undergo nutrition and respiration at the same time.",
+      "D: Plants undergo nutrition only when they are not respiring."
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 3,
+    "subject": "Biology",
+    "topic": "Cell Structure",
+    "question": "A careless student has two microscope slides, one of animal cells and one of plant cells. He has lost the labels saying which slide is which. Which feature in the cells that he can see through the microscope tells him that he is looking at the plant cells?",
+    "options": [
+      "A: cells all surrounded by membranes",
+      "B: cytoplasm with granules in it",
+      "C: green dots visible inside the cells",
+      "D: many cells with a noticeable dark dot inside them"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 4,
+    "subject": "Biology",
+    "topic": "Biological Molecules",
+    "question": "A sample of food is tested with Benedict\u2019s solution, biuret solution and iodine solution. The results are shown in the table. Which substances are present in the food sample tested?",
+    "options": [
+      "A: protein, reducing sugar, starch (all present)",
+      "B: protein and reducing sugar present, starch absent",
+      "C: protein and starch present, reducing sugar absent",
+      "D: starch and reducing sugar present, protein absent"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 5,
+    "subject": "Biology",
+    "topic": "Digestion",
+    "question": "Which chemical is produced from digestion of a fat?",
+    "options": [
+      "A: amino acid",
+      "B: glycerol",
+      "C: glycogen",
+      "D: sugar"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 6,
+    "subject": "Biology",
+    "topic": "Transpiration",
+    "question": "Which graph shows how atmospheric humidity affects the rate of transpiration of a green plant?",
+    "options": [
+      "A: Graph showing positive correlation",
+      "B: Graph showing rate constant at zero then increasing",
+      "C: Graph showing negative correlation",
+      "D: Graph showing rate increasing then leveling off"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 7,
+    "subject": "Biology",
+    "topic": "Transport in Humans",
+    "question": "The drawing shows some blood, as it appears under the microscope. Which part carries glucose to muscles?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 8,
+    "subject": "Biology",
+    "topic": "Gas Exchange",
+    "question": "The diagram shows some structures in the human thorax (chest). Into which part does carbon dioxide pass immediately after leaving the blood?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 9,
+    "subject": "Biology",
+    "topic": "Plant Responses",
+    "question": "Which row describes the stimulus and response in a plant process?",
+    "options": [
+      "A: geotropism | gravity | root grows down",
+      "B: geotropism | light | shoot grows up",
+      "C: phototropism | gravity | shoot grows down",
+      "D: phototropism | light | root grows up"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 10,
+    "subject": "Biology",
+    "topic": "Hormones",
+    "question": "Which row is correct for the hormone adrenaline?",
+    "options": [
+      "A: effect on blood glucose: lowered | effect on pulse: decreased | destroyed in: kidney",
+      "B: effect on blood glucose: lowered | effect on pulse: decreased | destroyed in: liver",
+      "C: effect on blood glucose: raised | effect on pulse: increased | destroyed in: kidney",
+      "D: effect on blood glucose: raised | effect on pulse: increased | destroyed in: liver"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 11,
+    "subject": "Biology",
+    "topic": "Plant Reproduction",
+    "question": "Which structure in a flower produces pollen?",
+    "options": [
+      "A: sepal",
+      "B: stamen",
+      "C: stigma",
+      "D: style"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 12,
+    "subject": "Biology",
+    "topic": "Human Reproduction",
+    "question": "Where in the female human reproductive system is the hormone oestrogen produced?",
+    "options": [
+      "A: cervix",
+      "B: ovary",
+      "C: uterus",
+      "D: vagina"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 13,
+    "subject": "Biology",
+    "topic": "Ecology",
+    "question": "Fresh sewage runs into a river. Why does this reduce the fish population in the river?",
+    "options": [
+      "A: It brings organisms that feed on fish.",
+      "B: It carries bacteria that reduce oxygen concentration.",
+      "C: It decreases the growth of algae.",
+      "D: It makes the water too cloudy for fish to see."
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 14,
+    "subject": "Chemistry",
+    "topic": "Atoms and Molecules",
+    "question": "Which statement about atoms and molecules is correct?",
+    "options": [
+      "A: Atoms gain or lose electrons to become molecules.",
+      "B: Atoms of the same element contain the same number of molecules.",
+      "C: Molecules are the simplest unit of an atom.",
+      "D: Molecules contain atoms which are covalently bonded."
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 15,
+    "subject": "Chemistry",
+    "topic": "Acids and Bases",
+    "question": "In an experiment, a mixture of 0.5g of copper and 3g of zinc is added to an excess of dilute sulfuric acid. The copper acts as a catalyst. After all the zinc has dissolved, the resulting mixture is filtered. What is solid X and what is its mass?",
+    "options": [
+      "A: copper | less than 0.5g",
+      "B: copper | 0.5g",
+      "C: copper(II) oxide | 0.5g",
+      "D: copper(II) oxide | greater than 0.5g"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 16,
+    "subject": "Chemistry",
+    "topic": "Atomic Structure",
+    "question": "Element Y has a proton number of 18 and a nucleon number of 40. Which statements about element Y are correct? 1. It has 40 neutrons. 2. It has 22 electrons. 3. It is unreactive. 4. It is in Group 0.",
+    "options": [
+      "A: 1 and 2",
+      "B: 2 and 3",
+      "C: 2 and 4",
+      "D: 3 and 4"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 17,
+    "subject": "Chemistry",
+    "topic": "Organic Chemistry",
+    "question": "The structure of a compound is shown (C3H8O3 arrangement). What is the formula of this compound?",
+    "options": [
+      "A: C3H5O3",
+      "B: C3H6O3",
+      "C: C3H8O3",
+      "D: C3H8O3"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 18,
+    "subject": "Chemistry",
+    "topic": "Electrolysis",
+    "question": "The apparatus shown is set up for the electrolysis of solid lead(II) bromide. The crucible needs to be heated for the lamp to give out light. Why is heat needed?",
+    "options": [
+      "A: An exothermic reaction takes place in the crucible.",
+      "B: Electrodes only conduct electricity when hot.",
+      "C: Heat causes the lead(II) bromide to react with air.",
+      "D: The lead(II) bromide must be molten."
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 19,
+    "subject": "Chemistry",
+    "topic": "Chemical Reactions",
+    "question": "The diagram shows a platinum wire being used to catalyse the reaction between hydrogen and oxygen. An explosive squeak is heard. Which statement is correct?",
+    "options": [
+      "A: An acidic gas is formed.",
+      "B: Energy is released.",
+      "C: Hydrogen is reduced.",
+      "D: Platinum is oxidised."
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 20,
+    "subject": "Chemistry",
+    "topic": "Redox Reactions",
+    "question": "Magnesium reacts with steam to form magnesium oxide and hydrogen gas. Mg + H2O \u2192 MgO + H2. Which statement is correct?",
+    "options": [
+      "A: Hydrogen gas is reduced.",
+      "B: Magnesium is oxidised.",
+      "C: Magnesium is reduced.",
+      "D: Water is oxidised."
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 21,
+    "subject": "Chemistry",
+    "topic": "Qualitative Analysis",
+    "question": "Compound X reacts with dilute nitric acid to give a colourless gas which turns limewater milky. A solution of compound X reacts with sodium hydroxide solution to form a pale blue precipitate. What is X?",
+    "options": [
+      "A: copper(II) carbonate",
+      "B: copper(II) chloride",
+      "C: iron(II) carbonate",
+      "D: iron(II) chloride"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 22,
+    "subject": "Chemistry",
+    "topic": "Acids and Bases",
+    "question": "A substance reacts with dilute acid, producing a gas. The gas ignites with a pop when tested with a lighted splint. What is the substance?",
+    "options": [
+      "A: copper",
+      "B: copper(II) oxide",
+      "C: magnesium",
+      "D: magnesium carbonate"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 23,
+    "subject": "Chemistry",
+    "topic": "Periodic Table",
+    "question": "The positions of four elements are shown in the outline of the Periodic Table. Which element has a high melting point and forms coloured compounds?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 24,
+    "subject": "Chemistry",
+    "topic": "Periodic Table",
+    "question": "Chlorine, bromine and iodine are elements in Group VII of the Periodic Table. Which trend is observed going down Group VII?",
+    "options": [
+      "A: Each element has the same physical state.",
+      "B: The colour of the element becomes lighter.",
+      "C: The reactivity of the element decreases.",
+      "D: The state of the element changes from solid to liquid to gas."
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 25,
+    "subject": "Chemistry",
+    "topic": "Reactivity Series",
+    "question": "Which element is less reactive than hydrogen?",
+    "options": [
+      "A: copper",
+      "B: iron",
+      "C: magnesium",
+      "D: zinc"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 26,
+    "subject": "Chemistry",
+    "topic": "Air and Water",
+    "question": "What are the approximate percentages by volume of nitrogen and oxygen in clean air?",
+    "options": [
+      "A: nitrogen 1, oxygen 99",
+      "B: nitrogen 20, oxygen 80",
+      "C: nitrogen 80, oxygen 20",
+      "D: nitrogen 99, oxygen 1"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 27,
+    "subject": "Chemistry",
+    "topic": "Organic Chemistry",
+    "question": "Petroleum is a mixture of hydrocarbons. Which method is used to separate these hydrocarbons?",
+    "options": [
+      "A: crystallisation",
+      "B: distillation",
+      "C: filtration",
+      "D: fractional distillation"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 28,
+    "subject": "Physics",
+    "topic": "Motion",
+    "question": "A car is moving downhill along a road at a constant speed. Which graph is the speed/time graph for the car?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 29,
+    "subject": "Physics",
+    "topic": "Mass and Weight",
+    "question": "Which statement about mass and weight is correct?",
+    "options": [
+      "A: Mass and weight are both forces.",
+      "B: Mass is a force and weight is not.",
+      "C: Neither mass nor weight is a force.",
+      "D: Weight is a force and mass is not."
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 30,
+    "subject": "Physics",
+    "topic": "Density",
+    "question": "An object has a mass of 75g and a volume of 15cm3. What is its density?",
+    "options": [
+      "A: 0.20g/cm3",
+      "B: 5.0g/cm3",
+      "C: 60g/cm3",
+      "D: 90g/cm3"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 31,
+    "subject": "Physics",
+    "topic": "Work and Power",
+    "question": "What is the unit for work and what is the unit for power?",
+    "options": [
+      "A: work J, power N",
+      "B: work J, power W",
+      "C: work N, power W",
+      "D: work W, power J"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 32,
+    "subject": "Physics",
+    "topic": "Energy",
+    "question": "Which energy change takes place when a block of wood slows down as it slides across a rough horizontal table?",
+    "options": [
+      "A: chemical energy to kinetic energy",
+      "B: gravitational energy to kinetic energy",
+      "C: gravitational energy to thermal energy",
+      "D: kinetic energy to thermal energy"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 33,
+    "subject": "Physics",
+    "topic": "Thermal Physics",
+    "question": "A beaker of water is at room temperature. Some of the water changes from a liquid into a gas. As a result, the temperature of the remaining water changes. What is the name for this change of state and how does the temperature change?",
+    "options": [
+      "A: condensation | decreases",
+      "B: condensation | increases",
+      "C: evaporation | decreases",
+      "D: evaporation | increases"
+    ],
+    "has_diagram": false
+  },
+  {
+    "id": 34,
+    "subject": "Physics",
+    "topic": "Thermal Expansion",
+    "question": "Concrete roads are laid in sections and the gaps between sections are filled with soft tar. Why is this done?",
+    "options": [
+      "A: to allow for expansion and contraction of the concrete",
+      "B: to allow the tar to radiate heat from the road",
+      "C: to increase the density of the concrete used",
+      "D: to reduce the mass of concrete used"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 35,
+    "subject": "Physics",
+    "topic": "Thermal Energy Transfer",
+    "question": "Thermometer X is held above an ice cube and thermometer Y is held an equal distance below the ice cube. After several minutes, the reading on one thermometer changes. The ice cube has not melted. The reading of which thermometer changes, and why?",
+    "options": [
+      "A: X | cool air rises from the ice cube",
+      "B: X | warm air rises from the ice cube",
+      "C: Y | cool air falls from the ice cube",
+      "D: Y | warm air falls from the ice cube"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 36,
+    "subject": "Physics",
+    "topic": "Light",
+    "question": "The diagram shows the path of a ray of light passing through a principal focus of a lens. Which labelled line shows the direction of the ray after it leaves the lens?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 37,
+    "subject": "Physics",
+    "topic": "Sound",
+    "question": "A student measures the speed of sound. He claps his hands and the sound reflects from a wall which is 100m away from him. An electronic timer detects the echo 0.60s after it is made. Which calculation should the student use to determine the speed of sound?",
+    "options": [
+      "A: 100 / 0.60",
+      "B: 100 / 1.2",
+      "C: 200 / 0.30",
+      "D: 200 / 0.60"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 38,
+    "subject": "Physics",
+    "topic": "Electricity",
+    "question": "A negative ion X is close to a positive ion and another negative ion. Electrical forces act on ion X because of the charges in the other two ions. Which diagram shows the directions of the two forces acting on ion X?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 39,
+    "subject": "Physics",
+    "topic": "Electricity",
+    "question": "The circuit diagram includes two resistors connected in parallel. Which statement is correct?",
+    "options": [
+      "A: The current in wire P is equal to the current in wire Q.",
+      "B: The current in wire P is greater than the current in wire R.",
+      "C: The current in wire Q is greater than the current in wire S.",
+      "D: The current in wire R is equal to the current in wire S."
+    ],
+    "has_diagram": true
+  },
+  {
+    "id": 40,
+    "subject": "Physics",
+    "topic": "Electricity",
+    "question": "Two identical lamps P and Q are connected in a circuit as shown in the diagram. The circuit is now switched on. Which statement is correct?",
+    "options": [
+      "A: Each lamp can be switched off independently.",
+      "B: If lamp Q breaks, lamp P stays alight.",
+      "C: Lamp P is brighter than lamp Q.",
+      "D: The current is the same in both lamps."
+    ],
+    "has_diagram": true
+  }
+]

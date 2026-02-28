@@ -1,0 +1,134 @@
+{
+  "B1. Characteristics of living organisms": {
+    "frequency": 18.5,
+    "priority": "HIGH"
+  },
+  "B2. Cells": {
+    "frequency": 44.5,
+    "priority": "HIGH"
+  },
+  "B3. Biological molecules": {
+    "frequency": 17.5,
+    "priority": "HIGH"
+  },
+  "B4. Enzymes": {
+    "frequency": 39.5,
+    "priority": "HIGH"
+  },
+  "B5. Plant nutrition": {
+    "frequency": 23.5,
+    "priority": "HIGH"
+  },
+  "B6. Animal nutrition": {
+    "frequency": 56.0,
+    "priority": "HIGH"
+  },
+  "B7. Transport": {
+    "frequency": 44.5,
+    "priority": "HIGH"
+  },
+  "B8. Gas exchange and respiration": {
+    "frequency": 39.5,
+    "priority": "HIGH"
+  },
+  "B9. Coordination and response": {
+    "frequency": 41.5,
+    "priority": "HIGH"
+  },
+  "B10. Reproduction": {
+    "frequency": 73.0,
+    "priority": "HIGH"
+  },
+  "B12. Ecology": {
+    "frequency": 62.0,
+    "priority": "HIGH"
+  },
+  "C3. Atoms, elements and compounds": {
+    "frequency": 69.5,
+    "priority": "HIGH"
+  },
+  "C4. Stoichiometry": {
+    "frequency": 11.5,
+    "priority": "MEDIUM"
+  },
+  "C6. Energy changes in reactions": {
+    "frequency": 23.0,
+    "priority": "HIGH"
+  },
+  "C7. Chemical reactions": {
+    "frequency": 63.0,
+    "priority": "HIGH"
+  },
+  "C8. Acids, bases and salts": {
+    "frequency": 22.0,
+    "priority": "HIGH"
+  },
+  "C9. The Periodic Table": {
+    "frequency": 50.5,
+    "priority": "HIGH"
+  },
+  "C10. Metals": {
+    "frequency": 46.5,
+    "priority": "HIGH"
+  },
+  "C11. Air and water": {
+    "frequency": 45.0,
+    "priority": "HIGH"
+  },
+  "C12. Organic chemistry": {
+    "frequency": 64.0,
+    "priority": "HIGH"
+  },
+  "P1. Motion, forces and energy": {
+    "frequency": 156.5,
+    "priority": "HIGH"
+  },
+  "P2. Thermal physics": {
+    "frequency": 65.5,
+    "priority": "HIGH"
+  },
+  "P3. Waves": {
+    "frequency": 94.0,
+    "priority": "HIGH"
+  },
+  "P4. Electricity and magnetism": {
+    "frequency": 109.0,
+    "priority": "HIGH"
+  },
+  "C5. Electricity and chemistry": {
+    "frequency": 31.0,
+    "priority": "HIGH"
+  },
+  "C1. Particulate nature of matter": {
+    "frequency": 28.0,
+    "priority": "HIGH"
+  },
+  "C2. Experimental techniques": {
+    "frequency": 46.5,
+    "priority": "HIGH"
+  },
+  "P6. Space physics": {
+    "frequency": 5.0,
+    "priority": "MEDIUM"
+  },
+  "1.1 Rocks and minerals": {
+    "frequency": 25.5,
+    "priority": "HIGH"
+  },
+  "1.2 Energy resources": {
+    "frequency": 32.0,
+    "priority": "HIGH"
+  },
+  "2.1 Agriculture": {
+    "frequency": 28.5,
+    "priority": "HIGH"
+  },
+  "3.2 Natural hazards": {
+    "frequency": 45.0,
+    "priority": "HIGH"
+  },
+  "4.1 The atmosphere": {
+    "frequency": 38.0,
+    "priority": "HIGH"
+  }
+}

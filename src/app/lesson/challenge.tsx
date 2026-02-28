@@ -9,6 +9,7 @@ type ChallengeProps = {
   status: "correct" | "wrong" | "none";
   disabled?: boolean;
   selectedOption?: number;
+  correctOptionId?: number;
   type: (typeof challenges.$inferSelect)["type"];
 };
 
@@ -18,15 +19,12 @@ const Challenge = ({
   status,
   disabled,
   selectedOption,
+  correctOptionId,
   type,
 }: ChallengeProps) => {
   return (
     <div
-      className={cn("grid gap-2", {
-        "grid-cols-1": type === "ASSIST",
-        "grid-cols-2 md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]":
-          type === "SELECT",
-      })}
+      className={cn("flex flex-col gap-y-3 w-full")}
     >
       {options.map((option, i) => (
         <Card
@@ -39,6 +37,7 @@ const Challenge = ({
           status={status}
           audioSrc={option.audioSrc}
           disabled={disabled}
+          isCorrectOption={option.id === correctOptionId}
           type={type}
         />
       ))}

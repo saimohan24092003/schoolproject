@@ -1,0 +1,41 @@
+{
+  "Biology": [
+    "B1. Characteristics of living organisms",
+    "B2. Cells",
+    "B3. Movement into and out of cells",
+    "B4. Biological molecules",
+    "B5. Enzymes",
+    "B6. Plant nutrition",
+    "B7. Human nutrition",
+    "B8. Transport in plants",
+    "B9. Transport in animals",
+    "B10. Diseases and immunity",
+    "B11. Gas exchange in humans",
+    "B12. Respiration",
+    "B13. Drugs",
+    "B14. Reproduction",
+    "B15. Organisms and their environment",
+    "B16. Human influences on ecosystems"
+  ],
+  "Chemistry": [
+    "C1. States of matter",
+    "C2. Atoms, elements and compounds",
+    "C3. Stoichiometry",
+    "C4. Electrochemistry",
+    "C5. Chemical energetics",
+    "C6. Chemical reactions",
+    "C7. Acids, bases and salts",
+    "C8. The Periodic Table",
+    "C9. Metals",
+    "C10. Chemistry of the environment",
+    "C11. Organic chemistry",
+    "C12. Experimental techniques and chemical analysis"
+  ],
+  "Physics": [
+    "P1. Motion, forces and energy",
+    "P2. Thermal physics",
+    "P3. Waves",
+    "P4. Electricity",
+    "P5. Space physics"
+  ]
+}

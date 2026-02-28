@@ -1,0 +1,31 @@
+{
+  "policyVersion": "2026-02-28-manual-v1",
+  "notes": "Only papers in approved year ranges should be shown as syllabus-aligned. Update this file when syllabus changes are verified.",
+  "subjects": {
+    "0653": {
+      "subjectName": "Combined Science",
+      "approvedYearMin": 2015,
+      "approvedYearMax": 2025,
+      "approvedSessions": ["m", "s", "w"]
+    },
+    "0680": {
+      "subjectName": "Environmental Management",
+      "approvedYearMin": 2015,
+      "approvedYearMax": 2029,
+      "approvedSessions": ["m", "s", "w"],
+      "syllabusUrl": "https://www.cambridgeinternational.org/Images/718156-2027-2029-syllabus.pdf"
+    },
+    "0580": {
+      "subjectName": "Mathematics",
+      "approvedYearMin": 2015,
+      "approvedYearMax": 2025,
+      "approvedSessions": ["m", "s", "w"]
+    },
+    "0500": {
+      "subjectName": "First Language English",
+      "approvedYearMin": 2015,
+      "approvedYearMax": 2025,
+      "approvedSessions": ["m", "s", "w"]
+    }
+  }
+}

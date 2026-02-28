@@ -1,94 +1,74 @@
 import { redirect } from "next/navigation";
 
 import {
-  FeedWrapper,
-  StickyWrapper,
-  UserProgress,
-  Promo,
-  Quests,
-} from "@/components";
-
-import {
   getCourseProgress,
   getLessonPercentage,
   getUnits,
   getUserProgress,
-  getUserSubscription,
+  getUserSubscription
 } from "@/server/db/queries";
 
-import Unit from "./unit";
 import Header from "./header";
+import Unit from "./unit";
+import StickyWrapper from "@/components/StickyWrapper";
+import FeedWrapper from "@/components/FeedWrapper";
+import UserProgress from "@/components/UserProgress";
+import Quests from "@/components/Quests";
+import Promo from "@/components/Promo";
 
 const LearnPage = async () => {
-  const unitsData = getUnits();
   const userProgressData = getUserProgress();
   const courseProgressData = getCourseProgress();
   const lessonPercentageData = getLessonPercentage();
+  const unitsData = getUnits();
   const userSubscriptionData = getUserSubscription();
 
   const [
-    units,
     userProgress,
     courseProgress,
     lessonPercentage,
+    units,
     userSubscription,
   ] = await Promise.all([
-    unitsData,
     userProgressData,
     courseProgressData,
     lessonPercentageData,
+    unitsData,
     userSubscriptionData,
   ]);
 
-  if (!userProgress || !userProgress.activeCourse) {
-    redirect("/courses");
+  if (!userProgress || !userProgress.activeCourseId || !userProgress.activeCourse) {
+    redirect("/dashboard");
   }
 
   if (!courseProgress) {
-    redirect("/courses");
+    redirect("/dashboard");
   }
 
   const isPro = !!userSubscription?.isActive;
 
   return (
-    <div className="flex flex-col md:flex-row md:gap-4 lg:gap-[48px] px-6">
-      <div className="md:hidden border-b-2 py-3">
+    <div className="flex flex-row-reverse gap-[48px] px-6">
+      <StickyWrapper>
         <UserProgress
           activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
           points={userProgress.points}
-          hasActiveSubscription={isPro}
         />
-      </div>
+      </StickyWrapper>
 
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />
-
-        {units.map((unit, i) => (
-          <div key={i} className="mb-10 pt-6">
+        {units.map((unit) => (
+          <div key={unit.id} className="mb-10">
             <Unit
               id={unit.id}
-              title={unit.title}
               description={unit.description}
+              title={unit.title}
               lessons={unit.lessons}
-              activeLesson={courseProgress.activeLesson}
-              activeLessonPercentage={lessonPercentage}
             />
           </div>
         ))}
       </FeedWrapper>
-
-      <StickyWrapper className="mt-6">
-        <UserProgress
-          activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
-          points={userProgress.points}
-          hasActiveSubscription={isPro}
-        />
-
-        {!isPro && <Promo />}
-        <Quests points={userProgress.points} />
-      </StickyWrapper>
     </div>
   );
 };
