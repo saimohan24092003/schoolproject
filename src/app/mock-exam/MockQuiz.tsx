@@ -187,7 +187,7 @@ const MockQuiz = ({ initialQuestions, timeLimit, title, subject, questionType }:
     } finally {
       setIsPending(false);
     }
-  }, [activeIndex, answers, calculateScore, handwrittenByQuestion, initialQuestions, isPending, isSubmitted, isTheory, subject]);
+  }, [answers, calculateScore, handwrittenByQuestion, initialQuestions, isPending, isSubmitted, isTheory, subject]);
 
   useEffect(() => {
     if (isSubmitted || timeLeft <= 0) return;

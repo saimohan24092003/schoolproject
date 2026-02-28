@@ -230,6 +230,7 @@ export function QuestionResources({ question, className = "" }: Props) {
           <span className="absolute top-3 left-3 z-10 rounded-full bg-blue-600 text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest">
             Figure {i + 1}
           </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
             alt={`Question resource ${i + 1}`}

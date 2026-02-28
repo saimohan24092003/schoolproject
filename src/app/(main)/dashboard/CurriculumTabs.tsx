@@ -151,7 +151,7 @@ export const CurriculumTabs = ({ units, topicAnalysis }: Props) => {
             <div className="text-5xl">🔭</div>
             <div>
               <p className="text-gray-900 font-black text-lg">Content Coming Soon</p>
-              <p className="text-gray-500 text-sm">We're currently preparing materials for this section.</p>
+              <p className="text-gray-500 text-sm">We&apos;re currently preparing materials for this section.</p>
             </div>
           </div>
         )}

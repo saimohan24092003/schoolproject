@@ -56,12 +56,12 @@ function buildManifestLookup(): Map<string, string> {
       if (!grouped.has(key)) grouped.set(key, []);
       grouped.get(key)!.push(e);
     }
-    for (const [key, group] of grouped) {
+    grouped.forEach((group, key) => {
       // Prefer the entry without _iN suffix (primary diagram) when multiple exist
       const primary = group.find((e) => e.filename && !/_i\d+\.png$/.test(e.filename));
       const chosen = primary ?? group[0];
       if (chosen?.filename) lookup.set(key, chosen.filename);
-    }
+    });
     console.log(`🗺️  Manifest lookup: ${lookup.size} question→diagram mappings`);
   } catch {
     console.warn("⚠️  Could not load diagram_manifest.json — skipping manifest lookup");

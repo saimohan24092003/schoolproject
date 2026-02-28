@@ -35,7 +35,24 @@ const originalLookup = dns.lookup.bind(dns);
   }
 };
 
-const connector = neon(process.env.DATABASE_URL as string);
-const db = drizzle(connector, { schema });
+// Lazy DB initialisation — deferred until first use so that the module can be
+// imported at build time (when DATABASE_URL is not available) without crashing.
+type DrizzleDB = ReturnType<typeof drizzle<typeof schema>>;
+
+let _db: DrizzleDB | undefined;
+
+function getDb(): DrizzleDB {
+  if (!_db) {
+    const connector = neon(process.env.DATABASE_URL as string);
+    _db = drizzle(connector, { schema });
+  }
+  return _db;
+}
+
+const db = new Proxy({} as DrizzleDB, {
+  get(_target, prop) {
+    return (getDb() as any)[prop];
+  },
+});
 
 export default db;

@@ -19,7 +19,7 @@ const MockExamPage = async () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 className="text-2xl font-bold mb-2">Failed to generate mock exam</h1>
-        <p className="text-gray-500 mb-6">We couldn't find enough questions for <strong>{subject}</strong> right now.</p>
+        <p className="text-gray-500 mb-6">We couldn&apos;t find enough questions for <strong>{subject}</strong> right now.</p>
         <a href="/dashboard" className="text-blue-600 font-bold hover:underline">Back to Dashboard</a>
       </div>
     );

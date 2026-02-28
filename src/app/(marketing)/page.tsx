@@ -15,8 +15,8 @@ import {
 export default function HomePage() {
   return (
     <div className="mx-auto flex flex-1 flex-col w-full max-w-screen-lg items-center justify-center gap-2 px-6 py-4 lg:flex-row">
-      <div className="relative mb-8 h-[240px] w-[240px] lg:mb-0 lg:h-[424px] lg:w-[424px]">
-        <Image fill src="/hero.svg" alt="O-Level Exam Prep" />
+      <div className="relative mb-8 h-[240px] w-[240px] lg:mb-0 lg:h-[424px] lg:w-[424px] overflow-hidden shrink-0">
+        <Image fill src="/hero.svg" alt="O-Level Exam Prep" className="object-contain" />
       </div>
 
       <div className="flex flex-col items-center gap-y-8">

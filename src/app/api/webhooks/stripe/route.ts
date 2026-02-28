@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Stripe from "stripe";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
