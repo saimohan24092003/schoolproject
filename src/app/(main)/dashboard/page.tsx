@@ -190,7 +190,7 @@ const DashboardPage = async ({ searchParams }: DashboardProps) => {
                         <p className="text-gray-400 font-medium">Practice specific chapters and learn from every mistake with instant hints.</p>
                     </div>
                     <Button variant="secondary" size="lg" className="font-black rounded-2xl px-10 h-14 bg-blue-600 hover:bg-blue-700 border-none text-white shadow-lg shadow-blue-900/20" asChild>
-                        <Link href="/learn/smart-practice">Enter Smart Practice →</Link>
+                        <Link href={`/learn/smart-practice?subject=${selectedSubjectCode}`}>Enter Smart Practice →</Link>
                     </Button>
                 </div>
             </div>

@@ -4,14 +4,23 @@ import { getUserProgress, getCourses } from "@/server/db/queries";
 import { generateMockExam } from "@/server/actions/smart-practice";
 import MockQuiz from "./MockQuiz";
 
-const MockExamPage = async () => {
+interface Props {
+  searchParams: { subject?: string };
+}
+
+const MockExamPage = async ({ searchParams }: Props) => {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
 
   const userProgress = await getUserProgress();
   const allCourses = await getCourses();
   const activeCourse = allCourses.find(c => c.id === userProgress?.activeCourseId);
-  const subject = activeCourse?.title || "Combined Science (0653)";
+
+  // URL param overrides DB activeCourseId (so subject selector on dashboard works instantly)
+  const subjectOverride = searchParams.subject
+    ? allCourses.find(c => c.title.includes(searchParams.subject!))?.title
+    : undefined;
+  const subject = subjectOverride ?? activeCourse?.title ?? "Combined Science (0653)";
 
   const mockExam = await generateMockExam(subject);
 

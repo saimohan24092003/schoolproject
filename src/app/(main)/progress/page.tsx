@@ -1,3 +1,4 @@
+
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import * as fs from "fs";
@@ -98,7 +99,7 @@ const ProgressPage = async () => {
             )}
         </div>
         <Button size="lg" className="rounded-2xl font-black h-14 px-8 bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-200 text-white" asChild>
-            <Link href="/mock-exam">Start Random Mock →</Link>
+            <Link href={`/mock-exam${activeCourse ? `?subject=${activeCourse.title.match(/\d+/)?.[0]}` : ""}`}>Start Random Mock →</Link>
         </Button>
       </div>
 
@@ -127,11 +128,11 @@ const ProgressPage = async () => {
                         <div className="w-full bg-white/10 h-4 rounded-full overflow-hidden border border-white/5 p-1">
                             <div className="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full transition-all duration-1000" style={{ width: `${averageScore}%` }}></div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4 pt-4">
-                            <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                                <p className="text-[10px] font-black text-gray-500 uppercase tracking-tighter mb-1">Consistency</p>
-                                <p className="text-xl font-black">{stats?.currentStreak || 0} Days</p>
-                            </div>
+                          <div className="grid grid-cols-2 gap-4 pt-4">
+                              <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                                  <p className="text-[10px] font-black text-gray-500 uppercase tracking-tighter mb-1">Consistency</p>
+                                  <p className="text-xl font-black">{stats?.currentStreak || 0} Days</p>
+                              </div>
                             <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
                                 <p className="text-[10px] font-black text-gray-500 uppercase tracking-tighter mb-1">Improvement</p>
                                 <p className="text-xl font-black text-green-400">+{analytics?.improvement || 0}%</p>
@@ -150,8 +151,8 @@ const ProgressPage = async () => {
                             Start your first mock exam or practice session to allow the AI to analyze your mastery level and predict your final grade.
                         </p>
                     </div>
-                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700 font-black rounded-2xl px-10" asChild>
-                        <Link href="/mock-exam">Launch Your First Mock →</Link>
+                    <Button size="lg" className="bg-white hover:bg-gray-100 text-gray-900 border border-white/20 font-black rounded-2xl px-10" asChild>
+                        <Link href={`/mock-exam${activeCourse ? `?subject=${activeCourse.title.match(/\d+/)?.[0]}` : ""}`}>Launch Your First Mock →</Link>
                     </Button>
                 </div>
             )}

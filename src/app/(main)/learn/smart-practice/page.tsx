@@ -19,7 +19,12 @@ const SmartPracticePage = async ({ searchParams }: Props) => {
   const userProgress = await getUserProgress();
   const allCourses = await getCourses();
   const activeCourse = allCourses.find((c) => c.id === userProgress?.activeCourseId);
-  const currentSubject = activeCourse?.title || "Combined Science (0653)";
+
+  // URL param overrides DB activeCourseId (so subject selector on dashboard works instantly)
+  const subjectOverride = searchParams.subject
+    ? allCourses.find((c) => c.title.includes(searchParams.subject!))?.title
+    : undefined;
+  const currentSubject = subjectOverride ?? activeCourse?.title ?? "Combined Science (0653)";
 
   // Curriculum-roadmap aligned smart-practice catalog.
   const topics = await getSmartPracticeTopicCatalog(currentSubject, "O-Level");
