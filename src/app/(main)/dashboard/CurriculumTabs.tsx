@@ -7,35 +7,54 @@ import { OFFICIAL_0653_TOPICS_2025_2027, SYLLABUS_SUBTOPICS_0653 } from "@/lib/s
 interface Props {
   units?: any[];
   topicAnalysis: Record<string, { priority: string; frequency: number }>;
+  subjectCode?: string;
 }
 
-// Static syllabus data — always available, no DB dependency
-const TABS = [
-  {
-    label: "Biology",
-    topics: OFFICIAL_0653_TOPICS_2025_2027.biology,
-  },
-  {
-    label: "Chemistry",
-    topics: OFFICIAL_0653_TOPICS_2025_2027.chemistry,
-  },
-  {
-    label: "Physics",
-    topics: OFFICIAL_0653_TOPICS_2025_2027.physics,
-  },
+// ── 0653 Combined Science ─────────────────────────────────────────────────────
+const TABS_0653 = [
+  { label: "Biology",   topics: OFFICIAL_0653_TOPICS_2025_2027.biology   },
+  { label: "Chemistry", topics: OFFICIAL_0653_TOPICS_2025_2027.chemistry },
+  { label: "Physics",   topics: OFFICIAL_0653_TOPICS_2025_2027.physics   },
 ] as const;
 
-export const CurriculumTabs = ({ topicAnalysis }: Props) => {
-  const [activeTab, setActiveTab] = useState<"Biology" | "Chemistry" | "Physics">("Biology");
+// ── 0680 Environmental Management ────────────────────────────────────────────
+const EM_SUBTOPICS: Record<string, string[]> = {
+  "1.1 Rocks and minerals":   ["Types of Rocks", "Mining Impacts", "Sustainability", "Restoration of Mine Sites"],
+  "1.2 Energy resources":     ["Fossil Fuel Impacts", "Nuclear Pros/Cons", "Renewable Efficiency", "Carbon Footprint"],
+  "2.1 Agriculture":          ["Intensive Farming", "Soil Erosion", "Pest Management", "Sustainable Irrigation"],
+  "2.2 Water management":     ["Water Treatment", "Sewage Disposal", "Desalination", "Water Scarcity Causes"],
+  "3.1 Oceans and fisheries": ["Overfishing Consequences", "Marine Pollution", "EEZ Zones", "Sustainable Yield"],
+  "3.2 Natural hazards":      ["Plate Tectonics", "Predicting Eruptions", "Tsunami Warning Systems", "Building Resilience"],
+  "4.1 The atmosphere":       ["Greenhouse Effect", "Ozone Hole", "Smog Formation", "Clean Air Legislation"],
+  "4.2 Human population":     ["Demographic Transition", "Overpopulation Impacts", "Migration Causes", "Population Pyramids"],
+};
+
+const TABS_0680 = [
+  { label: "Earth Resources",        topics: ["1.1 Rocks and minerals", "1.2 Energy resources"]         as string[] },
+  { label: "Agriculture & Water",    topics: ["2.1 Agriculture", "2.2 Water management"]                as string[] },
+  { label: "Oceans & Hazards",       topics: ["3.1 Oceans and fisheries", "3.2 Natural hazards"]        as string[] },
+  { label: "Atmosphere & Population",topics: ["4.1 The atmosphere", "4.2 Human population"]             as string[] },
+];
+
+export const CurriculumTabs = ({ topicAnalysis, subjectCode = "0653" }: Props) => {
+  const is0680 = subjectCode === "0680";
+  const tabs = is0680 ? TABS_0680 : TABS_0653;
+
+  const [activeTab, setActiveTab] = useState(tabs[0].label);
   const [selectedSubTopic, setSelectedSubTopic] = useState<string | null>(null);
 
-  const currentTab = TABS.find((t) => t.label === activeTab)!;
+  const currentTab = tabs.find((t) => t.label === activeTab) ?? tabs[0];
+
+  const getSubTopics = (topicTitle: string): string[] => {
+    if (is0680) return EM_SUBTOPICS[topicTitle] ?? [];
+    return (SYLLABUS_SUBTOPICS_0653 as Record<string, string[]>)[topicTitle] ?? [];
+  };
 
   return (
     <div className="flex flex-col gap-6">
       {/* Tab Selectors */}
-      <div className="flex p-1 bg-gray-100 rounded-2xl w-fit">
-        {TABS.map(({ label }) => (
+      <div className="flex flex-wrap p-1 bg-gray-100 rounded-2xl w-fit gap-1">
+        {tabs.map(({ label }) => (
           <button
             key={label}
             onClick={() => {
@@ -55,8 +74,8 @@ export const CurriculumTabs = ({ topicAnalysis }: Props) => {
 
       {/* Topic Cards */}
       <div className="space-y-4">
-        {currentTab.topics.map((topicTitle, idx) => {
-          const subTopics = SYLLABUS_SUBTOPICS_0653[topicTitle] ?? [];
+        {currentTab.topics.map((topicTitle) => {
+          const subTopics = getSubTopics(topicTitle);
           const analysis = topicAnalysis[topicTitle] ?? { priority: "LOW", frequency: 0 };
 
           return (
@@ -80,6 +99,11 @@ export const CurriculumTabs = ({ topicAnalysis }: Props) => {
                     >
                       {analysis.priority} PRIORITY
                     </span>
+                    {is0680 && (
+                      <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-600">
+                        Short Answer
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm text-gray-500 leading-relaxed max-w-2xl">
                     Master the fundamental concepts and principles required for this chapter.

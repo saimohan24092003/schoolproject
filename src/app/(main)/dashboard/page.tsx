@@ -77,23 +77,46 @@ const DashboardPage = async ({ searchParams }: DashboardProps) => {
     return acc;
   }, []);
 
-  // Fallback: if DB has no units, build synthetic curriculum from the official 0653 syllabus
+  // Fallback: if DB has no units, build synthetic curriculum from the official syllabus
   if (units.length === 0) {
-    const makeLessons = (topics: readonly string[], startId: number) =>
-      topics.map((title, i) => ({
-        id: startId + i,
-        title,
-        description: "",
+    if (selectedSubjectCode === "0680") {
+      // Environmental Management fallback
+      const EM_UNITS = [
+        { title: "Unit 1: Earth Resources",         topics: ["1.1 Rocks and minerals", "1.2 Energy resources"]         },
+        { title: "Unit 2: Agriculture & Water",     topics: ["2.1 Agriculture", "2.2 Water management"]                },
+        { title: "Unit 3: Oceans & Hazards",        topics: ["3.1 Oceans and fisheries", "3.2 Natural hazards"]        },
+        { title: "Unit 4: Atmosphere & Population", topics: ["4.1 The atmosphere", "4.2 Human population"]             },
+      ];
+      units = EM_UNITS.map((u, i) => ({
+        id: -(i + 1),
+        title: u.title,
         order: i + 1,
-        completed: false,
-        subTopics: SYLLABUS_SUBTOPICS_0653[title] ?? [],
+        lessons: u.topics.map((title, j) => ({
+          id: -(i * 10 + j + 1),
+          title,
+          description: "",
+          order: j + 1,
+          completed: false,
+        })),
       }));
+    } else {
+      // Combined Science (0653) fallback
+      const makeLessons = (topics: readonly string[], startId: number) =>
+        topics.map((title, i) => ({
+          id: startId + i,
+          title,
+          description: "",
+          order: i + 1,
+          completed: false,
+          subTopics: SYLLABUS_SUBTOPICS_0653[title] ?? [],
+        }));
 
-    units = [
-      { id: -1, title: "Biology",   order: 1, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.biology,   -1000) },
-      { id: -2, title: "Chemistry", order: 2, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.chemistry, -2000) },
-      { id: -3, title: "Physics",   order: 3, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.physics,   -3000) },
-    ];
+      units = [
+        { id: -1, title: "Biology",   order: 1, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.biology,   -1000) },
+        { id: -2, title: "Chemistry", order: 2, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.chemistry, -2000) },
+        { id: -3, title: "Physics",   order: 3, lessons: makeLessons(OFFICIAL_0653_TOPICS_2025_2027.physics,   -3000) },
+      ];
+    }
   }
 
   return (
@@ -150,9 +173,11 @@ const DashboardPage = async ({ searchParams }: DashboardProps) => {
                     </div>
                 </div>
 
-                <CurriculumTabs 
-                    units={units} 
-                    topicAnalysis={topicAnalysis} 
+                <CurriculumTabs
+                    key={selectedSubjectCode}
+                    units={units}
+                    topicAnalysis={topicAnalysis}
+                    subjectCode={selectedSubjectCode}
                 />
             </div>
 
