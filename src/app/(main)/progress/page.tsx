@@ -9,7 +9,11 @@ import { cn } from "@/lib/utils";
 import { getUserGradeHistory, getUserStats, getMockHubAnalytics, getUserProgress, getCourses } from "@/server/db/queries";
 import { GRADE_BOUNDARIES } from "@/constants";
 
-const ProgressPage = async () => {
+interface Props {
+  searchParams: { subject?: string };
+}
+
+const ProgressPage = async ({ searchParams }: Props) => {
   const user = await currentUser();
 
   if (!user) {
@@ -18,8 +22,14 @@ const ProgressPage = async () => {
 
   const userProgress = await getUserProgress();
   const allCourses = await getCourses();
-  const activeCourse = allCourses.find(c => c.id === userProgress?.activeCourseId);
+
+  // URL param overrides DB activeCourseId so sidebar subject switch works instantly
+  const subjectOverride = searchParams.subject
+    ? allCourses.find(c => c.title.includes(searchParams.subject!))
+    : undefined;
+  const activeCourse = subjectOverride ?? allCourses.find(c => c.id === userProgress?.activeCourseId);
   const activeSubject = activeCourse?.title;
+  const subjectCode = activeSubject?.match(/\d+/)?.[0];
 
   const allGradeHistory = await getUserGradeHistory();
   // Filter history to show only records for the active subject
@@ -99,7 +109,7 @@ const ProgressPage = async () => {
             )}
         </div>
         <Button size="lg" className="rounded-2xl font-black h-14 px-8 bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-200 text-white" asChild>
-            <Link href={`/mock-exam${activeCourse ? `?subject=${activeCourse.title.match(/\d+/)?.[0]}` : ""}`}>Start Random Mock →</Link>
+            <Link href={`/mock-exam${subjectCode ? `?subject=${subjectCode}` : ""}`}>Start Random Mock →</Link>
         </Button>
       </div>
 
@@ -152,7 +162,7 @@ const ProgressPage = async () => {
                         </p>
                     </div>
                     <Button size="lg" className="bg-white hover:bg-gray-100 text-gray-900 border border-white/20 font-black rounded-2xl px-10" asChild>
-                        <Link href={`/mock-exam${activeCourse ? `?subject=${activeCourse.title.match(/\d+/)?.[0]}` : ""}`}>Launch Your First Mock →</Link>
+                        <Link href={`/mock-exam${subjectCode ? `?subject=${subjectCode}` : ""}`}>Launch Your First Mock →</Link>
                     </Button>
                 </div>
             )}

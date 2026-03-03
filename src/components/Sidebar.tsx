@@ -38,6 +38,10 @@ const Sidebar = async ({ className }: SidebarProps) => {
     return Array.from(byTitle.values());
   })();
 
+  // Extract subject code from active course title (e.g. "Combined Science (0653)" → "0653")
+  const activeCourse = courses.find(c => c.id === activeCourseId);
+  const subjectCode = activeCourse?.title.match(/\d+/)?.[0] ?? "0653";
+
   return (
     <div
       className={cn(
@@ -61,14 +65,20 @@ const Sidebar = async ({ className }: SidebarProps) => {
       )}
 
       <div className="flex flex-1 flex-col gap-y-2">
-        {sidebarItems.map((item) => (
-          <SidebarItem
-            key={item.href}
-            href={item.href}
-            label={item.label}
-            iconSrc={item.iconSrc}
-          />
-        ))}
+        {sidebarItems.map((item) => {
+          // Inject subject code into Smart Practice and Mock Hub links
+          let href = item.href;
+          if (item.href === "/learn/smart-practice") href = `/learn/smart-practice?subject=${subjectCode}`;
+          if (item.href === "/progress") href = `/progress?subject=${subjectCode}`;
+          return (
+            <SidebarItem
+              key={item.href}
+              href={href}
+              label={item.label}
+              iconSrc={item.iconSrc}
+            />
+          );
+        })}
       </div>
 
       <Separator className="h-0.5" />
