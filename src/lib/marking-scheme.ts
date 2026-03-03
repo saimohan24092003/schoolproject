@@ -90,12 +90,22 @@ export function evaluateTheoryByMarkScheme(input: TheoryMarkingInput): TheoryMar
   let matched = 0;
   const unmatchedKeywords: string[] = [];
 
+  // Detect "any N from" style marking schemes (e.g. "any two from:")
+  const anyFromMatch = markingScheme.match(/any\s+(\w+)\s+from/i);
+  const anyFromWords: Record<string, number> = {
+    one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+  };
+  const requiredPoints = anyFromMatch
+    ? (anyFromWords[anyFromMatch[1].toLowerCase()] ?? maxMarks)
+    : maxMarks;
+
   points.forEach((point) => {
     const pointTokens = tokenize(point);
     if (pointTokens.length === 0) return;
     const hitCount = pointTokens.filter((t) => answerTokens.has(t)).length;
     const ratio = hitCount / pointTokens.length;
-    if (ratio >= 0.55 || hitCount >= 3) {
+    // Lowered threshold: 0.4 ratio OR 2+ keyword hits counts as a matched point
+    if (ratio >= 0.4 || hitCount >= 2) {
       matched += 1;
     } else {
       unmatchedKeywords.push(...pointTokens.slice(0, 2));
@@ -103,8 +113,11 @@ export function evaluateTheoryByMarkScheme(input: TheoryMarkingInput): TheoryMar
   });
 
   const totalPoints = Math.max(1, points.length);
-  const raw = (matched / totalPoints) * maxMarks;
-  const awardedMarks = Math.max(0, Math.min(maxMarks, Math.round(raw)));
+  // For "any N from" questions: each matched point = 1 mark, capped at maxMarks
+  // For standard questions: proportional scoring
+  const awardedMarks = anyFromMatch
+    ? Math.max(0, Math.min(maxMarks, matched))
+    : Math.max(0, Math.min(maxMarks, Math.round((matched / totalPoints) * maxMarks)));
 
   const missingKeyTerms = Array.from(new Set(unmatchedKeywords)).slice(0, 4);
   const feedback =
