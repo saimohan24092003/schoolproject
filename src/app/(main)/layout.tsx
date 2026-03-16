@@ -1,14 +1,23 @@
 import { Fragment, PropsWithChildren } from "react";
-import { MobileHeader, Sidebar } from "@/components";
+import { Sidebar } from "@/components";
+import BottomNav from "@/components/BottomNav";
+import HelpButton from "@/components/HelpButton";
 
 const MainLayout = ({ children }: PropsWithChildren) => (
   <Fragment>
-    <MobileHeader />
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div className="absolute -top-20 -left-24 h-72 w-72 rounded-full bg-teal-300/20 blur-3xl" />
+      <div className="absolute top-12 right-[-5rem] h-80 w-80 rounded-full bg-blue-300/20 blur-3xl" />
+    </div>
+
     <Sidebar className="hidden md:flex" />
 
-    <main className="h-full pt-[60px] md:pl-[225px] lg:pl-[256px] md:pt-0">
-      <div className="mx-auto h-full max-w-[1056px]">{children}</div>
+    <main className="min-h-screen pb-24 pt-4 md:pb-8 md:pl-[280px]">
+      <div className="mx-auto w-full max-w-[1200px] px-4 md:px-6 lg:px-8">{children}</div>
     </main>
+
+    <BottomNav />
+    <HelpButton />
   </Fragment>
 );
 

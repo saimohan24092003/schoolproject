@@ -36,3 +36,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sentry Config File
+.env.sentry-build-plugin
+nul
+
+# Large binary data files - not needed in repo
+/extracted_data/
+/public/audio/hindi/
+nul
+
+# Logs
+dev-output.log

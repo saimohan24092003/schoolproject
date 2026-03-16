@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { getUserProgress, getCourses } from "@/server/db/queries";
 import { generateMockExam } from "@/server/actions/smart-practice";
 import MockQuiz from "./MockQuiz";
 
 interface Props {
-  searchParams: { subject?: string };
+  searchParams: { subject?: string; run?: string };
 }
 
 const MockExamPage = async ({ searchParams }: Props) => {
@@ -21,6 +22,7 @@ const MockExamPage = async ({ searchParams }: Props) => {
     ? allCourses.find(c => c.title.includes(searchParams.subject!))?.title
     : undefined;
   const subject = subjectOverride ?? activeCourse?.title ?? "Combined Science (0653)";
+  const runToken = searchParams.run ?? "0";
 
   const mockExam = await generateMockExam(subject);
 
@@ -29,13 +31,14 @@ const MockExamPage = async ({ searchParams }: Props) => {
       <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 className="text-2xl font-bold mb-2">Failed to generate mock exam</h1>
         <p className="text-gray-500 mb-6">We couldn&apos;t find enough questions for <strong>{subject}</strong> right now.</p>
-        <a href="/dashboard" className="text-blue-600 font-bold hover:underline">Back to Dashboard</a>
+        <Link href="/dashboard" className="text-blue-600 font-bold hover:underline">Back to Dashboard</Link>
       </div>
     );
   }
 
   return (
     <MockQuiz
+      key={`${subject}-${runToken}`}
       initialQuestions={mockExam.questions}
       timeLimit={mockExam.timeLimit}
       title={mockExam.title}

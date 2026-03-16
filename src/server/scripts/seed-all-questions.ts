@@ -98,6 +98,25 @@ function parseOrderNum(raw: number | string | undefined): number {
   return 1;
 }
 
+/**
+ * Convert a PDF filename to a human-readable paper reference.
+ * e.g. "0653_m24_qp_12.pdf" → "Paper 1 · March 2024"
+ *      "0653_s23_qp_22.pdf" → "Paper 2 · May/June 2023"
+ *      "0653_w22_qp_32.pdf" → "Paper 3 · Oct/Nov 2022"
+ */
+function parsePaperRef(source: string): string | null {
+  // Pattern: {subject}_{season}{year2}_qp_{paper}{variant}.pdf
+  const m = source.match(/(\d{4})_([msw])(\d{2})_qp_(\d)(\d)\.pdf/i);
+  if (!m) return null;
+  const [, , season, year2, paperNum] = m;
+  const year = `20${year2}`;
+  const seasonLabel =
+    season.toLowerCase() === "m" ? "March" :
+    season.toLowerCase() === "s" ? "May/June" :
+    "Oct/Nov";
+  return `Paper ${paperNum} · ${seasonLabel} ${year}`;
+}
+
 // ── main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -130,6 +149,8 @@ async function main() {
 
   for (const paper of papers) {
     console.log(`\n📝 ${paper.source} (${paper.questions.length} questions)`);
+
+    const paperRef = parsePaperRef(paper.source);
 
     for (const q of paper.questions) {
       // 1. Validate explicit imageSrc from Gemini extraction
@@ -166,11 +187,14 @@ async function main() {
       });
 
       if (existing) {
-        // Sync imageSrc: update if real value differs (also clears fake paths → null)
-        if (existing.imageSrc !== imageSrc) {
+        // Sync imageSrc and paperRef if they differ
+        const needsUpdate =
+          existing.imageSrc !== imageSrc ||
+          (paperRef && existing.paperRef !== paperRef);
+        if (needsUpdate) {
           await db
             .update(schema.challenges)
-            .set({ imageSrc })
+            .set({ imageSrc, ...(paperRef ? { paperRef } : {}) })
             .where(eq(schema.challenges.id, existing.id));
         }
         skipped++;
@@ -185,6 +209,7 @@ async function main() {
           question: q.question,
           explanation: q.explanation || null,
           imageSrc,
+          paperRef: paperRef ?? null,
           order: parseOrderNum(q.number),
         })
         .returning();

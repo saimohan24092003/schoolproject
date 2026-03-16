@@ -8,6 +8,13 @@
       "when": 1771500570546,
       "tag": "0000_superb_venus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773654640540,
+      "tag": "0001_needy_juggernaut",
+      "breakpoints": true
     }
   ]
 }

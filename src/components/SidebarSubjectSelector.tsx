@@ -1,7 +1,7 @@
 "use client";
 
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useTransition, useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { updateActiveSubject } from "@/server/actions/user-progress";
 import { toast } from "sonner";
@@ -20,6 +20,15 @@ interface Props {
 export const SidebarSubjectSelector = ({ courses, activeCourseId }: Props) => {
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
+  // Optimistic local state so the dropdown updates immediately
+  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(activeCourseId);
+
+  // Keep in sync if server sends updated activeCourseId after refresh
+  useEffect(() => {
+    setSelectedCourseId(activeCourseId);
+  }, [activeCourseId]);
+
   const dedupedCourses = useMemo(() => {
     const byTitle = new Map<string, Course>();
     for (const course of courses) {
@@ -38,15 +47,30 @@ export const SidebarSubjectSelector = ({ courses, activeCourseId }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const courseId = parseInt(e.target.value);
-    if (courseId === activeCourseId) return;
+    if (courseId === selectedCourseId) return;
+
+    const chosen = dedupedCourses.find((c) => c.id === courseId);
+    const subjectCode = chosen?.title.match(/\d+/)?.[0];
+
+    // Update dropdown immediately (optimistic)
+    setSelectedCourseId(courseId);
 
     startTransition(() => {
       updateActiveSubject(courseId)
         .then(() => {
+          const target = subjectCode
+            ? `${pathname}?subject=${subjectCode}`
+            : pathname;
+          // push updates the page content via searchParams
+          // refresh forces the layout (Sidebar) to re-fetch from DB so nav links update
+          router.push(target);
           router.refresh();
           toast.success("Subject switched");
         })
-        .catch(() => toast.error("Something went wrong"));
+        .catch(() => {
+          setSelectedCourseId(activeCourseId); // revert on failure
+          toast.error("Something went wrong");
+        });
     });
   };
 
@@ -57,7 +81,7 @@ export const SidebarSubjectSelector = ({ courses, activeCourseId }: Props) => {
       </p>
       <div className="relative">
         <select
-          value={activeCourseId ?? ""}
+          value={selectedCourseId ?? ""}
           onChange={handleChange}
           disabled={pending}
           className="w-full appearance-none text-xs font-bold text-gray-800 bg-blue-50 border-2 border-blue-100 rounded-xl pl-3 pr-8 py-2.5 focus:outline-none focus:border-blue-400 cursor-pointer disabled:opacity-50 transition-colors hover:border-blue-300"

@@ -6,9 +6,20 @@ import { Button } from "@/components/ui";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+// Map 4-digit codes (from URL) to full subject names stored in DB
+const SUBJECT_CODE_MAP: Record<string, string> = {
+  "0653": "Combined Science (0653)",
+  "0680": "Environmental Management (0680)",
+  "0457": "Global Perspectives (0457)",
+  "0510": "English as a Second Language (0510)",
+  "0500": "English First Language (0500)",
+  "0549": "Hindi (0549)",
+  "0580": "Mathematics (0580)",
+};
+
 interface SmartPracticePageProps {
   params: Promise<{ topic: string }>;
-  searchParams: Promise<{ subject?: string }>;
+  searchParams: Promise<{ subject?: string; level?: string; paperType?: string; run?: string; roadmapLevel?: string }>;
 }
 
 const SmartPracticeSessionPage = async ({ params, searchParams }: SmartPracticePageProps) => {
@@ -16,16 +27,20 @@ const SmartPracticeSessionPage = async ({ params, searchParams }: SmartPracticeP
   if (!user) redirect("/sign-in");
 
   const { topic } = await params;
-  const { subject } = await searchParams;
+  const { subject, level, paperType, run, roadmapLevel } = await searchParams;
 
   const decodedTopic = decodeURIComponent(topic);
-  const currentSubject = subject || "Combined Science (0653)";
+  const currentSubject = SUBJECT_CODE_MAP[subject || ""] ?? subject ?? "Combined Science (0653)";
+  const practiceLevel = level ? parseInt(level, 10) : undefined;
+  const selectedPaperType =
+    paperType === "P2" || paperType === "P4" ? paperType : undefined;
 
-  // Generate a practice session with 10 questions from the selected subject
   const sessionData = await generateSmartPractice(
     currentSubject,
     decodedTopic,
-    10
+    10,
+    practiceLevel,
+    selectedPaperType
   );
 
   if (!sessionData.questions || sessionData.questions.length === 0) {
@@ -44,10 +59,17 @@ const SmartPracticeSessionPage = async ({ params, searchParams }: SmartPracticeP
     );
   }
 
+  const roadmapLevelNum = roadmapLevel ? parseInt(roadmapLevel, 10) : undefined;
+
   return (
     <SmartSession
+      key={`${decodedTopic}::${practiceLevel ?? 1}::${selectedPaperType ?? "ALL"}::${run ?? "0"}`}
       initialData={sessionData}
       userId={user.id}
+      level={practiceLevel}
+      subjectCode={subject}
+      paperType={selectedPaperType}
+      roadmapLevel={roadmapLevelNum}
     />
   );
 };

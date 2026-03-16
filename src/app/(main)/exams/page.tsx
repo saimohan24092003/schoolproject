@@ -4,6 +4,9 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui";
 import { getCatalogSubjectSummary, getSeriesForSubject } from "@/lib/paper-catalog";
 import { getUserProgress, getUnits, getCourses } from "@/server/db/queries";
+import { COMBINED_SCIENCE_ALL_TYPE_PRACTICE_LINKS } from "@/lib/combined-science-paper2-plan";
+import { getCombinedSciencePaper2Coverage } from "@/server/paper-library/combined-science-paper2";
+import PastPapersLibrary from "./past-papers-library";
 
 const ExamsPage = async () => {
   const user = await currentUser();
@@ -32,6 +35,13 @@ const ExamsPage = async () => {
   );
   const masteryPercentage =
     totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  const combinedScienceCoverage =
+    currentSubjectCode === "0653" ? await getCombinedSciencePaper2Coverage() : [];
+  const pairedDbCount = combinedScienceCoverage.filter((row) => row.isPairedInDb).length;
+  const missingDbCount = combinedScienceCoverage.length - pairedDbCount;
+  const readyForPracticeCount = combinedScienceCoverage.filter(
+    (row) => row.isPairedInDb && row.questionCountInDb > 0
+  ).length;
 
   const verifiedSeries = getSeriesForSubject(currentSubjectCode, {
     requireCompletePair: true,
@@ -124,6 +134,145 @@ const ExamsPage = async () => {
       </div>
 
       <div className="space-y-5">
+        {currentSubjectCode === "0653" && (
+          <div className="space-y-5 rounded-3xl border-2 border-gray-100 bg-white p-5 md:p-6">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h3 className="text-2xl font-black text-gray-900 tracking-tight">
+                  0653 Paper 2 Coverage (2017-2025)
+                </h3>
+                <p className="text-sm font-medium text-gray-500">
+                  Current-syllabus bank with QP/MS links and live DB sync status for each variant.
+                </p>
+              </div>
+              <span className="text-xs font-black uppercase tracking-widest text-blue-600">
+                Syllabus window: 2025-2027
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">
+                  Rows paired in DB
+                </p>
+                <p className="mt-1 text-2xl font-black text-slate-900">
+                  {pairedDbCount}/{combinedScienceCoverage.length}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3">
+                <p className="text-[11px] font-black uppercase tracking-[0.12em] text-amber-700">
+                  Missing in DB
+                </p>
+                <p className="mt-1 text-2xl font-black text-amber-900">{missingDbCount}</p>
+              </div>
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3">
+                <p className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-700">
+                  With usable questions
+                </p>
+                <p className="mt-1 text-2xl font-black text-emerald-900">{readyForPracticeCount}</p>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-gray-100">
+              <table className="min-w-[980px] w-full text-sm">
+                <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+                  <tr>
+                    <th className="px-3 py-3 text-left font-black">Year</th>
+                    <th className="px-3 py-3 text-left font-black">Session</th>
+                    <th className="px-3 py-3 text-left font-black">Paper</th>
+                    <th className="px-3 py-3 text-left font-black">Printed</th>
+                    <th className="px-3 py-3 text-left font-black">Practice Test</th>
+                    <th className="px-3 py-3 text-left font-black">Question Paper</th>
+                    <th className="px-3 py-3 text-left font-black">Mark Scheme</th>
+                    <th className="px-3 py-3 text-left font-black">DB Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {combinedScienceCoverage.map((row) => (
+                    <tr key={`${row.year}-${row.sessionCode}-${row.paperCode}`} className="border-t border-gray-100">
+                      <td className="px-3 py-3 font-semibold text-slate-900">{row.year}</td>
+                      <td className="px-3 py-3 text-slate-700">{row.sessionLabel}</td>
+                      <td className="px-3 py-3 text-slate-700">
+                        Paper 2 / Variant {row.variantNumber} ({row.paperCode})
+                      </td>
+                      <td className="px-3 py-3">
+                        <span className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-500">
+                          [ ]
+                        </span>
+                      </td>
+                      <td className="px-3 py-3">
+                        <Link
+                          href={row.practiceHref}
+                          className="inline-flex rounded-lg bg-blue-600 px-2.5 py-1.5 text-xs font-black uppercase tracking-wide text-white hover:bg-blue-700"
+                        >
+                          Start Mock
+                        </Link>
+                      </td>
+                      <td className="px-3 py-3">
+                        <a
+                          href={row.questionPaperUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs font-black uppercase tracking-wide text-white hover:bg-black"
+                        >
+                          Open QP
+                        </a>
+                      </td>
+                      <td className="px-3 py-3">
+                        <a
+                          href={row.markSchemeUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex rounded-lg bg-emerald-600 px-2.5 py-1.5 text-xs font-black uppercase tracking-wide text-white hover:bg-emerald-700"
+                        >
+                          Open MS
+                        </a>
+                      </td>
+                      <td className="px-3 py-3">
+                        {row.isPairedInDb ? (
+                          <span className="rounded-lg bg-emerald-100 px-2 py-1 text-xs font-black text-emerald-700">
+                            QP+MS in DB
+                          </span>
+                        ) : (
+                          <span className="rounded-lg bg-amber-100 px-2 py-1 text-xs font-black text-amber-700">
+                            Missing
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
+              <p className="text-sm font-black text-teal-900">
+                All question modes are enabled for training, not only MCQ.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <Link
+                  href={COMBINED_SCIENCE_ALL_TYPE_PRACTICE_LINKS.mcq}
+                  className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-black uppercase tracking-widest text-white hover:bg-black"
+                >
+                  Paper 2 MCQ
+                </Link>
+                <Link
+                  href={COMBINED_SCIENCE_ALL_TYPE_PRACTICE_LINKS.theory}
+                  className="rounded-lg bg-violet-600 px-3 py-2 text-xs font-black uppercase tracking-widest text-white hover:bg-violet-700"
+                >
+                  Structured Theory
+                </Link>
+                <Link
+                  href={COMBINED_SCIENCE_ALL_TYPE_PRACTICE_LINKS.mixed}
+                  className="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-black uppercase tracking-widest text-white hover:bg-emerald-700"
+                >
+                  Mixed Roadmap
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <h3 className="text-2xl font-black text-gray-900 tracking-tight">
             Verified Past Paper Library
@@ -140,78 +289,7 @@ const ExamsPage = async () => {
             to regenerate the dynamic catalog.
           </div>
         ) : (
-          <div className="space-y-6">
-            {Object.keys(groupedByPaper)
-              .sort((a, b) => {
-                if (a === "other") return 1;
-                if (b === "other") return -1;
-                return Number(a) - Number(b);
-              })
-              .map((groupKey) => {
-                const papers = groupedByPaper[groupKey];
-                const title = groupKey === "other" ? "Other Components" : `Paper ${groupKey}`;
-
-                return (
-                  <div key={groupKey} className="bg-white border-2 border-gray-100 rounded-3xl p-5">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg font-black text-gray-900">{title}</h4>
-                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                        {papers.length} Series
-                      </span>
-                    </div>
-
-                    <div className="space-y-3">
-                      {papers.map((series) => (
-                        <div
-                          key={`${series.subjectCode}-${series.year}-${series.sessionCode}-${series.paperCode}`}
-                          className="rounded-2xl border border-gray-100 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-                        >
-                          <div>
-                            <p className="font-bold text-gray-900">
-                              {series.year} {series.seasonLabel} | Variant {series.variantNumber ?? "-"}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {series.subjectCode} {series.subjectName} | Code {series.paperCode}
-                            </p>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            {series.questionPaper?.sourceUrl ? (
-                              <a
-                                href={series.questionPaper.sourceUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="px-3 py-2 text-xs font-black uppercase tracking-widest rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                              >
-                                Open QP
-                              </a>
-                            ) : (
-                              <span className="px-3 py-2 text-xs font-black uppercase tracking-widest rounded-xl bg-gray-100 text-gray-400">
-                                QP Link Missing
-                              </span>
-                            )}
-                            {series.markScheme?.sourceUrl ? (
-                              <a
-                                href={series.markScheme.sourceUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="px-3 py-2 text-xs font-black uppercase tracking-widest rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
-                              >
-                                Open MS
-                              </a>
-                            ) : (
-                              <span className="px-3 py-2 text-xs font-black uppercase tracking-widest rounded-xl bg-gray-100 text-gray-400">
-                                MS Link Missing
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
+          <PastPapersLibrary subjectCode={currentSubjectCode} groupedByPaper={groupedByPaper} />
         )}
       </div>
 

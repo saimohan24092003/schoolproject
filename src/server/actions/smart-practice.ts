@@ -2,13 +2,18 @@
 
 import { auth } from "@clerk/nextjs/server";
 import db from "@/server/db/drizzle";
-import { examPapers, userProgress, examSessions, gradeHistory, courses, units, lessons, challenges, challengeOptions, userSubscription, attemptLogs } from "@/server/db/schema";
+import { examPapers, userProgress, examSessions, gradeHistory, courses, units, lessons, challenges, challengeOptions, userSubscription, attemptLogs, challengeProgress, userTopicSetup } from "@/server/db/schema";
 import { eq, and, desc, asc } from "drizzle-orm";
 import { getQuestionExplanation, getSessionFeedback } from "@/lib/gemini";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import * as fs from "fs";
 import * as path from "path";
-import { evaluateTheoryByMarkScheme, getGradeFromPercentage } from "@/lib/marking-scheme";
+import {
+  cleanMarkSchemeForDisplay,
+  evaluateTheoryByMarkScheme,
+  getGradeFromPercentage,
+  isLikelyHintCopyAnswer,
+} from "@/lib/marking-scheme";
 import { hasResourceReference, resolveQuestionImageSrc } from "@/lib/resource-fallback";
 import {
   normalize0653Topic,
@@ -16,6 +21,7 @@ import {
   isOfficial0653Topic,
   OFFICIAL_0653_TOPICS_2025_2027,
 } from "@/lib/syllabus/combined-science-2025";
+import { getSubjectConfig } from "@/lib/subject-config";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -55,12 +61,20 @@ type SmartPracticeTopicCatalogItem = {
   priority: TopicPriority;
   frequency: number;
   unitTitle?: string;
+  coveredInSchool?: boolean;
+  practiceMode?: "learn" | "review" | "hidden";
+  paperCounts?: Record<number, number>;
 };
 
 const priorityRank: Record<TopicPriority, number> = {
   HIGH: 3,
   MEDIUM: 2,
   LOW: 1,
+};
+
+type TopicCountRecord = {
+  total: number;
+  perPaper: Record<number, number>;
 };
 
 const normalizeForPriorityLookup = (subject: string, topic: string) => {
@@ -88,7 +102,19 @@ const parsePriority = (value?: string): TopicPriority => {
  * Get all available topics for a subject across all years
  */
 export async function getTopicsForSubject(subject: string, level: string = "O-Level") {
-  const topicCounts: Record<string, number> = {};
+  const topicCounts: Record<string, TopicCountRecord> = {};
+
+  const incrementTopic = (name: string, paperNumber?: number) => {
+    if (!name) return;
+    if (!topicCounts[name]) {
+      topicCounts[name] = { total: 0, perPaper: {} };
+    }
+    const record = topicCounts[name];
+    record.total += 1;
+    if (typeof paperNumber === "number") {
+      record.perPaper[paperNumber] = (record.perPaper[paperNumber] || 0) + 1;
+    }
+  };
 
   // 1. Try exam_papers (MCQ subjects like Combined Science)
   const papers = await db.query.examPapers.findMany({
@@ -105,7 +131,10 @@ export async function getTopicsForSubject(subject: string, level: string = "O-Le
             const inferenceText = [q.text || q.question || "", ...(Array.isArray(q.options) ? q.options : [])].join(" ");
             const normalizedTopic = inferTopicForSubject(subject, inferenceText, q.topic);
             if (normalizedTopic) {
-              topicCounts[normalizedTopic] = (topicCounts[normalizedTopic] || 0) + 1;
+              const maybeNumber = typeof paper.paperNumber === "number"
+                ? paper.paperNumber
+                : Number(paper.paperNumber);
+              incrementTopic(normalizedTopic, Number.isFinite(maybeNumber) ? maybeNumber : undefined);
             }
           });
         }
@@ -113,28 +142,35 @@ export async function getTopicsForSubject(subject: string, level: string = "O-Le
     });
   }
 
-  // 2. Fall back to challenges table (short-answer subjects like EM 0680)
-  // We also do this when exam papers exist but contain no usable topic tags.
-  if (Object.keys(topicCounts).length === 0) {
-    // 2. Fall back to challenges table (short-answer subjects like EM 0680)
-    const allCourses = await db.query.courses.findMany();
-    const course = allCourses.find(c => subjectMatches(c.title, subject));
-    if (course) {
-      const courseUnits = await db.query.units.findMany({
-        where: eq(units.courseId, course.id),
-        with: { lessons: { with: { challenges: true } } },
-      });
-      courseUnits.forEach(unit =>
-        unit.lessons.forEach(lesson =>
-          lesson.challenges.forEach(ch => {
-            const normalizedTopic = inferTopicForSubject(subject, ch.question || "", ch.topic);
-            if (normalizedTopic) {
-              topicCounts[normalizedTopic] = (topicCounts[normalizedTopic] || 0) + 1;
+  // 2. Also check challenges table (Theory/Practical questions are often here even for MCQ subjects)
+  // And for subjects like 0580/0680, this is the primary source.
+  const allCourses = await db.query.courses.findMany();
+  const course = allCourses.find(c => subjectMatches(c.title, subject));
+  if (course) {
+    const courseUnits = await db.query.units.findMany({
+      where: eq(units.courseId, course.id),
+      with: { lessons: { with: { challenges: true } } },
+    });
+    courseUnits.forEach(unit =>
+      unit.lessons.forEach(lesson =>
+        lesson.challenges.forEach(ch => {
+          // Use challenge's topic field; fall back to lesson title so English/Maths topics always show
+          const rawTopic = ch.topic || lesson.title || "";
+          const normalizedTopic = inferTopicForSubject(subject, ch.question || "", rawTopic);
+          if (normalizedTopic) {
+            // Try to extract paper number from paperRef (e.g. "Paper 2 | March 2024")
+            let paperNum: number | undefined = undefined;
+            if (ch.paperRef) {
+              const match = ch.paperRef.match(/Paper\s+(\d+)/i);
+              if (match) {
+                paperNum = parseInt(match[1], 10);
+              }
             }
-          })
-        )
-      );
-    }
+            incrementTopic(normalizedTopic, paperNum);
+          }
+        })
+      )
+    );
   }
 
   // Keep output syllabus-aligned for Combined Science (0653).
@@ -146,28 +182,61 @@ export async function getTopicsForSubject(subject: string, level: string = "O-Le
     ];
     officialTopics.forEach((topic) => {
       if (topicCounts[topic]) return;
-      topicCounts[topic] = 0;
+      topicCounts[topic] = { total: 0, perPaper: {} };
     });
   }
 
   return Object.entries(topicCounts)
-    .map(([name, count]) => ({ name, count }))
+    .map(([name, record]) => ({ name, count: record.total, perPaper: record.perPaper }))
     .filter((topic) => topic.count > 0)
     .sort((a, b) => b.count - a.count);
 }
 
 /**
- * Build smart-practice topic catalog prioritized by curriculum roadmap + topic importance.
+ * Build smart-practice topic catalog — A*-focused, personalized by covered topics.
+ *
+ * Ordering logic:
+ *   1. LEARN topics (not covered in school) — sorted by past-paper frequency DESC
+ *   2. REVIEW topics (covered in school, practiceMode=all) — sorted by frequency DESC
+ *   Topics covered in school are hidden when practiceMode=new_only.
+ *
+ * This ensures students focus on high-yield uncovered topics first (fastest path to A*).
  */
 export async function getSmartPracticeTopicCatalog(
   subject: string,
-  level: string = "O-Level"
+  level: string = "O-Level",
+  userId?: string
 ): Promise<SmartPracticeTopicCatalogItem[]> {
   const topicCounts = await getTopicsForSubject(subject, level);
-  const countByTopic = new Map<string, number>(
-    topicCounts.map((topic) => [topic.name, topic.count])
+  const countByTopic = new Map<string, number>(topicCounts.map((topic) => [topic.name, topic.count]));
+  const paperCountsByTopic = new Map<string, Record<number, number>>(
+    topicCounts.map((topic) => [topic.name, topic.perPaper])
   );
 
+  // ── Load student's covered topics + practice preference ──────────────────
+  const subjectCode = subject.match(/\((\d{4})\)/)?.[1]
+    ?? (subject.match(/^\d{4}$/) ? subject : null);
+
+  let coveredSet = new Set<string>();
+  let practiceMode: "all" | "new_only" = "all";
+
+  if (userId && subjectCode) {
+    const setup = await db.query.userTopicSetup.findFirst({
+      where: and(
+        eq(userTopicSetup.userId, userId),
+        eq(userTopicSetup.subjectCode, subjectCode)
+      ),
+    });
+    if (setup) {
+      try {
+        const parsed = JSON.parse(setup.coveredTopics as string);
+        if (Array.isArray(parsed)) coveredSet = new Set(parsed);
+      } catch { /* ignore */ }
+      practiceMode = (setup.practiceMode as "all" | "new_only") || "all";
+    }
+  }
+
+  // ── Build roadmap from course lessons ───────────────────────────────────
   const allCourses = await db.query.courses.findMany();
   const course = allCourses.find((c) => subjectMatches(c.title, subject));
 
@@ -183,7 +252,6 @@ export async function getSmartPracticeTopicCatalog(
         },
       },
     });
-
     courseUnits.forEach((unit) => {
       unit.lessons.forEach((lesson) => {
         const normalized = normalizeTopicForSubject(subject, lesson.title) || lesson.title;
@@ -193,32 +261,59 @@ export async function getSmartPracticeTopicCatalog(
     });
   }
 
+  // ── Load static topic analysis (frequency / priority) ──────────────────
   const analysis = loadTopicAnalysis();
   const normalizedAnalysis = new Map<string, { priority: TopicPriority; frequency: number }>();
   Object.entries(analysis).forEach(([topicName, details]) => {
     normalizedAnalysis.set(
       normalizeForPriorityLookup(subject, topicName),
-      {
-        priority: parsePriority(details?.priority),
-        frequency: Number(details?.frequency || 0),
-      }
+      { priority: parsePriority(details?.priority), frequency: Number(details?.frequency || 0) }
     );
   });
 
+  // ── Merge into catalog ──────────────────────────────────────────────────
   const merged = new Map<string, SmartPracticeTopicCatalogItem>();
+
   const upsert = (name: string, roadmap: boolean, unitTitle?: string) => {
     const normalized = normalizeTopicForSubject(subject, name) || name;
     const lookupKey = normalizeForPriorityLookup(subject, normalized);
     const analysisDetails = normalizedAnalysis.get(lookupKey);
 
+    // Check if topic matches a covered topic (fuzzy match — tolerate minor casing/spacing)
+    const normalizedLower = normalized.toLowerCase().trim();
+    const isCovered = coveredSet.size > 0 && (
+      coveredSet.has(normalized) ||
+      Array.from(coveredSet).some(c => c.toLowerCase().trim() === normalizedLower)
+    );
+
     const existing = merged.get(normalized);
+
+    const paperCountsForTopic = paperCountsByTopic.get(normalized) ?? {};
+
+    // Use DB question count as frequency if static analysis has nothing
+    const dbCount = countByTopic.get(normalized) || existing?.count || 0;
+    const staticFreq = analysisDetails?.frequency ?? existing?.frequency ?? 0;
+    const effectiveFrequency = staticFreq > 0 ? staticFreq : dbCount;
+
+    // Priority: boost uncovered high-freq topics to HIGH automatically
+    let priority = analysisDetails?.priority || existing?.priority || "LOW";
+    if (!isCovered && dbCount >= 10) priority = "HIGH";
+    else if (!isCovered && dbCount >= 5) priority = priority === "LOW" ? "MEDIUM" : priority;
+
+    const pMode: "learn" | "review" | "hidden" = isCovered
+      ? (practiceMode === "new_only" ? "hidden" : "review")
+      : "learn";
+
     const next: SmartPracticeTopicCatalogItem = {
       name: normalized,
-      count: countByTopic.get(normalized) || existing?.count || 0,
+      count: dbCount,
       roadmap: roadmap || existing?.roadmap || false,
-      priority: analysisDetails?.priority || existing?.priority || "LOW",
-      frequency: analysisDetails?.frequency ?? existing?.frequency ?? 0,
+      priority,
+      frequency: effectiveFrequency,
       unitTitle: existing?.unitTitle || unitTitle,
+      coveredInSchool: isCovered,
+      practiceMode: pMode,
+      paperCounts: paperCountsForTopic,
     };
     merged.set(normalized, next);
   };
@@ -226,24 +321,42 @@ export async function getSmartPracticeTopicCatalog(
   roadmapTopics.forEach((topic) => upsert(topic.name, true, topic.unitTitle));
   topicCounts.forEach((topic) => upsert(topic.name, false));
 
-  return Array.from(merged.values()).sort((a, b) => {
-    if (a.roadmap !== b.roadmap) return a.roadmap ? -1 : 1;
-    if (priorityRank[a.priority] !== priorityRank[b.priority]) {
-      return priorityRank[b.priority] - priorityRank[a.priority];
-    }
-    if (a.count !== b.count) return b.count - a.count;
-    return a.name.localeCompare(b.name);
-  });
+  // ── Sort: A* priority order ─────────────────────────────────────────────
+  // 1. LEARN topics first (not covered), sorted by frequency/count DESC
+  // 2. REVIEW topics last (covered in school), sorted by frequency DESC
+  // 3. HIDDEN topics excluded
+  return Array.from(merged.values())
+    .filter(t => t.practiceMode !== "hidden")
+    .sort((a, b) => {
+      const aModeRank = a.practiceMode === "learn" ? 0 : 1;
+      const bModeRank = b.practiceMode === "learn" ? 0 : 1;
+      if (aModeRank !== bModeRank) return aModeRank - bModeRank;
+
+      // Within same mode: roadmap first, then high priority, then count
+      if (a.roadmap !== b.roadmap) return a.roadmap ? -1 : 1;
+      if (priorityRank[a.priority] !== priorityRank[b.priority]) {
+        return priorityRank[b.priority] - priorityRank[a.priority];
+      }
+      if (a.count !== b.count) return b.count - a.count;
+      return a.name.localeCompare(b.name);
+    });
 }
 
 /**
  * Generate a smart practice session for a specific topic
  */
-export async function generateSmartPractice(subject: string, topic: string, limit: number = 10) {
+export async function generateSmartPractice(
+  subject: string,
+  topic: string,
+  limit: number = 10,
+  level?: number,
+  paperType?: "P2" | "P4" | "P6"
+) {
   const { userId } = auth();
   if (!userId) throw new Error("Unauthorized");
 
   const normalizedRequestedTopic = normalizeTopicForSubject(subject, topic) || topic;
+  const normalizedPaperType = paperType?.toUpperCase();
 
   // Build a text index so exam-paper questions can still map to challenge IDs
   // for attempt tracking and hint-lock behavior.
@@ -294,6 +407,12 @@ export async function generateSmartPractice(subject: string, topic: string, limi
             allQuestions.push({
               challengeId: challengeIdByQuestion.get(questionKey),
               ...q,
+              paperType:
+                typeof q.paperType === "string"
+                  ? q.paperType.toUpperCase()
+                  : paper.paperNumber
+                    ? `P${paper.paperNumber}`
+                    : undefined,
               imageSrc: fallbackImage,
               topic: normalizedTopic,
               questionType: "MCQ",
@@ -306,8 +425,18 @@ export async function generateSmartPractice(subject: string, topic: string, limi
     } catch (e) {}
   });
 
-  // Fall back to challenges table (THEORY subjects like EM 0680)
-  if (allQuestions.length === 0) {
+  // Determine subject config early — needed to decide which sources to fetch
+  const subjectCodeMatch = subject.match(/\b(\d{4})\b/);
+  const subjectCodeStr = subjectCodeMatch?.[1] ?? "";
+  const subjectCfg = subjectCodeStr ? getSubjectConfig(subjectCodeStr) : null;
+
+  // Fetch challenges table:
+  //   - Non-MCQ subjects (0680/0580/0500): always — it is the primary source
+  //   - MCQ subjects (0653) at level 3: need THEORY challenges for the Advanced level
+  //   - Fallback when examPapers returned nothing at all
+  const needsChallenges = allQuestions.length === 0 || (subjectCfg?.hasMCQ && level === 3);
+  if (needsChallenges) {
+    const theoryBatch: any[] = [];
     const allCourses = await db.query.courses.findMany();
     const course = allCourses.find(c => subjectMatches(c.title, subject));
     if (course) {
@@ -318,18 +447,31 @@ export async function generateSmartPractice(subject: string, topic: string, limi
       courseUnits.forEach(unit =>
         unit.lessons.forEach(lesson =>
           lesson.challenges.forEach(ch => {
-            const questionKey = ch.question.trim().toLowerCase();
+            const questionKey = (ch.question ?? "").trim().toLowerCase();
+            if (!questionKey) return;
             if (seenQuestions.has(questionKey)) return;
-            const normalizedTopic = inferTopicForSubject(subject, ch.question || "", ch.topic);
+            // Fall back to lesson.title when ch.topic is empty — mirrors getTopicsForSubject
+            const rawTopic = ch.topic || lesson.title || "";
+            const normalizedTopic = inferTopicForSubject(subject, ch.question || "", rawTopic);
             if (!normalizedTopic) return;
             if (normalizedTopic === normalizedRequestedTopic || normalizedTopic.includes(normalizedRequestedTopic)) {
+              const isMCQ = ch.challengeOptions?.length > 0;
               const resolvedImage = resolveQuestionImageSrc(ch.imageSrc || null, ch.question || "", {
                 subject,
               });
-              if (hasResourceReference(ch.question || "") && !resolvedImage) return;
+              // For THEORY challenges, do NOT pre-filter on resource references —
+              // EM/0580/0500 questions commonly say "study the table" as part of the question
+              // text itself (not an external image). The post-filter + graceful fallback handles it.
+              if (isMCQ && hasResourceReference(ch.question || "") && !resolvedImage) return;
               seenQuestions.add(questionKey);
-              const isMCQ = ch.challengeOptions?.length > 0;
-              allQuestions.push({
+
+              let chPaperType: string | undefined = undefined;
+              if (ch.paperRef) {
+                const match = ch.paperRef.match(/Paper\s+(\d+)/i);
+                if (match) chPaperType = `P${match[1]}`;
+              }
+
+              theoryBatch.push({
                 id: ch.id,
                 challengeId: ch.id,
                 number: ch.order,
@@ -339,19 +481,95 @@ export async function generateSmartPractice(subject: string, topic: string, limi
                 marks: ch.totalMarks,
                 markingSchemeAnswer: ch.markingSchemeAnswer,
                 questionType: isMCQ ? "MCQ" : "THEORY",
+                paperType: chPaperType,
                 options: isMCQ ? ch.challengeOptions.map(o => o.text) : undefined,
                 correctAnswer: isMCQ ? ch.challengeOptions.findIndex(o => o.correct) : undefined,
-                sourcePaper: `${unit.title} · ${lesson.title}`,
+                sourcePaper: ch.paperRef || `${unit.title} · ${lesson.title}`,
+                audioSrc: ch.audioSrc ?? undefined,
               });
             }
           })
         )
       );
     }
+
+    if (subjectCfg?.hasMCQ && level === 3) {
+      // 0653 Level 3 (Advanced): use theory challenges; fall back to MCQ only if none exist yet
+      if (theoryBatch.length > 0) allQuestions = theoryBatch;
+    } else {
+      // Non-MCQ subjects or empty-examPapers fallback
+      allQuestions = theoryBatch;
+    }
   }
 
-  const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-  const selectedQuestions = shuffled.slice(0, limit);
+  // Filter by level
+  let filtered = allQuestions;
+  if (subjectCfg && !subjectCfg.hasMCQ && level) {
+    // Non-MCQ subject (0580 / 0500 / 0680): force all THEORY, filter by mark range
+    filtered = allQuestions.map(q => ({ ...q, questionType: "THEORY" }));
+    const levelCfg = subjectCfg.levels.find(l => l.level === level);
+    if (levelCfg?.markRange) {
+      const [minM, maxM] = levelCfg.markRange;
+      const byMark = filtered.filter(q => {
+        const m = Number(q.marks) || 1;
+        return m >= minM && m <= maxM;
+      });
+      if (byMark.length >= 3) filtered = byMark;
+    }
+  } else if (level === 3) {
+    filtered = allQuestions.filter(q => q.questionType === "THEORY");
+    if (filtered.length === 0) filtered = allQuestions; // fallback
+  } else if (level === 1 || level === 2) {
+    filtered = allQuestions.filter(q => q.questionType === "MCQ");
+    if (filtered.length === 0) filtered = allQuestions; // fallback
+  }
+
+  // Paper filter (P2 / P4 / P6)
+  if (normalizedPaperType) {
+    filtered = filtered.filter((q) => q.paperType === normalizedPaperType);
+  }
+
+  // Content quality filters
+  const is0500 = /\b0500\b/.test(subject);
+
+  // 1. Remove passage-dependent questions (0500 only) — they need unseen passage context
+  if (is0500) {
+    const passageRef = /\bline(s)?\s+\d+/i;
+    const passageWord = /\bthe\s+passage\b/i;
+    const beforeFiltered = filtered.length;
+    filtered = filtered.filter(q => {
+      const text = (q.text || "") + " " + (q.markingSchemeAnswer || "");
+      return !passageRef.test(text) && !passageWord.test(text);
+    });
+    if (filtered.length === 0) filtered = [...allQuestions].slice(0, limit * 2); // graceful fallback
+  }
+
+  // 2. Remove broken-image questions (questions referencing a figure/diagram but no imageSrc)
+  const figureRef = /\b(fig\.?|figure|diagram|table|graph|chart)\b/i;
+  filtered = filtered.filter(q => {
+    if (!q.imageSrc && figureRef.test(q.text || "")) return false;
+    return true;
+  });
+  if (filtered.length === 0) filtered = allQuestions; // graceful fallback
+
+  // 3. Remove garbled questions from PDFs with broken font encoding (cid: codes)
+  filtered = filtered.filter(q => {
+    const text = q.text || "";
+    const cidCount = text.split("(cid:").length - 1;
+    if (cidCount >= 10) return false; // heavily garbled
+    // Filter out instruction text false-positives
+    if (/You must answer on the question paper|No additional materials|INSTRUCTIONS/.test(text)) return false;
+    return true;
+  });
+  if (filtered.length === 0) filtered = allQuestions; // graceful fallback
+
+  const shuffled = filtered.sort(() => 0.5 - Math.random());
+  const selectedQuestions = shuffled.slice(0, limit).map(q => ({
+    ...q,
+    markingSchemeAnswer: q.markingSchemeAnswer
+      ? cleanMarkSchemeForDisplay(q.markingSchemeAnswer)
+      : q.markingSchemeAnswer,
+  }));
   const sessionType = selectedQuestions.some(q => q.questionType === "THEORY") ? "THEORY" : "MCQ";
 
   return {
@@ -1021,6 +1239,189 @@ export async function gradeTheoryMockSubmission(
   };
 }
 
+// ── Progressive AI hint generator (4 levels) ──────────────────────────────
+type HintPromptFn = (q: string, chosen: string, correct: string, opts: string[]) => string;
+
+const HINT_PROMPTS: HintPromptFn[] = [
+  // Attempt 1: Explain WHY the chosen answer is wrong — don't name the correct one
+  (q, chosen, _correct) =>
+    `You are a Cambridge O-Level tutor helping a student think through an MCQ.
+
+Question: ${q}
+Student chose: "${chosen}" — this is WRONG.
+
+Write ONE sentence (max 30 words) explaining specifically why "${chosen}" is incorrect for this question.
+IMPORTANT: Do NOT name, quote, or hint at the correct answer. Focus only on why the chosen option fails. Plain text only.`,
+
+  // Attempt 2: Guide toward the right concept — still no answer reveal
+  (q, chosen, _correct) =>
+    `Cambridge O-Level tutor. Student got this MCQ wrong twice.
+
+Question: ${q}
+Their wrong answer: "${chosen}"
+
+Write one sentence (max 35 words) asking a guiding question or describing the key concept they need to think about to find the right answer.
+IMPORTANT: Do NOT state, name, or imply which option is correct. Make them reason it out. Plain text only.`,
+
+  // Attempt 3: Elimination strategy — guide to rule out wrong options, still no reveal
+  (q, chosen, _correct, opts) =>
+    `Cambridge O-Level tutor. Student got this MCQ wrong 3 times.
+
+Question: ${q}
+All options: ${opts.map((o, i) => `${["A","B","C","D"][i] ?? i+1}. ${o}`).join(" | ")}
+Their wrong answer: "${chosen}"
+
+Write 1–2 sentences (max 40 words) helping the student eliminate clearly wrong options using scientific reasoning.
+IMPORTANT: Do NOT reveal or name the correct answer. Help them narrow down by ruling out what is definitely wrong. Plain text only.`,
+
+  // Attempt 4: Strong conceptual clue — final push without directly naming the answer
+  (q, _chosen, _correct, opts) =>
+    `Cambridge O-Level tutor. This is the student's last hint on this question.
+
+Question: ${q}
+All options: ${opts.map((o, i) => `${["A","B","C","D"][i] ?? i+1}. ${o}`).join(" | ")}
+
+Write one sentence (max 35 words) giving the key scientific principle that, when applied to this question, points to the correct answer — without quoting or naming the correct option verbatim.
+IMPORTANT: Make the student do the final reasoning step themselves. Plain text only.`,
+];
+
+const HINT_AI_COOLDOWN_MS = 90_000;
+let hintAiCooldownUntil = 0;
+
+const isGeminiRateLimited = (error: unknown) => {
+  if (!error) return false;
+  const err = error as { status?: number; statusCode?: number; message?: string };
+  const status = Number(err.status ?? err.statusCode ?? 0);
+  if (status === 429) return true;
+  const text = String(err.message || error).toLowerCase();
+  return text.includes("429") || text.includes("rate limit") || text.includes("too many requests");
+};
+
+const getGeminiErrorSummary = (error: unknown) => {
+  const err = error as { status?: number; statusCode?: number; message?: string; statusText?: string };
+  const status = err.status ?? err.statusCode;
+  const statusPart = status ? `status ${status}` : "unknown status";
+  const message = (err.message || err.statusText || String(error || "unknown error")).split("\n")[0];
+  return `${statusPart}: ${message}`;
+};
+
+async function generateMCQHint(
+  questionText: string,
+  options: string[],
+  userAnswer: string,
+  correctOption: string,
+  attemptNumber: number
+): Promise<string> {
+  if (Date.now() < hintAiCooldownUntil) {
+    return fallbackHint(questionText, correctOption, attemptNumber);
+  }
+
+  const idx      = Math.min(attemptNumber - 1, 3);
+  const promptFn = HINT_PROMPTS[idx];
+  const prompt   = promptFn(questionText, userAnswer, correctOption, options);
+
+  // Try primary model first, then fallback model on 429
+  const models = ["gemini-2.0-flash", "gemini-1.5-flash"];
+  for (let i = 0; i < models.length; i++) {
+    try {
+      const model  = genAI.getGenerativeModel({ model: models[i] });
+      const result = await model.generateContent(prompt);
+      const text   = result.response.text().trim();
+      if (text && text.length > 15) return text;
+    } catch (err: any) {
+      const is429 = isGeminiRateLimited(err);
+      if (is429 && i === 0) {
+        hintAiCooldownUntil = Date.now() + HINT_AI_COOLDOWN_MS;
+        await new Promise(r => setTimeout(r, 1200)); // brief pause before retry
+        continue;
+      }
+      if (is429) {
+        hintAiCooldownUntil = Date.now() + HINT_AI_COOLDOWN_MS;
+        break;
+      }
+      console.error(`[generateMCQHint] Gemini error (${models[i]}): ${getGeminiErrorSummary(err)}`);
+    }
+  }
+
+  // Meaningful fallback using actual question/answer content
+  return fallbackHint(questionText, correctOption, attemptNumber);
+}
+
+function fallbackHint(questionText: string, _correctOption: string, attempt: number): string {
+  const qWords = questionText
+    .replace(/[^a-zA-Z0-9 ]/g, " ")
+    .split(" ")
+    .filter(w => w.length > 4)
+    .slice(0, 5)
+    .join(", ");
+
+  if (attempt <= 1) {
+    return `Re-read the question carefully. Focus on what exactly is being asked about ${qWords || "this topic"} — your chosen answer doesn't satisfy the key condition.`;
+  }
+  if (attempt === 2) {
+    return `Think about which option is true for ALL cases described in the question, not just some of them. Eliminate options that only apply in specific or limited situations.`;
+  }
+  if (attempt === 3) {
+    return `Look at each option individually and ask: "Does this always apply to every organism / scenario the question mentions?" Eliminate the ones that are only sometimes true.`;
+  }
+  return `Consider the defining biological/scientific principle behind the question. Which option describes a universal characteristic rather than a specific or partial one?`;
+}
+
+/**
+ * AI-powered structured answer evaluation (Maths, English, EM).
+ * Returns marks, feedback and a guiding hint — without naming the answer.
+ */
+async function evaluateStructuredWithAI(
+  questionText: string,
+  markingScheme: string,
+  userAnswer: string,
+  maxMarks: number,
+  subjectName: string
+): Promise<{ awardedMarks: number; feedback: string; hint: string }> {
+  const prompt = `You are a Cambridge IGCSE ${subjectName} examiner marking a student's answer.
+
+QUESTION:
+${questionText}
+
+MARK SCHEME (${maxMarks} marks available):
+${markingScheme || "(Not provided)"}
+
+STUDENT'S ANSWER:
+${userAnswer}
+
+Evaluate strictly according to the Cambridge mark scheme. Output ONLY valid JSON in this exact shape:
+{
+  "awardedMarks": <integer 0-${maxMarks}>,
+  "feedback": "<1-2 sentences: what marks were earned and what was missing — be specific>",
+  "hint": "<1 sentence guiding the student toward the missing marks without revealing the answer>"
+}
+
+Rules:
+- awardedMarks must be an integer between 0 and ${maxMarks}.
+- feedback must reference specific marking points the student hit or missed.
+- hint must NOT directly state or quote the correct answer.
+- For mathematics: accept equivalent correct forms (e.g. 3.5 == 7/2). Allow working marks if shown.
+- Output ONLY the JSON object, no other text.`;
+
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const result = await model.generateContent(prompt);
+    const raw = result.response.text().trim()
+      .replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/i, "").trim();
+    const parsed = JSON.parse(raw);
+    const marks = Math.max(0, Math.min(maxMarks, Math.round(Number(parsed.awardedMarks) || 0)));
+    return {
+      awardedMarks: marks,
+      feedback: String(parsed.feedback || "").trim() || (marks === maxMarks ? "Full marks!" : "Partial credit."),
+      hint: String(parsed.hint || "").trim() || "Review the marking scheme and add more specific detail.",
+    };
+  } catch {
+    // Fallback to keyword matching
+    const kw = evaluateTheoryByMarkScheme({ answer: userAnswer, markingScheme, maxMarks });
+    return { awardedMarks: kw.awardedMarks, feedback: kw.feedback, hint: kw.hint };
+  }
+}
+
 export async function validateSmartPracticeAnswer(input: {
   challengeId?: number;
   questionText: string;
@@ -1030,6 +1431,9 @@ export async function validateSmartPracticeAnswer(input: {
   marks?: number;
   userAnswer: string;
   clientAttempts?: number;
+  subjectCode?: string;
+  latestHintShown?: string;
+  hintHistory?: string[];
 }) {
   const { userId } = auth();
   if (!userId) throw new Error("Unauthorized");
@@ -1037,8 +1441,6 @@ export async function validateSmartPracticeAnswer(input: {
   const FREE_HINT_LIMIT = 4;
   let wrongAttempts = Math.max(0, Number(input.clientAttempts || 0));
 
-  // Fast path: trust the client counter for immediate checks.
-  // We only verify against DB when close to lock threshold to avoid repeated heavy queries.
   if (input.challengeId && wrongAttempts >= FREE_HINT_LIMIT - 1) {
     const recentWrongLogs = await db.query.attemptLogs.findMany({
       columns: { id: true },
@@ -1056,10 +1458,7 @@ export async function validateSmartPracticeAnswer(input: {
   if (wrongAttempts >= FREE_HINT_LIMIT) {
     const subscription = await db.query.userSubscription.findFirst({
       where: eq(userSubscription.userId, userId),
-      columns: {
-        stripePriceId: true,
-        stripeCurrentPeriodEnd: true,
-      },
+      columns: { stripePriceId: true, stripeCurrentPeriodEnd: true },
     });
     const isPro =
       !!subscription?.stripePriceId &&
@@ -1068,13 +1467,9 @@ export async function validateSmartPracticeAnswer(input: {
 
     if (!isPro) {
       return {
-        locked: true,
-        isCorrect: false,
-        repetitionCount: wrongAttempts,
-        feedback: "You have repeated this question multiple times. Upgrade to unlock guided AI coaching for this exact question.",
-        hint: "Upgrade required after repeated attempts.",
-        awardedMarks: 0,
-        maxMarks: input.marks || 1,
+        locked: true, isCorrect: false, repetitionCount: wrongAttempts,
+        feedback: "You've used all free hints for this question. Upgrade for unlimited AI coaching.",
+        hint: "Upgrade required.", awardedMarks: 0, maxMarks: input.marks || 1,
       };
     }
   }
@@ -1082,53 +1477,86 @@ export async function validateSmartPracticeAnswer(input: {
   const trimmedAnswer = (input.userAnswer || "").trim();
   const isMCQ = Array.isArray(input.options) && input.options.length > 0;
 
-  let isCorrect = false;
-  let feedback = "";
-  let hint = "";
+  let isCorrect    = false;
+  let feedback     = "";
+  let hint         = "";
   let awardedMarks = 0;
-  const maxMarks = Math.max(1, Number(input.marks || 1));
+  const maxMarks   = Math.max(1, Number(input.marks || 1));
 
   if (isMCQ) {
-    const options = input.options || [];
-    const correctIndex =
-      typeof input.correctAnswer === "number"
-        ? input.correctAnswer
-        : Number.parseInt(String(input.correctAnswer), 10);
-    const correctOption = Number.isFinite(correctIndex) ? options[correctIndex] : "";
+    const options      = input.options || [];
+    const correctIndex = typeof input.correctAnswer === "number"
+      ? input.correctAnswer
+      : Number.parseInt(String(input.correctAnswer), 10);
+    const correctOption      = Number.isFinite(correctIndex) ? options[correctIndex] : "";
     const cleanCorrectOption = String(correctOption || "").replace(/^[A-D]:\s*/i, "").trim();
-    isCorrect = trimmedAnswer === correctOption || trimmedAnswer === String(input.correctAnswer);
+
+    // Normalize both sides: strip leading "A: " / "B: " prefix and compare case-insensitively
+    const normalizeOpt = (s: string) => String(s || "").replace(/^[A-D]:\s*/i, "").trim().toLowerCase();
+    isCorrect    = normalizeOpt(trimmedAnswer) === normalizeOpt(correctOption)
+                || trimmedAnswer === String(input.correctAnswer);
     awardedMarks = isCorrect ? maxMarks : 0;
-    feedback = isCorrect ? "Correct. Good job." : "Not correct yet.";
-    const attemptNumber = wrongAttempts + 1;
+    feedback     = isCorrect ? "Correct!" : "That's not right.";
+
     if (isCorrect) {
-      hint = "Move to next question.";
-    } else if (attemptNumber <= 1) {
-      hint = "Focus on the key scientific process in the question stem before checking options.";
-    } else if (attemptNumber === 2) {
-      hint = "Eliminate options that conflict with the core definition first, then compare the remaining two.";
-    } else if (attemptNumber === 3) {
-      hint = `Keyword focus: ${cleanCorrectOption.split(" ").slice(0, 2).join(" ")}.`;
+      hint = "";
     } else {
-      hint = `Final free hint: revisit the option linked to "${cleanCorrectOption.split(" ").slice(0, 3).join(" ")}".`;
+      // Generate a real AI hint specific to this question
+      const attemptNumber = wrongAttempts + 1;
+      const aiHint = await generateMCQHint(
+        input.questionText, options, trimmedAnswer, cleanCorrectOption, attemptNumber
+      );
+      hint = `${aiHint} Attempt ${attemptNumber} of ${FREE_HINT_LIMIT} free hints.`;
     }
   } else {
-    const theory = evaluateTheoryByMarkScheme({
-      answer: trimmedAnswer,
-      markingScheme: input.markingSchemeAnswer || "",
-      maxMarks,
-    });
-    awardedMarks = theory.awardedMarks;
-    isCorrect = theory.awardedMarks >= Math.max(1, Math.ceil(maxMarks * 0.6));
-    feedback = theory.feedback;
-    hint = theory.hint;
+    // Use AI evaluation for structured subjects (Maths, English, EM) — keyword matching for science fallback
+    const subjectCodeRaw = input.subjectCode ?? "";
+    const useAI = ["0580", "0500", "0680"].includes(subjectCodeRaw) && !!input.markingSchemeAnswer;
+    if (useAI) {
+      const subjectNameMap: Record<string, string> = {
+        "0580": "Mathematics", "0500": "English First Language", "0680": "Environmental Management",
+      };
+      const aiResult = await evaluateStructuredWithAI(
+        input.questionText,
+        input.markingSchemeAnswer!,
+        trimmedAnswer,
+        maxMarks,
+        subjectNameMap[subjectCodeRaw] ?? "IGCSE"
+      );
+      awardedMarks = aiResult.awardedMarks;
+      isCorrect    = awardedMarks >= Math.max(1, Math.ceil(maxMarks * 0.6));
+      feedback     = aiResult.feedback;
+      hint         = aiResult.hint;
+    } else {
+      const theory = evaluateTheoryByMarkScheme({
+        answer: trimmedAnswer,
+        markingScheme: input.markingSchemeAnswer || "",
+        maxMarks,
+      });
+      awardedMarks = theory.awardedMarks;
+      isCorrect    = theory.awardedMarks >= Math.max(1, Math.ceil(maxMarks * 0.6));
+      feedback     = theory.feedback;
+      hint         = theory.hint;
+    }
+
+    const copiedFromHint =
+      isLikelyHintCopyAnswer(trimmedAnswer, input.latestHintShown) ||
+      (Array.isArray(input.hintHistory) &&
+        input.hintHistory.some((hint) => isLikelyHintCopyAnswer(trimmedAnswer, hint)));
+    if (copiedFromHint) {
+      isCorrect = false;
+      awardedMarks = 0;
+      feedback =
+        "This response appears copied from a hint. Rephrase the point in your own words and include the key science idea.";
+      hint = "Use the hint as direction only, then write your own complete answer.";
+    }
   }
 
-  if (!isCorrect && !input.markingSchemeAnswer?.trim() && isMCQ && Array.isArray(input.options)) {
-    hint = `${hint} Attempt ${wrongAttempts + 1} of ${FREE_HINT_LIMIT} free hints.`;
-  }
-
+  // ── Persist results to DB ─────────────────────────────────────────────────
   if (input.challengeId) {
     const repetitionCount = isCorrect ? wrongAttempts : wrongAttempts + 1;
+
+    // 1. Always log the attempt
     await db.insert(attemptLogs).values({
       userId,
       challengeId: input.challengeId,
@@ -1136,6 +1564,32 @@ export async function validateSmartPracticeAnswer(input: {
       repetitionCount,
       timestamp: new Date(),
     });
+
+    // 2. Mark challenge as completed when correct (upsert challengeProgress)
+    if (isCorrect) {
+      const existing = await db.query.challengeProgress.findFirst({
+        where: and(
+          eq(challengeProgress.userId, userId),
+          eq(challengeProgress.challengeId, input.challengeId)
+        ),
+      });
+      if (existing) {
+        await db.update(challengeProgress)
+          .set({ completed: true, attempts: (existing.attempts || 0) + 1, lastAttemptAt: new Date() })
+          .where(and(
+            eq(challengeProgress.userId, userId),
+            eq(challengeProgress.challengeId, input.challengeId)
+          ));
+      } else {
+        await db.insert(challengeProgress).values({
+          userId,
+          challengeId: input.challengeId,
+          completed: true,
+          attempts: 1,
+          lastAttemptAt: new Date(),
+        });
+      }
+    }
   }
 
   return {
@@ -1158,18 +1612,30 @@ export async function submitSmartPractice(
   score: number,
   totalQuestions: number
 ) {
-  // Update user progress (simple version)
   const progress = await db.query.userProgress.findFirst({
     where: eq(userProgress.userId, userId),
   });
 
-  const pointsEarned = score >= 80 ? 20 : score >= 50 ? 10 : 5;
-  
+  // Completion bonus: 50 XP for finishing, scaled by score %
+  const completionXP = Math.round(50 * (score / 100));
+  const pointsEarned = Math.max(5, completionXP);
+
   if (progress) {
+    // Update streak: +1 if practiced today or continue
+    const now = new Date();
+    const lastUpdated = progress.updatedAt;
+    const daysSince = lastUpdated
+      ? Math.floor((now.getTime() - lastUpdated.getTime()) / 86_400_000)
+      : 1;
+    const newStreak = daysSince <= 1 ? (progress.currentStreak || 0) + 1 : 1;
+    const newLongest = Math.max(newStreak, progress.longestStreak || 0);
+
     await db.update(userProgress)
       .set({
         points: (progress.points || 0) + pointsEarned,
-        updatedAt: new Date(),
+        currentStreak: newStreak,
+        longestStreak: newLongest,
+        updatedAt: now,
       })
       .where(eq(userProgress.userId, userId));
   }
@@ -1185,7 +1651,8 @@ export async function getAIExplanation(
   options: string[],
   correctAnswer: string,
   userAnswer: string,
-  topic: string
+  topic: string,
+  markingSchemeAnswer?: string
 ) {
-  return await getQuestionExplanation(question, options, correctAnswer, userAnswer, topic);
+  return await getQuestionExplanation(question, options, correctAnswer, userAnswer, topic, markingSchemeAnswer);
 }

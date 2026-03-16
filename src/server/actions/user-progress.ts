@@ -134,9 +134,8 @@ export const updateActiveSubject = async (courseId: number) => {
     revalidatePath("/exams");
     revalidatePath("/learn");
     revalidatePath("/learn/smart-practice");
-  } else {
-    // If user progress doesn't exist, we skip for now as dashboard usually handles it
-    // but we can insert a default one if needed.
+    revalidatePath("/progress");
+    revalidatePath("/mock-exam");
   }
 };
 

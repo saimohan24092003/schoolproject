@@ -1361,7 +1361,10 @@
         "topic": "B10. Reproduction",
         "question": "(a) Fig. 1.1 shows an insect-pollinated flower cut open to show the internal structures. (i) On Fig. 1.1, draw a label line and the letter X to identify the part that contains ovules. (ii) Describe two visible features that show the flower in Fig. 1.1 is adapted for insect pollination. (b) Fig. 1.2 shows pollen grains from different plants as seen using a microscope. Use evidence from Fig. 1.2 to describe how pollen grain Y is adapted for insect pollination. (c) A student investigates phototropism in plants. Complete these sentences to explain the response of the plant to light: Auxin spreads from the ... to other parts of the plant. There is unequal ... of auxin in response to light. The plant stem grows faster on the side with less light. This is because auxin stimulates more cell ... on this side. (d) (i) Explain why plants are found at the first trophic level of a food chain. (ii) Explain why not all the energy in plants is transferred to the next trophic level.",
         "options": [],
-        "imageSrc": "/diagrams/0653_m23_qp_42.pdf_2_0.png"
+        "imageSrc": "/diagrams/0653_m23_qp_42_p2_q1.png",
+        "additionalImages": [
+          "/diagrams/0653_m23_qp_42_p2_q1_i1.png"
+        ]
       },
       {
         "number": 2,
@@ -1443,7 +1446,12 @@
         "topic": "P1. Motion, forces and energy",
         "question": "Fig. 3.1 shows liquid (molten) iron being poured from a furnace into a mould to form a rectangular block of iron (iron bar). Fig. 3.2 shows the solid iron bar after it has cooled down. (a) (i) The bar is 100 cm long, 20 cm wide and 6.0 cm thick. Calculate the volume of the bar. (ii) The mass of the iron bar is 94 kg. Calculate the mass of the iron bar in grams. (iii) Use your answers to (a)(i) and (a)(ii) to calculate the density of iron.",
         "options": [],
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m20_qp_32_p10_q4.png",
+        "additionalImages": [
+          "/diagrams/0653_m20_qp_32_p10_q4_i1.png",
+          "/diagrams/0653_m20_qp_32_p10_q4_i2.png",
+          "/diagrams/0653_m20_qp_32_p10_q4_i3.png"
+        ]
       },
       {
         "number": 5,
@@ -1457,7 +1465,10 @@
         "topic": "B5. Plant nutrition",
         "question": "(a) Fig. 4.1 shows a cross-section of a leaf as viewed under a microscope. (i) Complete the labels on Fig. 4.1, using words from the list: cuticle, guard cell, palisade cell, stomata, upper epidermis, xylem. (ii) State the function of a chloroplast. (iii) State the function of phloem.",
         "options": [],
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m20_qp_32_p14_q6.png",
+        "additionalImages": [
+          "/diagrams/0653_m20_qp_32_p14_q6_i1.png"
+        ]
       },
       {
         "number": 7,
@@ -1478,7 +1489,15 @@
         "topic": "B7. Transport",
         "question": "(c) The leaf of a plant needs water for photosynthesis. The statements show the pathway taken by water from the soil to the leaf. The statements are not in the correct order. Use numbers 1 to 5 to show the correct order: [ ] lost through the stomata as water vapour, [ ] enters mesophyll cells of leaf, [ ] passes through root cortex cells, [3] passes into xylem, [ ] taken in by root hair cells.",
         "options": [],
-        "imageSrc": ""
+        "imageSrc": "/diagrams/0653_m20_qp_32_p22_q9.png",
+        "additionalImages": [
+          "/diagrams/0653_m20_qp_32_p22_q9_i1.png",
+          "/diagrams/0653_m20_qp_32_p22_q9_i2.png",
+          "/diagrams/0653_m20_qp_32_p22_q9_i3.png",
+          "/diagrams/0653_m20_qp_32_p22_q9_i4.png",
+          "/diagrams/0653_m20_qp_32_p22_q9_i5.png",
+          "/diagrams/0653_m20_qp_32_p22_q9_i6.png"
+        ]
       },
       {
         "number": 10,
@@ -1757,7 +1776,7 @@
           "D Diagram D"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m20_qp_22_p8_q20.png"
       },
       {
         "number": 21,
@@ -2542,7 +2561,7 @@
           "D: One 4 Ω resistor"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m21_qp_12_p15_q40.png"
       }
     ]
   },
@@ -3067,7 +3086,7 @@
           "D: Three 4 Ω resistors connected in series"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m21_qp_22_p16_q40.png"
       }
     ]
   },
@@ -3085,7 +3104,7 @@
           "D: white blood cells"
         ],
         "correctAnswer": "B",
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m21_qp_32_p2_q1.png"
       }
     ]
   },
@@ -4353,7 +4372,12 @@
           "D: (diagram D)"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m24_qp_12_p5_q15.png",
+        "additionalImages": [
+          "/diagrams/0653_m24_qp_12_p5_q15_i1.png",
+          "/diagrams/0653_m24_qp_12_p5_q15_i2.png",
+          "/diagrams/0653_m24_qp_12_p5_q15_i3.png"
+        ]
       },
       {
         "number": 16,
@@ -4639,7 +4663,7 @@
           "D: Y and Z"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m24_qp_12_p12_q37.png"
       },
       {
         "number": 38,
@@ -4652,7 +4676,7 @@
           "D: ammeter reading: increases, voltmeter reading: stays the same"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m24_qp_12_p13_q38.png"
       },
       {
         "number": 39,
@@ -5221,7 +5245,7 @@
           "D: It has the physical properties of lithium only."
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m24_qp_32_p2_q1.png"
       },
       {
         "number": 2,
@@ -5421,7 +5445,12 @@
           "D:"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m25_qp_12_p7_q14.png",
+        "additionalImages": [
+          "/diagrams/0653_m25_qp_12_p7_q14_i1.png",
+          "/diagrams/0653_m25_qp_12_p7_q14_i2.png",
+          "/diagrams/0653_m25_qp_12_p7_q14_i3.png"
+        ]
       },
       {
         "number": 15,
@@ -5733,7 +5762,7 @@
           "D: voltmeter in parallel with H"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m25_qp_12_p14_q38.png"
       },
       {
         "number": 39,
@@ -5803,7 +5832,7 @@
           "D: into cell becomes flaccid"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m25_qp_22_p2_q3.png"
       },
       {
         "number": 4,
@@ -6193,7 +6222,7 @@
           "D: gas, liquid and solid"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_m25_qp_22_p13_q33.png"
       },
       {
         "number": 34,
@@ -6346,7 +6375,7 @@
           "D: no yes yes yes"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_11_p1_q1.png"
       },
       {
         "number": 2,
@@ -7274,7 +7303,11 @@
           "D: (image option D)"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_12_p11_q32_i1.png",
+        "additionalImages": [
+          "/diagrams/0653_s19_qp_12_p11_q32_i2.png",
+          "/diagrams/0653_s19_qp_12_p11_q32.png"
+        ]
       },
       {
         "number": 33,
@@ -7339,7 +7372,10 @@
           "D: (image option D)"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_12_p13_q37_i2.png",
+        "additionalImages": [
+          "/diagrams/0653_s19_qp_12_p13_q37.png"
+        ]
       },
       {
         "number": 38,
@@ -7934,7 +7970,7 @@
           "D: time"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_21_p1_q2.png"
       },
       {
         "number": 3,
@@ -8459,7 +8495,7 @@
           "D: 12 6 2"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_22_p1_q2.png"
       },
       {
         "number": 3,
@@ -8971,7 +9007,7 @@
           "D: nucleus present large surface area"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_23_p1_q1.png"
       },
       {
         "number": 2,
@@ -9244,7 +9280,12 @@
           "D: D"
         ],
         "correctAnswer": null,
-        "imageSrc": null
+        "imageSrc": "/diagrams/0653_s19_qp_23_p8_q22.png",
+        "additionalImages": [
+          "/diagrams/0653_s19_qp_23_p8_q22_i1.png",
+          "/diagrams/0653_s19_qp_23_p8_q22_i2.png",
+          "/diagrams/0653_s19_qp_23_p8_q22_i3.png"
+        ]
       },
       {
         "number": 23,

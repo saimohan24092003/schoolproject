@@ -24,6 +24,11 @@ const PLACEHOLDER_IMAGES = new Set([
 ]);
 
 let cachedDiagramFiles: string[] | null = null;
+let cachedDiagramQuality: Map<string, boolean> | null = null;
+
+const MIN_PNG_FILE_BYTES = 1800;
+const MIN_PNG_WIDTH = 120;
+const MIN_PNG_HEIGHT = 60;
 
 type ParsedDiagramName = {
   pageNo: number | null;
@@ -65,13 +70,94 @@ const getDiagramFiles = (): string[] => {
 };
 
 const parseDiagramName = (name: string): ParsedDiagramName => {
-  // Expected pattern: <paper>.pdf_<page>_<region>.png
-  const m = name.match(/\.pdf_(\d+)_(\d+)\.png$/i);
-  if (!m) return { pageNo: null, regionNo: null };
-  return {
-    pageNo: Number.parseInt(m[1], 10),
-    regionNo: Number.parseInt(m[2], 10),
-  };
+  // Old pattern: <paper>.pdf_<page>_<region>.png
+  const oldPattern = name.match(/\.pdf_(\d+)_(\d+)\.png$/i);
+  if (oldPattern) {
+    return {
+      pageNo: Number.parseInt(oldPattern[1], 10),
+      regionNo: Number.parseInt(oldPattern[2], 10),
+    };
+  }
+
+  // Deterministic pattern: <paper>_p<page>_q<question>[_i<idx>].png
+  const deterministic = name.match(/_p(\d+)_q(\d+)(?:_i(\d+))?\.png$/i);
+  if (deterministic) {
+    return {
+      pageNo: Number.parseInt(deterministic[1], 10),
+      regionNo: deterministic[3] ? Number.parseInt(deterministic[3], 10) : 0,
+    };
+  }
+
+  return { pageNo: null, regionNo: null };
+};
+
+const isPngBufferValid = (buffer: Buffer) => {
+  if (buffer.length < 24) return false;
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  return buffer.subarray(0, 8).equals(pngSignature);
+};
+
+const readPngDimensions = (buffer: Buffer) => {
+  if (!isPngBufferValid(buffer)) return null;
+  const width = buffer.readUInt32BE(16);
+  const height = buffer.readUInt32BE(20);
+  if (!Number.isFinite(width) || !Number.isFinite(height)) return null;
+  return { width, height };
+};
+
+const buildDiagramQualityCache = () => {
+  if (cachedDiagramQuality) return cachedDiagramQuality;
+  const qualityMap = new Map<string, boolean>();
+
+  try {
+    const dir = path.join(process.cwd(), "public", "diagrams");
+    if (!fs.existsSync(dir)) {
+      cachedDiagramQuality = qualityMap;
+      return cachedDiagramQuality;
+    }
+
+    const files = fs.readdirSync(dir).filter((f) => f.toLowerCase().endsWith(".png"));
+    files.forEach((name) => {
+      const fullPath = path.join(dir, name);
+      try {
+        const stat = fs.statSync(fullPath);
+        if (!stat.isFile()) {
+          qualityMap.set(name, false);
+          return;
+        }
+        if (stat.size < MIN_PNG_FILE_BYTES) {
+          qualityMap.set(name, false);
+          return;
+        }
+        const data = fs.readFileSync(fullPath);
+        const dimensions = readPngDimensions(data);
+        if (!dimensions) {
+          qualityMap.set(name, false);
+          return;
+        }
+        if (dimensions.width < MIN_PNG_WIDTH || dimensions.height < MIN_PNG_HEIGHT) {
+          qualityMap.set(name, false);
+          return;
+        }
+        qualityMap.set(name, true);
+      } catch {
+        qualityMap.set(name, false);
+      }
+    });
+  } catch {
+    // noop
+  }
+
+  cachedDiagramQuality = qualityMap;
+  return cachedDiagramQuality;
+};
+
+const isHighQualityDiagramPath = (src: string) => {
+  if (!src.startsWith("/diagrams/")) return true;
+  const name = src.replace(/^\/diagrams\//, "");
+  if (/_ms_/i.test(name)) return false; // prefer question-paper diagrams only
+  const qualityMap = buildDiagramQualityCache();
+  return qualityMap.get(name) === true;
 };
 
 const derivePaperCodes = (
@@ -139,6 +225,8 @@ const getPaperSpecificDiagrams = ({
   // Quality guard: skip early cover/header extracts that often contain logos/watermarks.
   const qualityFiltered = filtered.filter((name) => {
     const parsed = parseDiagramName(name);
+    const isHighQuality = buildDiagramQualityCache().get(name) === true;
+    if (!isHighQuality) return false;
     if (parsed.pageNo == null) return true;
     return parsed.pageNo >= 2;
   });
@@ -161,7 +249,10 @@ export const isUsableImageSrc = (src?: string | null) => {
   const value = src.trim();
   if (!value) return false;
   if (/^https?:\/\//i.test(value)) return true;
-  if (value.startsWith("/")) return getPublicFileExists(value);
+  if (value.startsWith("/")) {
+    if (!getPublicFileExists(value)) return false;
+    return isHighQualityDiagramPath(value);
+  }
   return false;
 };
 

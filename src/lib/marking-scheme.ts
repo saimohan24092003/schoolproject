@@ -1,3 +1,38 @@
+/**
+ * Strip examiner-only shorthand from a mark scheme before showing to students.
+ * Removes lines like "Accept", "Allow", "Do not accept", "[1]", "OWTTE" etc.
+ */
+export function cleanMarkSchemeForDisplay(raw: string): string {
+  if (!raw) return "";
+  const EXAMINER_PATTERNS = [
+    /^\s*accept\b/i,
+    /^\s*allow\b/i,
+    /^\s*do not accept\b/i,
+    /^\s*do not allow\b/i,
+    /^\s*ignore\b/i,
+    /^\s*not\b.*\baccept/i,
+    /^\s*award\b/i,
+    /^\s*max\s+\d/i,
+    /^\s*any\s+(one|two|three|four|five|six)\s+from/i,
+    /^\s*owtte\b/i,
+    /^\s*or\s+words\s+to\s+that\s+effect/i,
+    /^\s*e\.?g\.?\b/i,
+    /^\s*\(\s*a\s*\)/i,
+    /^\s*\d+\s*(mark|marks)/i,
+  ];
+  const INLINE_BRACKETS = /\[\s*\d+\s*\]/g;
+
+  return raw
+    .split(/\n/)
+    .map(line => line.replace(INLINE_BRACKETS, "").trim())
+    .filter(line => {
+      if (!line) return false;
+      return !EXAMINER_PATTERNS.some(p => p.test(line));
+    })
+    .join("\n")
+    .trim();
+}
+
 export type TheoryMarkingInput = {
   answer: string;
   markingScheme: string;
@@ -19,6 +54,8 @@ const STOP_WORDS = new Set([
   "could", "because", "about", "under", "over", "each", "more", "less", "very", "only",
   "they", "them", "there", "where", "when", "which", "what", "why", "how", "you", "our",
   "its", "it's", "his", "her", "she", "him", "not", "all", "any", "one", "two", "three",
+  "see", "mark", "marks", "scheme", "answer", "focus", "term", "terms", "point", "points",
+  "attempt", "hint", "hints", "review",
 ]);
 
 function normalizeText(text: string): string {
@@ -33,6 +70,39 @@ function tokenize(text: string): string[] {
   return normalizeText(text)
     .split(" ")
     .filter((token) => token.length > 2 && !STOP_WORDS.has(token));
+}
+
+export function isLikelyHintCopyAnswer(answer: string, latestHint?: string): boolean {
+  const normalizedAnswer = normalizeText(answer || "");
+  const normalizedHint = normalizeText(latestHint || "");
+
+  if (!normalizedAnswer || !normalizedHint) return false;
+  if (normalizedAnswer === normalizedHint) return true;
+
+  if (
+    /^focus on these terms\b/i.test(answer) ||
+    /attempt\s+\d+\s+of\s+\d+\s+free\s+hints?/i.test(answer) ||
+    /^review the marking scheme\b/i.test(answer) ||
+    /^start with one clear point\b/i.test(answer) ||
+    /^see\b.*\bmark\b/i.test(answer) ||
+    /^refer\b.*\bmark\b/i.test(answer)
+  ) {
+    return true;
+  }
+
+  if (normalizedAnswer.length <= 18 && normalizedHint.includes(normalizedAnswer)) {
+    return true;
+  }
+
+  const answerTokens = new Set(tokenize(normalizedAnswer));
+  const hintTokens = new Set(tokenize(normalizedHint));
+  if (answerTokens.size === 0 || hintTokens.size === 0) return false;
+  if (answerTokens.size < 3) return false;
+
+  const overlap = Array.from(answerTokens).filter((token) => hintTokens.has(token)).length;
+  const overlapRatio = overlap / answerTokens.size;
+
+  return overlapRatio >= 0.8;
 }
 
 function extractMarkPoints(markingScheme: string): string[] {
@@ -76,12 +146,12 @@ export function evaluateTheoryByMarkScheme(input: TheoryMarkingInput): TheoryMar
 
   if (!markingScheme.trim()) {
     return {
-      awardedMarks: Math.max(1, Math.round(maxMarks * 0.4)),
+      awardedMarks: 0,
       maxMarks,
       matchedPoints: 0,
       totalPoints: 0,
-      feedback: "No structured marking scheme was available for this question.",
-      hint: "Write concise, evidence-based points and include subject terms.",
+      feedback: "Mark scheme unavailable for this question, so auto-scoring cannot award marks safely.",
+      hint: "Ask for another question or retry with a question that has a full mark scheme.",
     };
   }
 
@@ -103,9 +173,11 @@ export function evaluateTheoryByMarkScheme(input: TheoryMarkingInput): TheoryMar
     const pointTokens = tokenize(point);
     if (pointTokens.length === 0) return;
     const hitCount = pointTokens.filter((t) => answerTokens.has(t)).length;
-    const ratio = hitCount / pointTokens.length;
-    // Lowered threshold: 0.4 ratio OR 2+ keyword hits counts as a matched point
-    if (ratio >= 0.4 || hitCount >= 2) {
+    const requiredHits =
+      pointTokens.length <= 2
+        ? pointTokens.length
+        : Math.max(2, Math.ceil(pointTokens.length * 0.6));
+    if (hitCount >= requiredHits) {
       matched += 1;
     } else {
       unmatchedKeywords.push(...pointTokens.slice(0, 2));

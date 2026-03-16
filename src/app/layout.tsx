@@ -1,13 +1,21 @@
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
+import { DM_Sans, Space_Grotesk } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/Sonner";
 
 import { ExitModal, HeartsModal, PracticeModal } from "@/components/modals";
 
-const font = Nunito({ subsets: ["latin"] });
+const bodyFont = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const headingFont = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
 export const metadata: Metadata = {
   title: "ExamPrep - O-Level Practice",
@@ -16,6 +24,11 @@ export const metadata: Metadata = {
     icon: "/linga-logo.svg",
     shortcut: "/linga-logo.svg",
     apple: "/linga-logo.svg",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
   },
 };
 
@@ -29,7 +42,9 @@ export default function RootLayout({
       <body
         className={cn(
           "scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-4 scrolling-touch",
-          font.className
+          bodyFont.variable,
+          headingFont.variable,
+          "font-body"
         )}
       >
         <ClerkProvider>

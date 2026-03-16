@@ -23,6 +23,7 @@ import {
 
 import { usePracticeModal } from "@/store/use-practice-modal";
 import { upsertChallengeProgress } from "@/server/actions/challenge-progress";
+import { gradeLessonTheoryAnswer } from "@/server/actions/theory-grading";
 
 import {
   DEFAULT_POINTS_START,
@@ -48,6 +49,14 @@ type QuizProps = {
     title: string;
     description: string | null;
   };
+};
+
+type TheoryEvaluation = {
+  feedback: string;
+  hint: string;
+  awardedMarks: number;
+  maxMarks: number;
+  isCorrect: boolean;
 };
 
 const Quiz = ({
@@ -92,6 +101,7 @@ const Quiz = ({
   const [selectedOption, setSelectedOption] = useState<number>();
   const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
   const [isLearning, setIsLearning] = useState(true); // New state for Learning Phase
+  const [theoryEvaluation, setTheoryEvaluation] = useState<TheoryEvaluation | null>(null);
 
   const currentChallenge = challenges[activeIndex];
   const options = currentChallenge?.challengeOptions ?? [];
@@ -114,6 +124,7 @@ const Quiz = ({
     if (status === "wrong") {
       setStatus("none");
       setSelectedOption(undefined);
+      setTheoryEvaluation(null);
       return;
     }
 
@@ -162,25 +173,43 @@ const Quiz = ({
     setActiveIndex((current) => current + 1);
     setStatus("none");
     setSelectedOption(undefined);
+    setTheoryEvaluation(null);
   };
 
-  const onTheoryCheck = (newStatus: "correct" | "wrong") => {
-    startTransition(() => {
-        upsertChallengeProgress(currentChallenge.id)
-          .then((response: { error?: string } | void) => {
-            if (response && "error" in response && response.error === "hearts") return;
+  const onTheoryCheck = (answer: string) => {
+    if (!answer.trim()) return;
 
-            if (newStatus === "correct") {
-                correctAudioRef.current?.play();
-            } else {
-                incorrectAudioRef.current?.play();
-            }
-            
-            setStatus(newStatus);
-            setPercentage((prev) => prev + 100 / challenges.length);
+    startTransition(() => {
+      gradeLessonTheoryAnswer({
+        challengeId: currentChallenge.id,
+        answer,
+      })
+        .then((result) => {
+          setTheoryEvaluation({
+            feedback: result.feedback,
+            hint: result.hint,
+            awardedMarks: result.awardedMarks,
+            maxMarks: result.maxMarks,
+            isCorrect: result.isCorrect,
           })
-          .catch(() => toast.error("Something went wrong. Please try again."));
-      });
+          if (!result.isCorrect) {
+            incorrectAudioRef.current?.play();
+            setStatus("wrong");
+            return;
+          }
+
+          upsertChallengeProgress(currentChallenge.id)
+            .then((response: { error?: string } | void) => {
+              if (response && "error" in response && response.error === "hearts") return;
+
+              correctAudioRef.current?.play();
+              setStatus("correct");
+              setPercentage((prev) => prev + 100 / challenges.length);
+            })
+            .catch(() => toast.error("Something went wrong. Please try again."));
+        })
+        .catch(() => toast.error("Something went wrong. Please try again."));
+    });
   };
 
   if (isLearning) {
@@ -317,6 +346,10 @@ const Quiz = ({
                     onCheck={onTheoryCheck}
                     disabled={pending}
                     status={status}
+                    feedback={theoryEvaluation?.feedback}
+                    hint={theoryEvaluation?.hint}
+                    awardedMarks={theoryEvaluation?.awardedMarks}
+                    maxMarks={theoryEvaluation?.maxMarks}
                 />
               ) : (
                 <Challenge
@@ -369,13 +402,19 @@ const Quiz = ({
         </div>
       </div>
 
-      <Footer
-        onCheck={onContinue}
-        status={status}
-        disabled={pending || (status === "none" && currentChallenge.type !== "THEORY" && !selectedOption)}
-        hint={currentChallenge.explanation || undefined}
-        lessonId={lessonId}
-      />
+      {!(currentChallenge.type === "THEORY" && status === "none") && (
+        <Footer
+          onCheck={onContinue}
+          status={status}
+          disabled={pending || (status === "none" && currentChallenge.type !== "THEORY" && !selectedOption)}
+          hint={
+            currentChallenge.type === "THEORY"
+              ? theoryEvaluation?.hint
+              : currentChallenge.explanation || undefined
+          }
+          lessonId={lessonId}
+        />
+      )}
     </>
   );
 };

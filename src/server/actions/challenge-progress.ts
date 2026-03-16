@@ -85,6 +85,14 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     })
     .where(eq(userProgress.userId, userId));
 
+  await db.insert(attemptLogs).values({
+    userId,
+    challengeId,
+    status: "correct",
+    repetitionCount: 1,
+    timestamp: new Date(),
+  });
+
   revalidatePath("/learn");
   revalidatePath("/lesson");
   revalidatePath("/exams");
@@ -138,6 +146,14 @@ export const reduceHearts = async (challengeId: number) => {
       hearts: Math.max(currentUserProgress.hearts - 1, 0),
     })
     .where(eq(userProgress.userId, userId));
+
+  await db.insert(attemptLogs).values({
+    userId,
+    challengeId,
+    status: "wrong",
+    repetitionCount: 1,
+    timestamp: new Date(),
+  });
 
   revalidatePath("/shop");
   revalidatePath("/learn");

@@ -5,44 +5,44 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-bold tracking-wide uppercase ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-extrabold tracking-wide uppercase ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-white hover:bg-slate-100 text-slate-500 border-slate-200 border-2 border-b-4 active:border-b-2",
+          "bg-white hover:bg-amber-50 text-slate-700 border-2 border-amber-100 shadow-[0_3px_0_0_#f1e6c7] active:translate-y-[1px] active:shadow-[0_1px_0_0_#f1e6c7]",
 
         defaultOutline:
-          "bg-transparent hover:bg-slate-100 text-slate-500 border-transparent border-0",
+          "bg-transparent hover:bg-amber-50 text-slate-700 border border-amber-100 shadow-none",
 
         primary:
-          "bg-sky-400 hover:bg-sky-400/90 text-primary-foreground border-sky-500 border-b-4 active:border-b-0",
+          "bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white border-2 border-emerald-700 shadow-[0_4px_0_0_#065f46] active:translate-y-[1px] active:shadow-[0_2px_0_0_#065f46]",
 
-        primaryOutline: "bg-transparent hover:bg-slate-100 text-sky-500",
+        primaryOutline: "bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200",
 
         secondary:
-          "bg-green-500 hover:bg-green-500/90 text-primary-foreground border-green-600 border-b-4 active:border-b-0",
+          "bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white border-2 border-blue-700 shadow-[0_4px_0_0_#1e3a8a] active:translate-y-[1px] active:shadow-[0_2px_0_0_#1e3a8a]",
 
-        secondaryOutline: "bg-transparent hover:bg-slate-100 text-green-500",
+        secondaryOutline: "bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200",
 
         danger:
-          "bg-rose-500 hover:bg-rose-500/90 text-primary-foreground border-rose-600 border-b-4 active:border-b-0",
+          "bg-gradient-to-r from-rose-600 to-orange-500 hover:from-rose-500 hover:to-orange-400 text-white border-2 border-rose-700 shadow-[0_4px_0_0_#9f1239] active:translate-y-[1px] active:shadow-[0_2px_0_0_#9f1239]",
 
-        dangerOutline: "bg-transparent hover:bg-slate-100 text-rose-500",
+        dangerOutline: "bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200",
 
         super:
-          "bg-indigo-500 hover:bg-indigo-500/90 text-primary-foreground border-indigo-600 border-b-4 active:border-b-0",
+          "bg-gradient-to-r from-orange-500 to-amber-400 hover:from-orange-400 hover:to-amber-300 text-slate-900 border-2 border-orange-600 shadow-[0_4px_0_0_#c2410c] active:translate-y-[1px] active:shadow-[0_2px_0_0_#c2410c]",
 
-        superOutline: "bg-transparent hover:bg-slate-100 text-indigo-500",
+        superOutline: "bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200",
 
         sidebar:
-          "bg-sky-500/15 hover:bg-sky-500/20 text-sky-500 border-sky-300 border-2 transition-none",
+          "bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-2 border-emerald-200 shadow-none",
 
         sidebarOutline:
-          "bg-transparent hover:bg-slate-100 text-slate-500 border-2 border-transparent transition-none",
+          "bg-transparent hover:bg-amber-50 text-slate-600 border-2 border-transparent shadow-none",
 
         locked:
-          "bg-neutral-200 hover:bg-neutral-200/90 text-primary-foreground border-neutral-400 border-b-4 active:border-b-0",
+          "bg-neutral-200 hover:bg-neutral-200/90 text-neutral-500 border-2 border-neutral-300 shadow-[0_3px_0_0_#a3a3a3] active:translate-y-[1px] active:shadow-[0_1px_0_0_#a3a3a3]",
       },
       size: {
         sm: "h-9 px-3",
@@ -61,7 +61,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 

@@ -1,4 +1,3 @@
-
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import * as fs from "fs";
@@ -8,6 +7,7 @@ import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { getUserGradeHistory, getUserStats, getMockHubAnalytics, getUserProgress, getCourses } from "@/server/db/queries";
 import { GRADE_BOUNDARIES } from "@/constants";
+import { ArrowRight, BarChart3, Clock3, Sparkles, Target, Trophy } from "lucide-react";
 
 interface Props {
   searchParams: { subject?: string };
@@ -15,65 +15,52 @@ interface Props {
 
 const ProgressPage = async ({ searchParams }: Props) => {
   const user = await currentUser();
-
-  if (!user) {
-    redirect("/sign-in");
-  }
+  if (!user) redirect("/sign-in");
 
   const userProgress = await getUserProgress();
   const allCourses = await getCourses();
 
-  // URL param overrides DB activeCourseId so sidebar subject switch works instantly
   const subjectOverride = searchParams.subject
-    ? allCourses.find(c => c.title.includes(searchParams.subject!))
+    ? allCourses.find((course) => course.title.includes(searchParams.subject!))
     : undefined;
-  const activeCourse = subjectOverride ?? allCourses.find(c => c.id === userProgress?.activeCourseId);
+  const activeCourse = subjectOverride ?? allCourses.find((course) => course.id === userProgress?.activeCourseId);
   const activeSubject = activeCourse?.title;
   const subjectCode = activeSubject?.match(/\d+/)?.[0];
 
   const allGradeHistory = await getUserGradeHistory();
-  // Filter history to show only records for the active subject
   const gradeHistory = activeSubject
-    ? allGradeHistory.filter(h => h.examPaper?.subject === activeSubject)
+    ? allGradeHistory.filter((history) => history.examPaper?.subject === activeSubject)
     : allGradeHistory;
 
   const stats = await getUserStats();
   const analytics = await getMockHubAnalytics(userProgress?.activeCourseId ?? undefined);
 
-  // Load Topic Analysis for Critical Prioritization
-  let topicAnalysis: Record<string, { priority: string, frequency: number }> = {};
+  let topicAnalysis: Record<string, { priority: string; frequency: number }> = {};
   try {
     const analysisPath = path.join(process.cwd(), "topic_analysis.json");
     if (fs.existsSync(analysisPath)) {
-        topicAnalysis = JSON.parse(fs.readFileSync(analysisPath, "utf-8"));
+      topicAnalysis = JSON.parse(fs.readFileSync(analysisPath, "utf-8"));
     }
-  } catch (e) {}
+  } catch { }
 
-  // Calculate statistics
   const totalExams = gradeHistory.length;
   const averageScore = totalExams > 0
-    ? Math.round(gradeHistory.reduce((acc, g) => acc + g.percentage, 0) / totalExams)
+    ? Math.round(gradeHistory.reduce((acc, item) => acc + item.percentage, 0) / totalExams)
     : 0;
 
-  // Unified Grading Logic based on official GRADE_BOUNDARIES
   const calculateGrade = (score: number) => {
     return Object.entries(GRADE_BOUNDARIES)
       .sort(([, a], [, b]) => b - a)
-      .find(([_, threshold]) => score >= threshold)?.[0] || "U";
+      .find(([, threshold]) => score >= threshold)?.[0] || "U";
   };
 
   const predictedGrade = calculateGrade(averageScore);
-
-  // Grade Probability Logic (Task 5)
   const hasData = totalExams > 0 || (analytics?.totalInteractions || 0) > 10;
   const confidence = totalExams > 5 ? "High" : totalExams > 2 ? "Medium" : "Low";
-  
-  // Future Probability: Projected based on mastery and improvement
   const improvementFactor = (analytics?.improvement || 0) / 2;
   const rawProbability = (averageScore * 0.8) + (improvementFactor * 2);
   const probability = Math.min(99, Math.round(rawProbability > 0 ? rawProbability : 45));
 
-  // A* readiness dashboard metrics
   const trackedTopics = (analytics?.topicMastery || []).filter((topic) => topic.attempts >= 2);
   const readinessTopics = trackedTopics.slice(0, 8).map((topic) => {
     const isHighPriority = topicAnalysis[topic.name]?.priority === "HIGH";
@@ -87,285 +74,218 @@ const ProgressPage = async ({ searchParams }: Props) => {
   });
   const topicsOnTrack = readinessTopics.filter((topic) => topic.onTrack).length;
   const readinessRatio = readinessTopics.length > 0 ? topicsOnTrack / readinessTopics.length : 0;
-  const isExamReady =
-    hasData &&
-    averageScore >= 75 &&
-    readinessTopics.length >= 4 &&
-    readinessRatio >= 0.7;
+  const isExamReady = hasData && averageScore >= 75 && readinessTopics.length >= 4 && readinessRatio >= 0.7;
+
+  const mockHref = `/mock-exam${subjectCode ? `?subject=${subjectCode}` : ""}`;
 
   return (
-    <div className="flex flex-col gap-8 p-6 max-w-5xl mx-auto">
-      {/* 1. Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-            <h1 className="text-4xl font-black text-gray-900 tracking-tight">Mock Hub</h1>
-            <p className="text-gray-500 font-medium mt-1">
-                {hasData ? "Real-time performance analytics and A* probability tracking." : "Complete your first mock to unlock AI performance analysis."}
+    <div className="space-y-6 pb-10">
+      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 via-teal-900 to-blue-900 p-6 text-white shadow-xl shadow-slate-900/15 md:p-8">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr] lg:items-end">
+          <div>
+            <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-teal-200">Progress Dashboard</p>
+            <h1 className="text-3xl font-black leading-tight md:text-4xl">Mock Hub Analytics</h1>
+            <p className="mt-2 max-w-xl text-sm font-medium text-slate-200">
+              {hasData
+                ? "Real-time performance analytics and A* probability tracking."
+                : "Complete your first mock to unlock AI performance analysis."}
             </p>
             {activeSubject && (
-              <span className="inline-block mt-2 text-xs font-black text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full uppercase tracking-widest">
+              <span className="mt-3 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-teal-100">
                 {activeSubject}
               </span>
             )}
-        </div>
-        <Button size="lg" className="rounded-2xl font-black h-14 px-8 bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-200 text-white" asChild>
-            <Link href={`/mock-exam${subjectCode ? `?subject=${subjectCode}` : ""}`}>Start Random Mock →</Link>
-        </Button>
-      </div>
+          </div>
 
-      {/* 2. AI Grade Probability */}
-      <div className="bg-gray-900 rounded-[2.5rem] p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] -mr-32 -mt-32 transition-all group-hover:bg-blue-600/30"></div>
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {hasData ? (
-                <>
-                    <div className="space-y-6">
-                        <div className="inline-flex items-center px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-black rounded-full border border-blue-500/20 tracking-widest uppercase">
-                            AI Analysis Status: {confidence} Confidence
-                        </div>
-                        <h2 className="text-3xl lg:text-5xl font-black leading-[1.1]">
-                            Predicted Exam <br/> <span className="text-blue-400 text-6xl lg:text-8xl">Grade: {predictedGrade}</span>
-                        </h2>
-                        <p className="text-gray-400 text-lg font-medium leading-relaxed max-w-md">
-                            Based on your performance in {totalExams} mock simulations, your current probability of scoring an A* is <span className="text-white font-black">{probability}%</span>.
-                        </p>
-                    </div>
-                    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 space-y-6">
-                        <div className="flex justify-between items-center">
-                            <span className="text-sm font-black text-gray-400 uppercase tracking-widest">Mastery Level</span>
-                            <span className="text-2xl font-black text-blue-400">{averageScore}%</span>
-                        </div>
-                        <div className="w-full bg-white/10 h-4 rounded-full overflow-hidden border border-white/5 p-1">
-                            <div className="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full transition-all duration-1000" style={{ width: `${averageScore}%` }}></div>
-                        </div>
-                          <div className="grid grid-cols-2 gap-4 pt-4">
-                              <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                                  <p className="text-[10px] font-black text-gray-500 uppercase tracking-tighter mb-1">Consistency</p>
-                                  <p className="text-xl font-black">{stats?.currentStreak || 0} Days</p>
-                              </div>
-                            <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                                <p className="text-[10px] font-black text-gray-500 uppercase tracking-tighter mb-1">Improvement</p>
-                                <p className="text-xl font-black text-green-400">+{analytics?.improvement || 0}%</p>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            ) : (
-                <div className="col-span-full text-center py-12 space-y-6">
-                    <div className="w-20 h-20 bg-blue-600/20 rounded-3xl flex items-center justify-center mx-auto border border-blue-500/20">
-                        <span className="text-4xl">📊</span>
-                    </div>
-                    <div className="space-y-2">
-                        <h2 className="text-3xl font-black">Waiting for Performance Data</h2>
-                        <p className="text-gray-400 max-w-md mx-auto font-medium leading-relaxed">
-                            Start your first mock exam or practice session to allow the AI to analyze your mastery level and predict your final grade.
-                        </p>
-                    </div>
-                    <Button size="lg" className="bg-white hover:bg-gray-100 text-gray-900 border border-white/20 font-black rounded-2xl px-10" asChild>
-                        <Link href={`/mock-exam${subjectCode ? `?subject=${subjectCode}` : ""}`}>Launch Your First Mock →</Link>
-                    </Button>
-                </div>
-            )}
+          <div className="rounded-2xl border border-white/20 bg-white/10 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-teal-100">AI confidence</p>
+            <p className="mt-1 text-2xl font-black">{confidence}</p>
+            <p className="mt-1 text-sm font-semibold text-slate-100">Predicted Grade: {predictedGrade}</p>
+            <Button asChild className="mt-4 w-full rounded-2xl bg-white text-slate-900 hover:bg-slate-100">
+              <Link href={mockHref}>
+                Start Random Mock
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* 3. Performance Breakdown */}
-      {hasData && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-700">
-            {analytics?.subjectMastery.map((mastery) => (
-                <div key={mastery.name} className="bg-white border-2 border-gray-100 rounded-3xl p-6 shadow-sm">
-                    <div className="flex justify-between items-center mb-4">
-                        <p className="font-black text-gray-900 uppercase tracking-tighter">{mastery.name}</p>
-                        <span className={cn("text-[10px] font-black px-2 py-0.5 rounded-full", 
-                            mastery.accuracy >= 80 ? "bg-green-100 text-green-600" : mastery.accuracy >= 60 ? "bg-orange-100 text-orange-600" : "bg-rose-100 text-rose-600"
-                        )}>
-                            {mastery.accuracy >= 80 ? "STRONG" : mastery.accuracy >= 60 ? "STABLE" : "WEAK"}
-                        </span>
-                    </div>
-                    <div className="flex items-end gap-2">
-                        <p className="text-4xl font-black text-gray-900">{mastery.accuracy}%</p>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Accuracy</p>
-                    </div>
-                    <div className="w-full bg-gray-100 h-1.5 rounded-full mt-4 overflow-hidden">
-                        <div className={cn("h-full rounded-full transition-all duration-1000",
-                            mastery.accuracy >= 80 ? "bg-green-500" : mastery.accuracy >= 60 ? "bg-orange-500" : "bg-rose-500"
-                        )} style={{ width: `${mastery.accuracy}%` }}></div>
-                    </div>
-                </div>
-            ))}
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">Mocks Taken</p>
+          <p className="mt-1 text-3xl font-black text-slate-900">{totalExams}</p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">Completed sessions</p>
         </div>
-      )}
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">Average Score</p>
+          <p className="mt-1 text-3xl font-black text-slate-900">{averageScore}%</p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">Current baseline</p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">A* Probability</p>
+          <p className="mt-1 text-3xl font-black text-blue-700">{probability}%</p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">AI projected outcome</p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">Streak</p>
+          <p className="mt-1 text-3xl font-black text-slate-900">{stats?.currentStreak || 0}</p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">Consecutive days</p>
+        </div>
+      </section>
 
-      {/* 4. A* Readiness Dashboard */}
-      <div className="bg-white border-2 border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-black text-gray-400 uppercase tracking-widest">A* Readiness Dashboard</p>
-            <h3 className="text-2xl font-black text-gray-900 mt-1">Topic Targets and Exam Status</h3>
-            <p className="text-sm text-gray-500 font-medium mt-1">
-              You are {topicsOnTrack}/{readinessTopics.length || 0} topics on target in tracked areas.
+            <p className="text-xs font-black uppercase tracking-[0.14em] text-violet-600">Readiness Tracker</p>
+            <h2 className="text-2xl font-black text-slate-900">Topic targets and exam status</h2>
+            <p className="text-sm font-medium text-slate-500">
+              {readinessTopics.length > 0
+                ? `${topicsOnTrack}/${readinessTopics.length} topics are currently on target.`
+                : "Complete at least 2 attempts per topic to unlock full readiness tracking."}
             </p>
           </div>
-          <div
+          <span
             className={cn(
-              "px-4 py-2 rounded-full text-xs font-black border uppercase tracking-widest w-fit",
+              "inline-flex items-center rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.12em]",
               isExamReady
-                ? "bg-green-50 text-green-700 border-green-200"
-                : "bg-rose-50 text-rose-700 border-rose-200"
+                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                : "border-rose-200 bg-rose-50 text-rose-700"
             )}
           >
             {isExamReady ? "Exam Ready" : "Not Ready"}
-          </div>
+          </span>
         </div>
 
-        {readinessTopics.length > 0 ? (
-          <div className="mt-6 space-y-3">
+        {readinessTopics.length > 0 && (
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
             {readinessTopics.map((topic) => (
-              <div key={topic.name} className="border border-gray-100 rounded-2xl p-4">
+              <div key={topic.name} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-black text-gray-900 truncate">{topic.name}</p>
+                  <p className="truncate text-sm font-black text-slate-900">{topic.name}</p>
                   <span
                     className={cn(
-                      "text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest shrink-0",
-                      topic.onTrack ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
+                      "rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.1em]",
+                      topic.onTrack ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"
                     )}
                   >
                     {topic.onTrack ? "On Target" : "Below Target"}
                   </span>
                 </div>
-                <div className="mt-2 text-xs font-bold text-gray-500 flex items-center justify-between">
-                  <span>Current: {topic.accuracy}% ({topic.attempts} attempts)</span>
-                  <span>Target: {topic.target}%{topic.isHighPriority ? " (high priority)" : ""}</span>
-                </div>
-                <div className="w-full bg-gray-100 h-1.5 rounded-full mt-3 overflow-hidden">
-                  <div className="bg-blue-500 h-full rounded-full" style={{ width: `${topic.accuracy}%` }} />
+                <p className="mt-1 text-xs font-semibold text-slate-500">
+                  Current {topic.accuracy}% from {topic.attempts} attempts. Target {topic.target}%.
+                </p>
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-200">
+                  <div className="h-full rounded-full bg-gradient-to-r from-violet-500 to-blue-600" style={{ width: `${topic.accuracy}%` }} />
                 </div>
               </div>
             ))}
           </div>
-        ) : (
-          <div className="mt-6 bg-gray-50 border border-dashed border-gray-200 rounded-2xl p-6">
-            <p className="text-sm font-black text-gray-700">Not enough topic data yet.</p>
-            <p className="text-xs text-gray-500 font-medium mt-1">
-              Complete at least 2 attempts on multiple topics to unlock readiness tracking.
+        )}
+      </section>
+
+      <div className="grid gap-6 xl:grid-cols-[1.2fr_1fr]">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-xl font-black text-slate-900">Exam History</h3>
+            <span className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">{totalExams} sessions</span>
+          </div>
+          {gradeHistory.length > 0 ? (
+            <div className="space-y-3">
+              {gradeHistory.map((exam) => (
+                <div key={exam.id} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-black text-slate-900">{exam.examPaper?.title || "Mock Assessment"}</p>
+                    <p className="text-xs font-semibold text-slate-500">
+                      {new Date(exam.completedAt).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}
+                    </p>
+                  </div>
+                  <div className="ml-3 text-right">
+                    <p className="text-xl font-black text-slate-900">{exam.percentage}%</p>
+                    <p className="text-xs font-bold text-slate-500">Grade {exam.grade}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+              <p className="text-sm font-black text-slate-700">No exam data yet.</p>
+              <p className="text-xs font-semibold text-slate-500">Your A* journey begins with your first mock exam.</p>
+            </div>
+          )}
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-slate-500">AI Guidance</p>
+          <h3 className="mt-1 text-xl font-black text-slate-900">Next Action Plan</h3>
+
+          {analytics?.weakChapters && analytics.weakChapters.length > 0 ? (
+            <div className="mt-4 space-y-4">
+              <div className="space-y-2">
+                {analytics.weakChapters.slice(0, 3).map((chapter, index) => {
+                  const isCritical = topicAnalysis[chapter.name]?.priority === "HIGH";
+                  return (
+                    <div
+                      key={chapter.name}
+                      className={cn(
+                        "rounded-xl border p-3",
+                        isCritical ? "border-rose-200 bg-rose-50" : "border-orange-200 bg-orange-50"
+                      )}
+                    >
+                      <p className={cn("text-[10px] font-black uppercase tracking-[0.1em]", isCritical ? "text-rose-700" : "text-orange-700")}>
+                        {isCritical ? "Critical Chapter" : "Weak Chapter"} {index + 1}
+                      </p>
+                      <p className="text-sm font-bold text-slate-800">{chapter.name}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {(analytics.weakSubTopics?.length || 0) > 0 && (
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                  <p className="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500">Sub-topic focus</p>
+                  <p className="mt-1 text-sm font-semibold text-slate-700">
+                    Prioritize: {analytics.weakSubTopics.slice(0, 2).map((topic) => topic.name).join(", ")}
+                  </p>
+                </div>
+              )}
+
+              <div className="rounded-xl border border-blue-200 bg-blue-50 p-3">
+                <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.1em] text-blue-700">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Coach Note
+                </p>
+                <p className="mt-1 text-sm font-semibold text-blue-900">
+                  Run one focused mock, then revisit this panel to confirm improvement in weak chapters.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5 text-center">
+              <p className="text-sm font-black text-slate-700">Practice more to unlock personalized AI guidance.</p>
+            </div>
+          )}
+
+          <div className="mt-5 grid grid-cols-2 gap-2.5">
+            <Link href={mockHref} className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-3 py-2.5 text-xs font-black uppercase tracking-[0.1em] text-white transition hover:bg-slate-800">
+              <BarChart3 className="mr-1.5 h-3.5 w-3.5" />
+              Run Mock
+            </Link>
+            <Link href="/dashboard" className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-xs font-black uppercase tracking-[0.1em] text-slate-700 transition hover:bg-slate-50">
+              <Trophy className="mr-1.5 h-3.5 w-3.5" />
+              Dashboard
+            </Link>
+          </div>
+
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <p className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+              <Target className="h-3.5 w-3.5" /> Goal grade: {predictedGrade}
+            </p>
+            <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-600">
+              <Clock3 className="h-3.5 w-3.5" /> Current streak: {stats?.currentStreak || 0} days
             </p>
           </div>
-        )}
-      </div>
-
-      {/* 5. Performance History & AI Guidance */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-            <h3 className="text-2xl font-black text-gray-900 tracking-tight flex items-center gap-3">
-                Exam History
-                <span className="text-sm font-bold text-gray-400">({totalExams} Sessions)</span>
-            </h3>
-            <div className="space-y-4">
-                {gradeHistory.length > 0 ? (
-                    gradeHistory.map((exam) => (
-                        <div key={exam.id} className="bg-white border-2 border-gray-100 rounded-3xl p-6 flex items-center justify-between hover:border-blue-100 transition-all shadow-sm group">
-                            <div className="flex items-center gap-4">
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl border-2 transition-colors ${
-                                    exam.grade === "A*" ? "bg-purple-50 border-purple-100 text-purple-600" :
-                                    exam.grade === "A" ? "bg-blue-50 border-blue-100 text-blue-600" :
-                                    "bg-gray-50 border-gray-100 text-gray-600"
-                                }`}>
-                                    {exam.grade}
-                                </div>
-                                <div>
-                                    <p className="font-black text-gray-900 text-lg leading-tight group-hover:text-blue-600 transition-colors">
-                                        {exam.examPaper?.title || "Mock Assessment"}
-                                    </p>
-                                    <p className="text-xs font-bold text-gray-400 mt-1">
-                                        {new Date(exam.completedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-2xl font-black text-gray-900">{exam.percentage}%</p>
-                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Correct Answers</p>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <div className="py-20 text-center bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200">
-                        <div className="text-5xl mb-4 grayscale opacity-20">📝</div>
-                        <p className="text-gray-500 font-black">No exam data yet.</p>
-                        <p className="text-sm text-gray-400 font-medium">Your A* journey begins with your first mock exam.</p>
-                    </div>
-                )}
-            </div>
-        </div>
-
-        {/* 6. A* Improvement Guidance (Real Performance Analysis) */}
-        <div className="space-y-6">
-            <h3 className="text-2xl font-black text-gray-900 tracking-tight">AI Guidance</h3>
-            <div className="bg-white border-2 border-gray-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
-                {analytics?.weakChapters && analytics.weakChapters.length > 0 ? (
-                    <>
-                        <div className="space-y-4">
-                            <p className="text-sm font-black text-gray-400 uppercase tracking-widest">Focus Chapters</p>
-                            <div className="space-y-3">
-                                {analytics.weakChapters.map((chapter, i) => {
-                                    const isHighPriority = topicAnalysis[chapter.name]?.priority === "HIGH";
-                                    return (
-                                        <div key={i} className={cn("flex items-center gap-3 p-4 rounded-2xl border transition-all",
-                                            isHighPriority ? "bg-rose-50 border-rose-100 shadow-sm" : "bg-orange-50 border-orange-100"
-                                        )}>
-                                            <span className="text-2xl">{isHighPriority ? "🔥" : "⚠️"}</span>
-                                            <div>
-                                                <p className={cn("text-[10px] font-black uppercase tracking-tighter",
-                                                    isHighPriority ? "text-rose-700" : "text-orange-700"
-                                                )}>
-                                                    {isHighPriority ? "CRITICAL CHAPTER" : "WEAK CHAPTER"}
-                                                </p>
-                                                <p className="text-sm font-black text-gray-900 line-clamp-1">{chapter.name}</p>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        <div className="space-y-4 pt-4 border-t border-gray-50">
-                            <p className="text-sm font-black text-gray-400 uppercase tracking-widest">Action Plan</p>
-                            <ul className="space-y-4">
-                                {analytics.weakSubTopics && analytics.weakSubTopics.length > 0 ? (
-                                    <>
-                                        <li className="flex gap-3 text-sm font-black text-gray-600">
-                                            <span className="text-blue-600 shrink-0">01</span>
-                                            <span>Eliminate errors in <span className="text-blue-600">&quot;{analytics.weakSubTopics[0].name}&quot;</span>.</span>
-                                        </li>
-                                        {analytics.weakSubTopics[1] && (
-                                            <li className="flex gap-3 text-sm font-black text-gray-600">
-                                                <span className="text-blue-600 shrink-0">02</span>
-                                                <span>Review theory for <span className="text-blue-600">&quot;{analytics.weakSubTopics[1].name}&quot;</span>.</span>
-                                            </li>
-                                        )}
-                                    </>
-                                ) : (
-                                    <li className="flex gap-3 text-sm font-black text-gray-600">
-                                        <span className="text-blue-600 shrink-0">01</span>
-                                        Target 100% accuracy in chapter &quot;{analytics.weakChapters[0].name}&quot;.
-                                    </li>
-                                )}
-                                <li className="flex gap-3 text-sm font-black text-gray-600">
-                                    <span className="text-blue-600 shrink-0">Auto</span>
-                                    Complete more sessions to refine this AI guidance.
-                                </li>
-                            </ul>
-                        </div>
-                    </>
-                ) : (
-                    <div className="py-12 text-center space-y-4 grayscale opacity-40">
-                        <div className="text-5xl">🤖</div>
-                        <p className="text-sm font-black text-gray-500 uppercase tracking-widest leading-relaxed">
-                            Practice more to unlock <br/> personalized AI guidance.
-                        </p>
-                    </div>
-                )}
-            </div>
-        </div>
+        </section>
       </div>
     </div>
   );

@@ -209,12 +209,14 @@ export function QuestionResources({ question, className = "" }: Props) {
   const notes = extractResourceNotes(text);
   const allImages = extractImageSources(question);
   const [failedImages, setFailedImages] = useState<string[]>([]);
+  const [lowQualityImages, setLowQualityImages] = useState<string[]>([]);
   useEffect(() => {
     setFailedImages([]);
+    setLowQualityImages([]);
   }, [question?.id, question?.question, question?.text]);
   const images = useMemo(
-    () => allImages.filter((src) => !failedImages.includes(src)),
-    [allImages, failedImages]
+    () => allImages.filter((src) => !failedImages.includes(src) && !lowQualityImages.includes(src)),
+    [allImages, failedImages, lowQualityImages]
   );
   const table = extractTable(question);
   const chartPoints = extractChartPointsFromText(text);
@@ -236,6 +238,13 @@ export function QuestionResources({ question, className = "" }: Props) {
             alt={`Question resource ${i + 1}`}
             className="w-full h-full object-contain p-3"
             loading="lazy"
+            onLoad={(event) => {
+              const img = event.currentTarget;
+              const tooSmall = img.naturalWidth < 120 || img.naturalHeight < 60;
+              if (tooSmall) {
+                setLowQualityImages((prev) => (prev.includes(src) ? prev : [...prev, src]));
+              }
+            }}
             onError={() => {
               setFailedImages((prev) => (prev.includes(src) ? prev : [...prev, src]));
             }}
