@@ -5,32 +5,32 @@ Based on the analysis of **240 questions** from 2015-2018 past papers, here are 
 ## 🏆 Top 10 High-Yield Topics
 These topics appear most frequently in Paper 1 (MCQ).
 
-1. **P1. Motion, forces and energy** (Physics) - 22 questions
-2. **P3. Waves** (Physics) - 18 questions
-3. **C3. Atoms, elements and compounds** (Chemistry) - 15 questions
-4. **P4. Electricity and magnetism** (Physics) - 15 questions
-5. **P2. Thermal physics** (Physics) - 14 questions
-6. **B2. Cells** (Biology) - 12 questions
-7. **C9. The Periodic Table** (Chemistry) - 12 questions
-8. **C7. Chemical reactions** (Chemistry) - 12 questions
-9. **B10. Reproduction** (Biology) - 10 questions
-10. **B8. Gas exchange and respiration** (Biology) - 10 questions
+1. **1.1 Types of numbers** (Unit 1: Number) - 4619 questions
+2. **1.3 Reading for meaning — inference and deduction** (Unit 1: Reading for Ideas) - 1069 questions
+3. **4.1 Angles and lines** (Unit 4: Geometry) - 776 questions
+4. **2.2 Solving equations** (Unit 2: Algebra) - 468 questions
+5. **1.4 Reading for meaning — language and effect** (Unit 1: Reading for Ideas) - 418 questions
+6. **8.1 Probability** (Unit 8: Probability and Statistics) - 407 questions
+7. **2.1 Algebraic manipulation** (Unit 2: Algebra) - 401 questions
+8. **5.1 Perimeter and area** (Unit 5: Mensuration) - 385 questions
+9. **2.1 Agriculture** (Unit 2: Agriculture & Water) - 376 questions
+10. **5.2 Volume and surface area** (Unit 5: Mensuration) - 363 questions
 
 ## 🧪 Subject Breakdown
 ### 🌿 Biology Priority
-- **B2. Cells**
 - **B10. Reproduction**
-- **B8. Gas exchange and respiration**
+- **B2. Cells**
+- **B12. Ecology**
 
 ### ⚗️ Chemistry Priority
 - **C3. Atoms, elements and compounds**
-- **C9. The Periodic Table**
 - **C7. Chemical reactions**
+- **C12. Organic chemistry**
 
 ### ⚛️ Physics Priority
 - **P1. Motion, forces and energy**
 - **P3. Waves**
-- **P4. Electricity and magnetism**
+- **P2. Thermal physics**
 
 ## 💡 AI Suggestions for Students
 1. **Focus on the Top 3:** Start your revision with the top 3 topics from each subject list above. They account for a significant portion of the marks.
